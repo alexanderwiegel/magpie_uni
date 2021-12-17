@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../sort_mode.dart';
+import '../sort.mode.dart';
 
 abstract class NestOrNestItem extends StatefulWidget {
   late int? id;

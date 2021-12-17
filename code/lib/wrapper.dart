@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:magpie_uni/view/home.dart';
 
-import 'size_config.dart';
+import 'size.config.dart';
 import 'view/home.dart';
 
 class Wrapper extends StatelessWidget {
