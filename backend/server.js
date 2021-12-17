@@ -28,6 +28,8 @@ sqlManager.connectDB(function (err) {
     console.log("Database connected");
     // api routes
     app.use('/user', require('./user.js'));
+    app.use('/nest', require('./nest.js'))
+    app.use('/feed', require('./feed.js'))
 
     app.get("/", (req, resp) => {
         resp.send("working");

@@ -47,10 +47,80 @@ function getUserofId(id, cb) {
 }
 
 //Nest 
+function getUserNests(id, cb) {
+    connection.query("SELECT * FROM Nest n WHERE n.user_id = " + id,
+        function (err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
+//Nest-Items for nest
+function getNestItems(id, cb) {
+    connection.query("SELECT * FROM NestItem n WHERE n.nest_id = " + id,
+        function (err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
+//Specific Nest
+function getNestItem(id, cb) {
+    connection.query("SELECT * FROM NestItem n WHERE n.id = " + id,
+        function (err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
+//Feeds
+function getFeeds(id, item, pageNum, cb) {
+    connection.query("SELECT * FROM NestItem n WHERE n.user_id != " + id + " AND n.is_public = true",
+        function (err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
+
+//Feed users nests
+function getFeedUserNests(id, cb) {
+    connection.query("SELECT * FROM Nest n WHERE n.user_id = " + id + " AND n.is_public = true",
+        function (err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
+//Feed users nest items
+function getFeedUserNestItems(id, cb) {
+    connection.query("SELECT * FROM NestItem n WHERE n.nest_id = " + id + " AND n.is_public = true",
+        function (err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
+//Feed users nest items
+function getFeedUserNestItem(id, cb) {
+    connection.query("SELECT * FROM NestItem n WHERE n.id = " + id + " AND n.is_public = true",
+        function (err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
 
 module.exports = {
     connectDB: connectDB,
     registerUser: registerUser,
     getUser: getUser,
     getUserofId: getUserofId,
+    getUserNests: getUserNests,
+    getNestItems: getNestItems,
+    getNestItem: getNestItem,
+    getFeeds: getFeeds,
+    getFeedUserNests: getFeedUserNests,
+    getFeedUserNestItems: getFeedUserNestItems,
+    getFeedUserNestItem: getFeedUserNestItem
 }
