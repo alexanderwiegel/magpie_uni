@@ -12,6 +12,6 @@ class NestCreation extends NestOrNestItemCreation {
 class _NestCreationState extends NestOrNestItemCreationState<NestCreation> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return super.build(context);
   }
 }
