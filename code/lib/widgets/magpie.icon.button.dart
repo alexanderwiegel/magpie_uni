@@ -3,12 +3,12 @@ import 'package:flutter/material.dart';
 import '../constants.dart' as constants;
 import '../size.config.dart';
 
-class MagpieIcon extends StatelessWidget {
+class MagpieIconButton extends StatelessWidget {
   final IconData? icon;
   final Function? onPressed;
   final String? tooltip;
 
-  MagpieIcon({
+  MagpieIconButton({
     Key? key,
     @required this.icon,
     @required this.onPressed,
@@ -26,7 +26,7 @@ class MagpieIcon extends StatelessWidget {
       tooltip: tooltip,
       icon: Icon(icon),
       iconSize: iconSize,
-      onPressed: () => {},
+      onPressed: () => onPressed,
     );
   }
 }
