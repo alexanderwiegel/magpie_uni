@@ -6,6 +6,8 @@ import 'size.config.dart';
 import 'view/home.dart';
 
 class Wrapper extends StatelessWidget {
+  const Wrapper({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -13,6 +15,6 @@ class Wrapper extends StatelessWidget {
         ? SystemChrome.setPreferredOrientations(
             [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight])
         : SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return HomeScreen();
+    return const HomeScreen();
   }
 }

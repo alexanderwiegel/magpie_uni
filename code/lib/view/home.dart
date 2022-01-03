@@ -16,7 +16,7 @@ class _HomeScreenState extends State<HomeScreen> {
       appBar: AppBar(
         title: const Text("Overview"),
       ),
-      bottomNavigationBar: MagpieBottomNavigationBar(),// This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: const MagpieBottomNavigationBar(),// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }

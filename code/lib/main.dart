@@ -5,10 +5,12 @@ import 'view/home.dart';
 import 'constants.dart' as constants;
 
 void main() {
-  runApp(Magpie());
+  runApp(const Magpie());
 }
 
 class Magpie extends StatelessWidget {
+  const Magpie({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -18,8 +20,8 @@ class Magpie extends StatelessWidget {
           primarySwatch: constants.mainColor,
         ),
         routes: {
-          "/": (context) => Wrapper(),
-          "/home": (context) => HomeScreen(),
+          "/": (context) => const Wrapper(),
+          "/home": (context) => const HomeScreen(),
         });
   }
 }
