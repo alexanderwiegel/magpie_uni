@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
 
 class NestItem extends NestOrNestItem {
-  NestItem() : super();
+  NestItem({Key? key}) : super(key: key);
 
   @override
   _NestItemState createState() => _NestItemState();

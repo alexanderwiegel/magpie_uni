@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'nest.or.nest.item.dart';
 
 class Nest extends NestOrNestItem {
-  Nest() : super();
+  Nest({Key? key}) : super(key: key);
 
   @override
   _NestState createState() => _NestState();

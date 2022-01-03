@@ -9,10 +9,11 @@ class MagpieIcon extends StatelessWidget {
   final String? tooltip;
 
   MagpieIcon({
+    Key? key,
     @required this.icon,
     @required this.onPressed,
     @required this.tooltip,
-  });
+  }) : super(key: key);
 
   final Color color = constants.textColor;
   final iconSize =

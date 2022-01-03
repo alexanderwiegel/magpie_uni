@@ -4,6 +4,8 @@ import 'package:magpie_uni/widgets/magpie.icon.dart';
 import '../constants.dart' as constants;
 
 class MagpieBottomNavigationBar extends StatelessWidget {
+  const MagpieBottomNavigationBar({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return Padding(

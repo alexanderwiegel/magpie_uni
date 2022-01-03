@@ -18,6 +18,7 @@ abstract class NestOrNestItem extends StatefulWidget {
   late bool onlyFavored;
 
   NestOrNestItem({
+    Key? key,
     this.id,
     this.userId,
     this.photo,
@@ -29,7 +30,7 @@ abstract class NestOrNestItem extends StatefulWidget {
     this.sortMode = SortMode.sortById,
     this.asc = false,
     this.onlyFavored = false,
-  });
+  }) : super(key: key);
 
   Map<String, dynamic> toMap() {
     return {
@@ -47,7 +48,7 @@ abstract class NestOrNestItem extends StatefulWidget {
     };
   }
 
-  NestOrNestItem.fromMap(dynamic obj) {
+  NestOrNestItem.fromMap(dynamic obj, {Key? key}) : super(key: key) {
     id = obj["id"];
     userId = obj["userId"];
     String path = obj["photo"].toString();
