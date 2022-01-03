@@ -5,17 +5,17 @@ import 'package:flutter/material.dart';
 import '../sort.mode.dart';
 
 abstract class NestOrNestItem extends StatefulWidget {
-  late int? id;
-  late String? userId;
-  late dynamic photo;
-  late String? name;
-  late String description;
-  late int worth;
-  late bool favored;
-  late DateTime? createdAt;
-  late SortMode sortMode;
-  late bool asc;
-  late bool onlyFavored;
+  late final int? id;
+  late final String? userId;
+  late final dynamic photo;
+  late final String? name;
+  late final String description;
+  late final int worth;
+  late final bool favored;
+  late final DateTime? createdAt;
+  late final SortMode sortMode;
+  late final bool asc;
+  late final bool onlyFavored;
 
   NestOrNestItem({
     Key? key,
