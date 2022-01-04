@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'wrapper.dart';
-import 'view/home.dart';
+import 'view/profile.dart';
 import 'constants.dart' as constants;
 
 void main() {
@@ -21,7 +21,7 @@ class Magpie extends StatelessWidget {
         ),
         routes: {
           "/": (context) => const Wrapper(),
-          "/home": (context) => const HomeScreen(),
+          "/profile": (context) => const Profile(),
         });
   }
 }
