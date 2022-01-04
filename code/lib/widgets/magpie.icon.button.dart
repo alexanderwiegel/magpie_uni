@@ -4,14 +4,15 @@ import '../constants.dart' as constants;
 
 class MagpieIconButton extends StatelessWidget {
   final IconData? icon;
-  final Function? onPressed;
   final String? tooltip;
+  final Function? onPressed;
 
-  MagpieIconButton({
+  const MagpieIconButton({
     Key? key,
     @required this.icon,
-    @required this.onPressed,
     @required this.tooltip,
+    @required this.onPressed,
+
   }) : super(key: key);
 
   final Color color = constants.textColor;
@@ -19,10 +20,10 @@ class MagpieIconButton extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return IconButton(
-      color: color,
-      tooltip: tooltip,
       icon: Icon(icon),
+      tooltip: tooltip,
       onPressed: () => onPressed,
+      color: color,
     );
   }
 }

@@ -16,24 +16,24 @@ class MagpieBottomNavigationBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: <Widget>[
               MagpieIconButton(
-                  icon: Icons.menu,
-                  onPressed: () => {},
-                  tooltip: "Open menu"
+                icon: Icons.menu,
+                tooltip: "Open menu",
+                onPressed: () => {},
               ),
               MagpieIconButton(
-                  icon: Icons.home,
-                  onPressed: () => {},
-                  tooltip: "Show feed"
+                icon: Icons.home,
+                tooltip: "Show feed",
+                onPressed: () => {},
               ),
               MagpieIconButton(
-                  icon: Icons.chat,
-                  onPressed: () => {},
-                  tooltip: "Show chat"
+                icon: Icons.chat,
+                tooltip: "Show chat",
+                onPressed: () => {},
               ),
               MagpieIconButton(
-                  icon: Icons.person_pin,
-                  onPressed: () => {},
-                  tooltip: "Show profile"
+                icon: Icons.person_pin,
+                tooltip: "Show profile",
+                onPressed: () => {},
               ),
             ]
         )
