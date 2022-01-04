@@ -45,7 +45,7 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation> extends Stat
         actions: [
           MagpieIconButton(
               icon: Icons.save,
-              onPressed: () => {},
+              onPressed: () => Navigator.of(context).pop(),
               tooltip: "Save")
         ],
       ),

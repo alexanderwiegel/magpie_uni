@@ -18,7 +18,14 @@ class _ProfileState extends State<Profile> {
       appBar: AppBar(
         title: const Text("Profile"),
       ),
-      bottomNavigationBar: const MagpieBottomNavigationBar(),// This trailing comma makes auto-formatting nicer for build methods.
+      bottomNavigationBar: const MagpieBottomNavigationBar(),
+      floatingActionButton: FloatingActionButton(
+        tooltip: "Create new nest",
+        backgroundColor: constants.mainColor,
+        child: const Icon(Icons.add),
+        onPressed: () => Navigator.of(context).push(MaterialPageRoute(
+            builder: (context) => const NestCreation())),
+      ),// This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 }
