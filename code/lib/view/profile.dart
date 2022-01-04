@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/widgets/magpie.bottom.navigation.bar.dart';
+import '../view/nest.creation.dart';
+import '../widgets/magpie.bottom.navigation.bar.dart';
+import '../constants.dart' as constants;
 
 class Profile extends StatefulWidget {
   const Profile({Key? key}) : super(key: key);
