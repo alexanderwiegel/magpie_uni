@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 
-import 'wrapper.dart';
-import 'view/profile.dart';
 import 'constants.dart' as constants;
+import 'view/profile.dart';
+import 'wrapper.dart';
 
 void main() {
   runApp(const Magpie());
