@@ -3,15 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
+import 'magpie.checkbox.dart';
 import 'magpie.form.field.dart';
 import 'magpie.image.selector.dart';
-import '../constants.dart' as constants;
+import 'magpie.switch.dart';
 
 class MagpieForm extends StatelessWidget {
   //final GlobalKey? formKey;
-  final dynamic photo;
-  final int worth;
-  late final bool? public;
+  dynamic photo;
+  int worth;
+  late bool? public;
   final DateTime? createdAt;
   final TextEditingController? nameEditingController;
   final TextEditingController? descriptionEditingController;
@@ -68,18 +69,14 @@ class MagpieForm extends StatelessWidget {
                 labelText: "Worth (optional)",
                 // initialValue: ,
                 controller: worthEditingController,
-                inputFormatter: <TextInputFormatter>[
-                  FilteringTextInputFormatter.allow("\d+")
-                ],
+                // TODO: fix this
+                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 keyboardType: TextInputType.number,
                 onChanged: (value) => {},
               )
             ),
-            /*CheckboxListTile(
-              value: public,
-              onChanged: (value) => {},
-              title: const Icon(Icons.public, color: constants.mainColor),
-            ),*/
+            MagpieCheckbox(public: public),
+            MagpieSwitch(public: public),
             MagpieFormField(
               enabled: false,
               icon: Icons.date_range,
