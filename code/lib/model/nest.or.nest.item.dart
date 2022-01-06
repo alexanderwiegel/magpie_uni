@@ -2,38 +2,30 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../sort.mode.dart';
+import '../constants.dart' as constants;
 
-abstract class NestOrNestItem extends StatefulWidget {
+class NestOrNestItem extends StatefulWidget {
   late final int? id;
   late final String? userId;
-  late final dynamic photo;
-  late final String? name;
-  late final String description;
-  late final int worth;
-  late final bool favored;
-  late final DateTime? createdAt;
-  late final bool public;
-  // TODO: remove every occurrence of sortMode, asc and onlyFavored,
-  //  because they only appear in nests
-  late final SortMode sortMode;
-  late final bool asc;
-  late final bool onlyFavored;
+  late dynamic photo;
+  late String? name;
+  late String description;
+  late int worth;
+  late bool favored;
+  late DateTime? createdAt;
+  late bool public;
 
   NestOrNestItem({
     Key? key,
-    this.id,
-    this.userId,
-    this.photo,
-    this.name,
+    this.id = -1,
+    this.userId = "-1",
+    this.photo = "pics/placeholder.jpg",
+    this.name = "",
     this.description = "",
     this.worth = 0,
     this.favored = false,
     this.createdAt,
     this.public = false,
-    this.sortMode = SortMode.sortById,
-    this.asc = false,
-    this.onlyFavored = false,
   }) : super(key: key);
 
   Map<String, dynamic> toMap() {
@@ -47,9 +39,6 @@ abstract class NestOrNestItem extends StatefulWidget {
       'favored': favored ? -1 : 0,
       'createdAt': createdAt!.toIso8601String().substring(0, 10),
       'public': public ? -1 : 0,
-      'sortMode': sortMode.toString(),
-      'asc': asc ? 1 : 0,
-      'onlyFavored': onlyFavored ? 1 : 0
     };
   }
 
@@ -57,6 +46,7 @@ abstract class NestOrNestItem extends StatefulWidget {
     id = obj["id"];
     userId = obj["userId"];
     String path = obj["photo"].toString();
+    // TODO: change according to the way photos are saved
     if (!path.startsWith("http")) {
       path = path.substring(path.indexOf("/"), path.length - 1);
       photo = File(path);
@@ -69,21 +59,6 @@ abstract class NestOrNestItem extends StatefulWidget {
     favored = obj["favored"] == 0 ? false : true;
     createdAt = DateTime.parse(obj["createdAt"]);
     public = obj["public"];
-    switch (obj["sortMode"]) {
-      case "SortMode.sortByName":
-        sortMode = SortMode.sortByName;
-        break;
-      case "SortMode.sortByWorth":
-        sortMode = SortMode.sortByWorth;
-        break;
-      case "SortMode.sortByFavored":
-        sortMode = SortMode.sortByFavored;
-        break;
-      case "SortMode.sortByDate":
-        sortMode = SortMode.sortById;
-    }
-    asc = obj["asc"] == 0 ? false : true;
-    onlyFavored = obj["onlyFavored"] == 0 ? false : true;
   }
 
   @override
@@ -91,8 +66,74 @@ abstract class NestOrNestItem extends StatefulWidget {
 }
 
 class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
+  MaterialColor accentColor = constants.accentColor;
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    final Widget image = Material(
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+        clipBehavior: Clip.antiAlias,
+        child: Image.asset("pics/placeholder.jpg", fit: BoxFit.cover)
+    );
+
+    return GestureDetector(
+      onTap: () => {},
+      child: GridTile(
+        footer: Material(
+          color: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: GridTileBar(
+            backgroundColor: Colors.black45,
+            title: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(
+                widget.name!,
+                style: TextStyle(color: accentColor),
+              ),
+            ),
+            subtitle: const FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: Text("0 nest items"),
+            ),
+            trailing: FittedBox(
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(
+                "${widget.worth}€",
+                style: TextStyle(
+                  color: accentColor,
+                ),
+              ),
+            ),
+          ),
+        ),
+        child: image,
+        header: FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: AlignmentDirectional.topStart,
+          child: IconButton(
+            tooltip: widget.favored
+                ? "Remove as favorite"
+                : "Mark as favorite",
+            alignment: AlignmentDirectional.centerStart,
+            icon: Icon(
+              widget.favored ? Icons.favorite : Icons.favorite_border,
+              color: accentColor
+            ),
+            onPressed: toggleFavored,
+          ),
+        ),
+      ),
+    );
+  }
+
+  void toggleFavored() async {
+    setState(() {
+      widget.favored ^= true;
+    });
   }
 }
