@@ -43,8 +43,8 @@ app.use(errorHandler);
 var server = http.createServer(app);
 
 
-server.listen(2000, function () {
-    console.log("Express server listening on port 2000");
+server.listen(3000, function () {
+    console.log("Express server listening on port 3000");
 });
 
 

@@ -10,7 +10,7 @@ var connection
    connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
-        password : '',
+        password : 'MagPie_Team3',
         database : 'MagPie',
         multipleStatements: true
     });
@@ -24,14 +24,14 @@ function connectDB(cb) {
 
 // User quries...
 function registerUser(user, cb) {
-    connection.query("INSERT INTO User(name,created,email,password) VALUES('" + user.name + "','" + "',NOW(),true,'" + user.email + "','" + user.password + "')", function (err, rows) {
+    connection.query("INSERT INTO User (username,created_at,email,password) VALUES('" + user.name + "',NOW(),'" + user.email + "','" + user.password + "')", function (err, rows) {
         if (err) cb(err);
         else cb(undefined, rows);
     });
 }
 
 function getUser(email, cb) {
-    connection.query("SELECT id,name,address,password,postalCode,userType,dob,dateAdded,isActive,email FROM User u WHERE u.email = '" + email + "'",
+    connection.query("SELECT id,username,password,email,created_at,sortMode,onlyFavored FROM User u WHERE u.email = '" + email + "'",
         function (err, rows) {
             if (err) cb(err);
             else cb(undefined, rows);
@@ -39,7 +39,7 @@ function getUser(email, cb) {
 }
 
 function getUserofId(id, cb) {
-    connection.query("SELECT id,name,address,postalCode,userType,dob,dateAdded,isActive,email FROM User u WHERE u.id = " + id,
+    connection.query("SELECT id,username,email,created_at FROM User u WHERE u.id = " + id,
         function (err, rows) {
             if (err) cb(err);
             else cb(undefined, rows);

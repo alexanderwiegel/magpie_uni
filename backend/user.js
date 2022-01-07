@@ -15,7 +15,7 @@ router.post('/register', async function(req, res) {
     user = {
         email: req.body.email,
         password: hashPass,
-        name: req.body.name
+        name: req.body.username
     }
 
     sqlManager.registerUser(user, function(err, result) {
