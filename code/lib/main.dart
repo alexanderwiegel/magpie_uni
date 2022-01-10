@@ -5,10 +5,12 @@ import 'view/home.dart';
 import 'constants.dart' as constants;
 
 void main() {
-  runApp(Magpie());
+  runApp(const Magpie());
 }
 
 class Magpie extends StatelessWidget {
+  const Magpie({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
