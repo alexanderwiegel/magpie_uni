@@ -10,18 +10,18 @@ class MagpieGridView extends StatelessWidget {
   Widget build(BuildContext context) {
     List<NestOrNestItem> nests = List.empty(growable: true);
 
-    nests.add(NestOrNestItem(
-      name: "Vinyl",
-      createdAt: DateTime.now(),
-    ));
+    // nests.add(NestOrNestItem(
+    //   name: "Vinyl",
+    //   createdAt: DateTime.now(),
+    // ));
 
     Nest nest = Nest();
     nest.name = "Bottle caps";
     nest.createdAt = DateTime.now();
-    //print(nest.toMap());
+    print(nest.toMap());
     nests.add(nest);
 
-    print(nests);
+    //print(nests[0].name);
 
     return GridView.count(
         padding: const EdgeInsets.all(8),

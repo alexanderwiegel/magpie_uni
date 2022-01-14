@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import '../constants.dart' as constants;
 
-class NestOrNestItem extends StatefulWidget {
+abstract class NestOrNestItem extends StatefulWidget {
   late final int? id;
   late final String? userId;
   late dynamic photo;
