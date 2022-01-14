@@ -1,9 +1,9 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/model/nest_or_nest_item.dart';
+import 'nest.or.nest.item.dart';
 
 class NestItem extends NestOrNestItem {
-  NestItem() : super();
+  NestItem({Key? key}) : super(key: key);
 
   @override
   _NestItemState createState() => _NestItemState();
@@ -12,6 +12,6 @@ class NestItem extends NestOrNestItem {
 class _NestItemState extends NestOrNestItemState<NestItem> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return super.build(context);
   }
 }

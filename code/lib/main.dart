@@ -1,16 +1,19 @@
 import 'package:flutter/material.dart';
 
-import 'wrapper.dart';
-import 'view/home.dart';
 import 'constants.dart' as constants;
+import 'view/profile.dart';
+import 'wrapper.dart';
 
 void main() {
-  runApp(Magpie());
+  runApp(const Magpie());
 }
 
 class Magpie extends StatelessWidget {
+  const Magpie({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
+    precacheImage(const AssetImage("pics/placeholder.jpg"), context);
     return MaterialApp(
         title: 'Magpie',
         debugShowCheckedModeBanner: false,
@@ -18,8 +21,8 @@ class Magpie extends StatelessWidget {
           primarySwatch: constants.mainColor,
         ),
         routes: {
-          "/": (context) => Wrapper(),
-          "/home": (context) => HomeScreen(),
+          "/": (context) => const Wrapper(),
+          "/profile": (context) => const Profile(),
         });
   }
 }

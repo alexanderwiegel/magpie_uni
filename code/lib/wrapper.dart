@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:magpie_uni/view/home.dart';
 
-import 'size_config.dart';
-import 'view/home.dart';
+import 'size.config.dart';
+import 'view/profile.dart';
 
 class Wrapper extends StatelessWidget {
+  const Wrapper({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     SizeConfig().init(context);
@@ -13,6 +14,6 @@ class Wrapper extends StatelessWidget {
         ? SystemChrome.setPreferredOrientations(
             [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight])
         : SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return HomeScreen();
+    return const Profile();
   }
 }
