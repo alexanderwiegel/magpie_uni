@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'view/auth/register/register.page.dart';
-import 'view/home.dart';
 import 'view/auth/login/login.page.dart';
 import 'constants.dart' as constants;
 import 'view/profile.dart';
@@ -25,7 +24,6 @@ class Magpie extends StatelessWidget {
         home: const LoginScreen(),
         routes: {
           "/": (context) => const Wrapper(),
-          "/home": (context) => HomeScreen(),
           "/login": (context) => const LoginScreen(),
           "/register": (context) => const RegisterScreen(),
           "/profile": (context) => const Profile(),
