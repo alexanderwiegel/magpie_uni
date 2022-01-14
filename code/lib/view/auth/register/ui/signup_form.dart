@@ -59,7 +59,7 @@ class _RegisterFormState extends State<RegisterForm> {
                 height: 20.0,
               ),
               TextFormField(
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
                 onChanged: (input) => _email = input,
                 decoration: const InputDecoration(

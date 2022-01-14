@@ -34,7 +34,7 @@ class _LoginFormState extends State<LoginForm> {
               ),
               const SizedBox(height: 20),
               TextFormField(
-                keyboardType: TextInputType.text,
+                keyboardType: TextInputType.emailAddress,
                 autocorrect: false,
                 onChanged: (input) => _email = input,
                 decoration: const InputDecoration(
