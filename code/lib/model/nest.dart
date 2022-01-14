@@ -19,14 +19,15 @@ class Nest extends NestOrNestItem {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> nest = super.toMap();
     nest.addAll({
-      'sortMode': sortMode.toString(),
-      'asc': asc ? 1 : 0,
-      'onlyFavored': onlyFavored ? 1 : 0});
+      'sort_mode': sortMode.toString(),
+      'is_asc': asc ? 1 : 0,
+      'only_favored': onlyFavored ? 1 : 0
+    });
     return nest;
   }
 
   Nest.fromMap(dynamic obj, {Key? key}) : super.fromMap(obj, key: key) {
-    switch (obj["sortMode"]) {
+    switch (obj["sort_mode"]) {
       case "SortMode.sortByName":
         sortMode = SortMode.sortByName;
         break;
@@ -39,8 +40,8 @@ class Nest extends NestOrNestItem {
       case "SortMode.sortByDate":
         sortMode = SortMode.sortById;
     }
-    asc = obj["asc"] == 0 ? false : true;
-    onlyFavored = obj["onlyFavored"] == 0 ? false : true;
+    asc = obj["is_asc"] == 0 ? false : true;
+    onlyFavored = obj["only_favored"] == 0 ? false : true;
   }
 
   @override
