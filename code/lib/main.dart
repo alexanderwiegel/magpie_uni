@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-
-import 'wrapper.dart';
-import 'view/home.dart';
+import 'package:magpie_uni/view/auth/register/register.page.dart';
+import 'package:magpie_uni/view/home.dart';
+import 'view/auth/login/login.page.dart';
 import 'constants.dart' as constants;
 
 void main() {
@@ -19,9 +19,12 @@ class Magpie extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: constants.mainColor,
         ),
+        home: const LoginScreen(),
         routes: {
-          "/": (context) => Wrapper(),
+          //"/": (context) => Wrapper(),
           "/home": (context) => HomeScreen(),
+          "/login": (context) => const LoginScreen(),
+          "/register": (context) => const RegisterScreen(),
         });
   }
 }
