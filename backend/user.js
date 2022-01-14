@@ -23,7 +23,7 @@ router.post('/register', async function(req, res) {
             res.status(500).json({status:'Failed', message: err.message});
             return
         }
-        res.status(200).json({status:'Success', message:'User Added Succesfully'});
+        res.status(200).json({status:'Success', message:'User Succesfully Registered'});
     });
 
 });
@@ -58,11 +58,6 @@ router.post('/login', async function(req, res) {
                 res.status(400).json({status:'Failed', message:'Incorrect Password.'});
                 return
             }
-
-            // if (!result[0].isActive) {
-            //     res.status(400).json({status:'Failed', message:'User is not authorized to login. Please contact system administrator.'});
-            //     return
-            // }
 
             delete result[0].password;
             const token = jwt.sign({ user: result[0].id }, config.jwtSecret, { expiresIn: '1h' });

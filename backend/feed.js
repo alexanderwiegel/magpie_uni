@@ -5,9 +5,9 @@ const jwt = require('jsonwebtoken');
 
 //get feeds
 router.get('/', async function(req, res) {
-    let userID = req.params.user_id;
-    let items = req.params.items;
-    let pageNo = req.params.page_num;
+    let userID = req.query.user_id;
+    let items = req.query.items;
+    let pageNo = req.query.page_num;
 
     console.log(userID);
 
@@ -23,7 +23,7 @@ router.get('/', async function(req, res) {
 
 //get Nests for user from Feed
 router.get('/userNests', async function(req, res) {
-    let userID = req.params.user_id;
+    let userID = req.query.user_id;
     console.log(userID);
 
     sqlManager.getFeedUserNests(userID, async function(err, result) {
@@ -38,7 +38,7 @@ router.get('/userNests', async function(req, res) {
 
 //get Nest Items for user from Feed
 router.get('/nestItems', async function(req, res) {
-    let nestID = req.params.nest_id;
+    let nestID = req.query.nest_id;
     console.log(userID);
 
     sqlManager.getFeedUserNestItems(nestID, async function(err, result) {
@@ -53,7 +53,7 @@ router.get('/nestItems', async function(req, res) {
 
 // get specific nest item for Feed users
 router.get('/nestItem', async function(req, res) {
-    let nestItemID = req.params.nest_item_id;
+    let nestItemID = req.query.nest_item_id;
     console.log(nestItemID);
 
     sqlManager.getFeedUserNestItem(nestItemID, async function(err, result) {

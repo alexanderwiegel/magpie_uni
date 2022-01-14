@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:magpie_uni/view/auth/register/register.page.dart';
-import 'package:magpie_uni/view/home.dart';
+import 'view/auth/register/register.page.dart';
+import 'view/home.dart';
 import 'view/auth/login/login.page.dart';
 import 'constants.dart' as constants;
+import 'view/profile.dart';
+import 'wrapper.dart';
 
 void main() {
   runApp(const Magpie());
@@ -13,6 +15,7 @@ class Magpie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    precacheImage(const AssetImage("pics/placeholder.jpg"), context);
     return MaterialApp(
         title: 'Magpie',
         debugShowCheckedModeBanner: false,
@@ -21,10 +24,11 @@ class Magpie extends StatelessWidget {
         ),
         home: const LoginScreen(),
         routes: {
-          //"/": (context) => Wrapper(),
+          "/": (context) => const Wrapper(),
           "/home": (context) => HomeScreen(),
           "/login": (context) => const LoginScreen(),
           "/register": (context) => const RegisterScreen(),
+          "/profile": (context) => const Profile(),
         });
   }
 }
