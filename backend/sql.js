@@ -11,8 +11,8 @@ var connection
    connection = mysql.createConnection({
         host     : 'localhost',
         user     : 'root',
-        password : 'MagPie_Team3',
-        database : 'MagPie',
+        password : 'root',
+        database : 'Magpie',
         multipleStatements: true
     });
 

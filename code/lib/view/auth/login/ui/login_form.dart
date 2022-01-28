@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/services/validators.dart';
+import 'package:magpie_uni/widgets/magpie.form.field.dart';
 
 import '../../../../constants.dart';
 
@@ -33,27 +34,17 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               const SizedBox(height: 20),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                autocorrect: false,
-                onChanged: (input) => _email = input,
-                decoration: const InputDecoration(
-                  labelText: 'E-Mail Address',
-                  border: OutlineInputBorder(),
-                ),
+              MagpieTextFormField.email(
                 validator: EmailValidator.validate,
+                name: 'Email',
+                onChanged: (value) {},
               ),
               const SizedBox(height: 20.0),
-              TextFormField(
-                keyboardType: TextInputType.visiblePassword,
-                obscureText: true,
-                autocorrect: false,
-                onChanged: (input) => _password = input,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
+              MagpieTextFormField.password(
                 validator: PasswordValidator.validate,
+                name: 'Password',
+                onChanged: (value) {},
+                hintText: 'Re-enter password',
               ),
               const SizedBox(height: 20.0),
               Row(
@@ -70,8 +61,11 @@ class _LoginFormState extends State<LoginForm> {
                       onPrimary: Colors.white,
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/home');
-                      //TODO: implement login
+                      _formKey.currentState!.save();
+                      if (_formKey.currentState!.validate()) {
+                        Navigator.pushNamed(context, '/profile');
+                        //TODO: implement login
+                      }
                     },
                   ),
                   const SizedBox(width: 20.0),
