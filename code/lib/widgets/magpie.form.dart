@@ -40,48 +40,49 @@ class MagpieForm extends StatelessWidget {
         //key: formKey,
         child: Column(
           children: <Widget>[
-            MagpieImageSelector(photo: photo ),
-            MagpieFormField(
-              icon: Icons.title,
-              labelText: "Name *",
-              // TODO: display respective thing
-              hintText: "Give your XXX a name",
-              controller: nameEditingController,
-              onChanged: () => {},
-              validate: (value) => value.isEmpty ? "Please give your XXX a name" : null,
-            ),
-            MagpieFormField(
-              icon: Icons.speaker_notes,
-              labelText: "Description (optional)",
-              border: const OutlineInputBorder(),
-              controller: descriptionEditingController,
-              onChanged: (value) => {},
-            ),
-            Visibility(
-              // TODO: use bool worthVisible
-              visible: true,
-              child: MagpieFormField(
-                // TODO: use bool isNest or do something else
-                enabled: true,
-                icon: Icons.euro_symbol,
-                // TODO: make labelText depend on bool isNest
-                labelText: "Worth (optional)",
-                // initialValue: ,
-                controller: worthEditingController,
-                // TODO: fix this
-                inputFormatter: [FilteringTextInputFormatter.digitsOnly],
-                keyboardType: TextInputType.number,
-                onChanged: (value) => {},
-              )
-            ),
+            MagpieImageSelector(photo: photo),
+            // MagpieTextFormField(
+            //   leadingIcon: Icons.title,
+            //   labelText: "Name *",
+            //   // TODO: display respective thing
+            //   hintText: "Give your XXX a name",
+            //   controller: nameEditingController,
+            //   onChanged: (name) => {},
+            //   validate: (value) =>
+            //       value.isEmpty ? "Please give your XXX a name" : null,
+            // ),
+            // MagpieTextFormField(
+            //   leadingIcon: Icons.speaker_notes,
+            //   labelText: "Description (optional)",
+            //   border: const OutlineInputBorder(),
+            //   controller: descriptionEditingController,
+            //   onChanged: (value) => {},
+            // ),
+            // Visibility(
+            //     // TODO: use bool worthVisible
+            //     visible: true,
+            //     child: MagpieTextFormField(
+            //       // TODO: use bool isNest or do something else
+            //       enabled: true,
+            //       leadingIcon: Icons.euro_symbol,
+            //       // TODO: make labelText depend on bool isNest
+            //       labelText: "Worth (optional)",
+            //       // initialValue: ,
+            //       controller: worthEditingController,
+            //       // TODO: fix this
+            //       inputFormatter: [FilteringTextInputFormatter.digitsOnly],
+            //       keyboardType: TextInputType.number,
+            //       onChanged: (value) => {},
+            //     )),
             MagpieCheckbox(public: public),
             MagpieSwitch(public: public),
-            MagpieFormField(
-              enabled: false,
-              icon: Icons.date_range,
-              labelText: "Created at",
-              initialValue: formatter.format(createdAt!),
-            ),
+            // MagpieTextFormField(
+            //   enabled: false,
+            //   leadingIcon: Icons.date_range,
+            //   labelText: "Created at",
+            //   onChanged: (value) => {},
+            //   initialValue: formatter.format(createdAt!),
+            // ),
           ],
         ),
       ),

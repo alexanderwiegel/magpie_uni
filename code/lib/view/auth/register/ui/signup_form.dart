@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/services/validators.dart';
+import 'package:magpie_uni/widgets/magpie.form.field.dart';
 
 import '../../../../constants.dart';
 
@@ -32,53 +33,42 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
               ),
               const SizedBox(height: 20),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                autocorrect: false,
-                onChanged: (input) => _firstName = input.trim(),
-                decoration: const InputDecoration(
-                  labelText: 'Firstname',
-                  border: OutlineInputBorder(),
-                ),
-                validator: FirstNameValidator.validate,
-              ),
+              MagpieTextFormField.name(
+                  labelText: 'First Name',
+                  validator: FirstNameValidator.validate,
+                  name: 'firstName',
+                  onChanged: (value) {},
+                  hintText: 'First Name'),
               const SizedBox(
                 height: 20.0,
               ),
-              TextFormField(
-                keyboardType: TextInputType.text,
-                autocorrect: false,
-                onChanged: (input) => _lastName = input.trim(),
-                decoration: const InputDecoration(
-                  labelText: 'Lastname',
-                  border: OutlineInputBorder(),
-                ),
-                validator: LastNameValidator.validate,
-              ),
+              MagpieTextFormField.name(
+                  labelText: 'Last Name',
+                  validator: FirstNameValidator.validate,
+                  name: 'lastName',
+                  onChanged: (value) {},
+                  hintText: 'Last Name'),
               const SizedBox(
                 height: 20.0,
               ),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                autocorrect: false,
-                onChanged: (input) => _email = input,
-                decoration: const InputDecoration(
-                  labelText: 'E-Mail Address',
-                  border: OutlineInputBorder(),
-                ),
+              MagpieTextFormField.email(
                 validator: EmailValidator.validate,
+                name: 'Email',
+                onChanged: (value) {},
               ),
               const SizedBox(height: 20.0),
-              TextFormField(
-                keyboardType: TextInputType.visiblePassword,
-                obscureText: true,
-                autocorrect: false,
-                onChanged: (input) => _password = input,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
+              MagpieTextFormField.password(
                 validator: PasswordValidator.validate,
+                name: 'Password',
+                onChanged: (value) {},
+                hintText: 'Password',
+              ),
+              const SizedBox(height: 20.0),
+              MagpieTextFormField.password(
+                validator: PasswordValidator.validate,
+                name: 'Re-enter Password',
+                onChanged: (value) {},
+                hintText: 'Re-enter Password',
               ),
               const SizedBox(height: 20.0),
               ElevatedButton(
@@ -92,8 +82,12 @@ class _RegisterFormState extends State<RegisterForm> {
                     onPrimary: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/home');
-                    //TODO: Add registration logic
+                    _formKey.currentState!.save();
+                    if (_formKey.currentState!.validate()) {
+                      Navigator.pushNamed(context, '/profile');
+                      //TODO: Add registration logic
+
+                    }
                   }),
             ],
           )),
