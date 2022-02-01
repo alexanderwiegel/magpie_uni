@@ -3,7 +3,7 @@ import 'view/auth/register/register.page.dart';
 import 'view/auth/login/login.page.dart';
 import 'constants.dart' as constants;
 import 'view/profile.dart';
-import 'wrapper.dart';
+// import 'wrapper.dart';
 
 void main() {
   runApp(const Magpie());
@@ -21,9 +21,8 @@ class Magpie extends StatelessWidget {
         theme: ThemeData(
           primarySwatch: constants.mainColor,
         ),
-        initialRoute: '/login',
         routes: {
-          "/": (context) => const Wrapper(),
+          "/": (context) => const Profile(),
           "/login": (context) => const LoginScreen(),
           "/register": (context) => const RegisterScreen(),
           "/profile": (context) => const Profile(),
