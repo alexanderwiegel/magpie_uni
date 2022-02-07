@@ -92,8 +92,12 @@ router.get("/getNotification", function (req, res) {
       res.status(200).json({ status: "Success", chat: {} });
       return;
     }
+    var response = {"status": "Success", "notificationCount": 0};
+    if (result.length > 0) {
+      response["notificationCount"] = result[0].totalCount;
+    }
 
-    res.status(200).json({ status: "Success", chat: result });
+    res.status(200).json(response);
   });
 });
 

@@ -9,7 +9,7 @@ connection = mysql.createConnection({
     host: 'localhost',
     user: 'root',
     password: 'MagPie_Team3',
-    database: 'MagPie',
+    database: 'Magpie',
     multipleStatements: true
 });
 
