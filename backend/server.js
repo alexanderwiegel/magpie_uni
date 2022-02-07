@@ -8,13 +8,14 @@ const sqlManager = require('./sql');
 const router = require('./user');
 const morgan = require('morgan');
 const http = require('http');
+const { json } = require('body-parser');
 
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 app.use(cors());
 
+app.use("/uploads",express.static("uploads"));
 app.use(morgan('dev'));
-
 
 
 // use JWT auth to secure the api
@@ -28,8 +29,9 @@ sqlManager.connectDB(function (err) {
     console.log("Database connected");
     // api routes
     app.use('/user', require('./user.js'));
-    app.use('/nest', require('./nest.js'))
-    app.use('/feed', require('./feed.js'))
+    app.use('/nest', require('./nest.js'));
+    app.use('/feed', require('./feed.js'));
+    app.use('/chat', require('./chat.js'));
 
     app.get("/", (req, resp) => {
         resp.send("working");
@@ -41,6 +43,37 @@ sqlManager.connectDB(function (err) {
 app.use(errorHandler);
 
 var server = http.createServer(app);
+
+const io = require('socket.io')(server, {
+    cors: {
+        origin: "localhost:3000",
+        methods: ["GET", "POST"],
+        withCredentials: false
+    }
+});
+
+// message ,
+//   date ,
+//   sender_id ,
+//   receiver_id ,
+//   chat_session_id,
+//   is_read
+
+io.on('connection', socket => {
+    console.log('hello world im a hot socket');
+    socket.on('send_message', data => {
+        console.log('UPDATED FROM MOBILE');
+        sqlManager.insertChat(data, function (err, result) {
+            if (err) {
+              return;
+            }
+            console.log("message added to db");
+            io.emit('receive_message', data);
+          });
+        // io.emit('receive_message', data);
+    });
+    socket.on('disconnect', () => { console.log('im disconnect'); });
+});
 
 
 server.listen(3000, function () {
