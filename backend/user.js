@@ -67,4 +67,24 @@ router.post('/login', async function(req, res) {
 
 });
 
+
+router.get('/userProfile', async function(req, res) {
+    let userID = req.query.userId;
+    console.log(userID);
+
+    sqlManager.getUserProfile(userID, async function(err, result, profileResult) {
+        if (err) {
+            res.status(500).json({status:'Failed', message: err.message});
+            return
+        }
+        sqlManager.getAllNestItems(userID, async function(err, nestItemsResult) {
+            if (err) {
+                res.status(500).json({status:'Failed', message: err.message});
+                return
+            }
+            res.status(200).json({status: "Success", profile: profileResult[0], nests: result, nestItems: nestItemsResult});    
+        })
+    });
+});
+
 module.exports = router
