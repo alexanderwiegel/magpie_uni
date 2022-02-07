@@ -6,7 +6,7 @@ import '../constants.dart' as constants;
 
 abstract class NestOrNestItem extends StatefulWidget {
   late final int? id;
-  late final String? userId;
+  late final int? userId;
   late dynamic photo;
   late String? name;
   late String description;
@@ -17,8 +17,8 @@ abstract class NestOrNestItem extends StatefulWidget {
 
   NestOrNestItem({
     Key? key,
-    this.id = -1,
-    this.userId = "-1",
+    this.id = 1,
+    this.userId = 1,
     this.photo = "pics/placeholder.jpg",
     this.name = "",
     this.description = "",
@@ -32,13 +32,13 @@ abstract class NestOrNestItem extends StatefulWidget {
     return {
       'id': id,
       'user_id': userId,
-      'photo': photo.toString(),
-      'name': name,
+      'photo': photo.path,
+      'title': name,
       'description': description,
-      'worth': worth,
-      'favored': favored ? -1 : 0,
+      'total_worth': worth,
+      'favored': favored ? 1 : 0,
       'created_at': createdAt!.toIso8601String().substring(0, 10),
-      'is_public': public ? -1 : 0,
+      'is_public': public ? 1 : 0,
     };
   }
 
@@ -53,7 +53,7 @@ abstract class NestOrNestItem extends StatefulWidget {
     } else {
       photo = path;
     }
-    name = obj["name"];
+    name = obj["title"];
     description = obj["description"];
     worth = obj["worth"];
     favored = obj["favored"] == 0 ? false : true;
