@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/services/validators.dart';
-
-import '../../../../constants.dart';
+import 'package:magpie_uni/widgets/magpie.form.field.dart';
+import 'package:magpie_uni/Constants.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);

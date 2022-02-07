@@ -8,28 +8,31 @@ import 'magpie.image.selector.dart';
 import 'magpie.switch.dart';
 
 class MagpieForm extends StatelessWidget {
-  //final GlobalKey? formKey;
-  dynamic photo;
-  int worth;
-  late bool? public;
+  final GlobalKey? formKey;
+  final bool isNest;
+  final dynamic photo;
+  final Function changeImage;
+  final Function setPublic;
+  final int worth;
+  final bool public;
   final DateTime? createdAt;
-  final TextEditingController? nameEditingController;
-  final TextEditingController? descriptionEditingController;
-  final TextEditingController? worthEditingController;
-  final Function? changePhoto;
+  final TextEditingController nameEditingController;
+  final TextEditingController descriptionEditingController;
+  final TextEditingController worthEditingController;
 
   MagpieForm({
-    Key? key,
-    //@required this.formKey,
-    @required this.photo,
+    required this.formKey,
+    required this.isNest,
+    required this.photo,
+    required this.changeImage,
+    required this.setPublic,
     this.worth = 0,
-    this.public = false,
-    @required this.createdAt,
-    @required this.nameEditingController,
-    @required this.descriptionEditingController,
-    this.worthEditingController,
-    @required this.changePhoto,
-  }) : super(key: key);
+    required this.public,
+    required this.createdAt,
+    required this.nameEditingController,
+    required this.descriptionEditingController,
+    required this.worthEditingController,
+  }) : super();
 
   static final DateFormat formatter = DateFormat("dd.MM.yyyy");
 

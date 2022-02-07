@@ -2,11 +2,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../constants.dart' as constants;
+import '../Constants.dart' as Constants;
 
 abstract class NestOrNestItem extends StatefulWidget {
   late final int? id;
-  late final int? userId;
+  late final String? userId;
   late dynamic photo;
   late String? name;
   late String description;
@@ -18,7 +18,7 @@ abstract class NestOrNestItem extends StatefulWidget {
   NestOrNestItem({
     Key? key,
     this.id = 1,
-    this.userId = 1,
+    this.userId = "1",
     this.photo = "pics/placeholder.jpg",
     this.name = "",
     this.description = "",
@@ -66,14 +66,17 @@ abstract class NestOrNestItem extends StatefulWidget {
 }
 
 class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
-  MaterialColor accentColor = constants.accentColor;
+  MaterialColor accentColor = Constants.accentColor;
 
   @override
   Widget build(BuildContext context) {
     final Widget image = Material(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        clipBehavior: Clip.antiAlias,
-        child: Image.asset("pics/placeholder.jpg", fit: BoxFit.cover));
+      shape: RoundedRectangleBorder(
+        borderRadius: BorderRadius.circular(4),
+      ),
+      clipBehavior: Clip.antiAlias,
+      child: Image.asset("pics/placeholder.jpg", fit: BoxFit.cover),
+    );
 
     return GestureDetector(
       onTap: () => {},
@@ -81,7 +84,9 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
         footer: Material(
           color: Colors.transparent,
           shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
+            borderRadius: BorderRadius.vertical(
+              bottom: Radius.circular(4),
+            ),
           ),
           clipBehavior: Clip.antiAlias,
           child: GridTileBar(

@@ -9,7 +9,8 @@ class NestItemCreation extends NestOrNestItemCreation {
   _NestItemCreationState createState() => _NestItemCreationState();
 }
 
-class _NestItemCreationState extends NestOrNestItemCreationState<NestItemCreation> {
+class _NestItemCreationState
+    extends NestOrNestItemCreationState<NestItemCreation> {
   @override
   Widget build(BuildContext context) {
     return super.build(context);

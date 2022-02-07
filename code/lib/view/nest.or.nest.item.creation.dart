@@ -17,8 +17,10 @@ abstract class NestOrNestItemCreation extends StatefulWidget {
   NestOrNestItemCreationState createState() => NestOrNestItemCreationState();
 }
 
-class NestOrNestItemCreationState<T extends NestOrNestItemCreation> extends State<T> {
-  //final _formKey = GlobalKey<FormState>();
+class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
+    extends State<T> {
+  //#region fields
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   dynamic _photo;
   String? _name;
@@ -120,7 +122,7 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation> extends Stat
     headers['Accept'] = 'application/json';
     headers['Content-type'] = 'application/json';
     headers['Authorization'] = "Bearer " + token;
-    var req = http.MultipartRequest ('POST', Uri.parse(url));
+    var req = http.MultipartRequest('POST', Uri.parse(url));
     headers.forEach((key, value) {
       req.headers[key] = value;
     });
@@ -130,12 +132,10 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation> extends Stat
     req.fields["user_id"] = "1";
     req.fields["title"] = "Vinyl";
     req.fields["description"] = "";
-    req.files.add(await http.MultipartFile.fromPath(
-        'image',
-        _photo.path,
+    req.files.add(await http.MultipartFile.fromPath('image', _photo.path,
         contentType: MediaType('image', 'jpg')
-      // contentType: MediaType('application', 'x-tar')
-    ));
+        // contentType: MediaType('application', 'x-tar')
+        ));
     print(_photo.path);
     var response = await req.send();
     print(response);

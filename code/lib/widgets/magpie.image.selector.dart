@@ -9,12 +9,21 @@ import '../Constants.dart' as Constants;
 import '../size.config.dart';
 
 class MagpieImageSelector extends StatelessWidget {
+  //#region fields
   final dynamic photo;
+  final Function changeImage;
+  final BuildContext? context;
 
   const MagpieImageSelector({
     Key? key,
-    @required this.photo,
+    required this.photo,
+    required this.changeImage,
+    required this.context,
   }) : super(key: key);
+
+  final Color color = Constants.mainColor;
+
+  //#endregion
 
   @override
   Widget build(BuildContext context) {
