@@ -44,6 +44,26 @@ function getUserofId(id, cb) {
         });
 }
 
+
+function getUserProfile(id, cb) {
+    var profileQuery = `SELECT u.username, u.photo, u.email,
+                        (select count(*) as nestCount from Nest where user_id = `+ id + `) as nestCount,
+                        (select count(*) as nestItemCount from NestItem where user_id = `+ id + `) as nestItemCount
+                        FROM User u WHERE u.id = `+ id +`;`;
+    connection.query("SELECT n.* FROM Nest n WHERE n.user_id = " + id + " ORDER BY n.created_at desc",
+        function (err, rows) {
+            if (err) cb(err);
+            else  {
+                connection.query(profileQuery,
+                    function (err, profileRows) {
+                        if (err) cb(err);
+                        else cb(undefined, rows, profileRows);
+                    });
+            }
+        });
+}
+
+
 //Add new Nest
 function addNest(nest, cb) {
     connection.query("INSERT INTO Nest (title,description,favored,user_id,photo,created_at) VALUES('" + nest.title + "','" + nest.description + "',0," + nest.user_id + ",'" + nest.photo + "',NOW())", function (err, rows) {
@@ -94,6 +114,14 @@ function getUserNests(id, cb) {
 }
 
 //Nest-Items for nest
+function getAllNestItems(userId, cb) {
+    connection.query("SELECT * FROM NestItem n WHERE n.user_id = " + userId,
+        function (err, rows) {
+            if (err) cb(err);
+            else cb(undefined, rows);
+        });
+}
+
 function getNestItems(id, cb) {
     connection.query("SELECT * FROM NestItem n WHERE n.nest_id = " + id,
         function (err, rows) {
@@ -337,6 +365,8 @@ module.exports = {
     registerUser: registerUser,
     getUser: getUser,
     getUserofId: getUserofId,
+    getUserProfile: getUserProfile,
+    getAllNestItems: getAllNestItems,
     addNest: addNest,
     editNest: editNest,
     deleteNest: deleteNest,
