@@ -21,10 +21,11 @@ router.post('/addNest', upload.array('image',1), async function(req, res) {
         photo = encodeURI(req.files[0].path);
     }
     nest = {
-        title: req.body.name,
+        title: req.body.title,
         description: req.body.description,
         user_id: req.body.user_id,
-        photo: photo
+        photo: photo,
+        is_public: req.body.is_public === 'true'
     }
 
     sqlManager.addNest(nest, function(err, result) {
@@ -40,9 +41,10 @@ router.put('/editNest', upload.array('image',1), async function(req, res) {
     
     nest = {
         id : req.body.id,
-        title: req.body.name,
+        title: req.body.title,
         description: req.body.description,
-        favored: req.body.favored ?? 0
+        favored: req.body.favored === 'true' ?? 0,
+        is_public: req.body.is_public === 'true'
     }
 
     if(req.files && req.files.length > 0) {
@@ -151,13 +153,13 @@ router.post('/addNestItem', upload.array('image',1), async function(req, res) {
         else {
             console.log("Image comaprision callback length is 0");
             nestItem = {
-                title: req.body.name,
+                title: req.body.title,
                 description: req.body.description,
                 user_id: req.body.user_id,
                 nest_id: req.body.nest_id,
                 worth: req.body.worth,
                 photo: photo,
-                is_public: req.body.is_public
+                is_public: req.body.is_public === 'true'
             }
         
             console.log("calling add nest item");
@@ -205,7 +207,7 @@ router.put('/editNestItem', upload.array('image',1), async function(req, res) {
     
     nestItem = {
         id: req.body.id,
-        title: req.body.name,
+        title: req.body.title,
         description: req.body.description,
         worth: req.body.worth,
         is_public: req.body.is_public ?? 0,
