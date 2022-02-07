@@ -18,7 +18,7 @@ class MagpieGridView extends StatelessWidget {
     Nest nest = Nest();
     nest.name = "Bottle caps";
     nest.createdAt = DateTime.now();
-    print(nest.toMap());
+    // print(nest.toMap());
     nests.add(nest);
 
     //print(nests[0].name);
