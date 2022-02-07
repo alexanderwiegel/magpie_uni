@@ -5,7 +5,7 @@ import '../constants.dart' as constants;
 class MagpieIconButton extends StatelessWidget {
   final IconData? icon;
   final String? tooltip;
-  final Function? onPressed;
+  final VoidCallback? onPressed;
 
   const MagpieIconButton({
     Key? key,
@@ -22,8 +22,9 @@ class MagpieIconButton extends StatelessWidget {
     return IconButton(
       icon: Icon(icon),
       tooltip: tooltip,
-      onPressed: () => onPressed,
+      onPressed: onPressed,
       color: color,
+      iconSize: 30,
     );
   }
 }

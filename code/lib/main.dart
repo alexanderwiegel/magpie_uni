@@ -10,7 +10,7 @@ void main() {
 }
 
 class Magpie extends StatelessWidget {
-  const Magpie({Key? key}) : super(key: key);
+  const Magpie({Key key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {

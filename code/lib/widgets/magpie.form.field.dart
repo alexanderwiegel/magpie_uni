@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 
 import '../constants.dart' as constants;
 
@@ -10,25 +11,23 @@ class MagpieFormField extends StatelessWidget {
   final String? initialValue;
   final OutlineInputBorder? border;
   final TextEditingController? controller;
-  final List<dynamic>? inputFormatter;
+  final List<TextInputFormatter>? inputFormatter;
   final TextInputType? keyboardType;
-  final Function? onChanged;
   final Function? validate;
 
-  const MagpieFormField({
-    Key? key,
-    this.enabled = true,
-    @required this.icon,
-    @required this.labelText,
-    this.hintText,
-    this.initialValue,
-    this.border,
-    this.controller,
-    this.inputFormatter,
-    this.keyboardType,
-    this.onChanged,
-    this.validate
-  }) : super(key: key);
+  const MagpieFormField(
+      {Key? key,
+      this.enabled = true,
+      required this.icon,
+      required this.labelText,
+      this.hintText,
+      this.initialValue,
+      this.border,
+      this.controller,
+      this.inputFormatter,
+      this.keyboardType,
+      this.validate})
+      : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,21 +38,15 @@ class MagpieFormField extends StatelessWidget {
         decoration: InputDecoration(
           border: border,
           hintText: hintText,
-          icon: Icon(
-              icon,
-              color: constants.mainColor
-          ),
+          icon: Icon(icon, color: Constants.mainColor),
           labelText: labelText,
         ),
         initialValue: initialValue,
-        // TODO: change the properties inputFormatters, onChanged and validator
-        // to make them fit
-        //inputFormatters: inputFormatter,
+        inputFormatters: inputFormatter,
         keyboardType: keyboardType,
         maxLines: null,
-        //onChanged: onChanged,
         textCapitalization: TextCapitalization.sentences,
-        //validator: validate,
+        validator: (value) => validate != null ? validate!(value) : null,
       ),
     );
   }

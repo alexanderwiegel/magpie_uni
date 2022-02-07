@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-import 'magpie.checkbox.dart';
+// import 'magpie.checkbox.dart';
 import 'magpie.form.field.dart';
 import 'magpie.image.selector.dart';
 import 'magpie.switch.dart';
@@ -35,47 +35,53 @@ class MagpieForm extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    String thing = isNest ? "nest" : "nest item";
     return SingleChildScrollView(
       child: Form(
-        //key: formKey,
+        key: formKey,
         child: Column(
           children: <Widget>[
-            MagpieImageSelector(photo: photo ),
+            MagpieImageSelector(
+              photo: photo,
+              changeImage: changeImage,
+              context: context,
+            ),
+            // MagpieFormField.name(
+            //     labelText: "Name *",
+            //     validator: (value) =>
+            //     value!.isEmpty ? "Please give your $thing a name" : null,
+            //     name: thing,
+            //     onChanged: (name) => {},
+            //     hintText: "Give your $thing a name"
+            // ),
             MagpieFormField(
               icon: Icons.title,
               labelText: "Name *",
-              // TODO: display respective thing
-              hintText: "Give your XXX a name",
+              hintText: "Give your $thing a name",
               controller: nameEditingController,
-              onChanged: () => {},
-              validate: (value) => value.isEmpty ? "Please give your XXX a name" : null,
+              validate: (value) =>
+                  value.isEmpty ? "Please give your $thing a name" : null,
             ),
             MagpieFormField(
               icon: Icons.speaker_notes,
               labelText: "Description (optional)",
               border: const OutlineInputBorder(),
               controller: descriptionEditingController,
-              onChanged: (value) => {},
             ),
             Visibility(
-              // TODO: use bool worthVisible
-              visible: true,
+              visible: !isNest,
               child: MagpieFormField(
-                // TODO: use bool isNest or do something else
                 enabled: true,
                 icon: Icons.euro_symbol,
-                // TODO: make labelText depend on bool isNest
                 labelText: "Worth (optional)",
                 // initialValue: ,
                 controller: worthEditingController,
-                // TODO: fix this
                 inputFormatter: [FilteringTextInputFormatter.digitsOnly],
                 keyboardType: TextInputType.number,
-                onChanged: (value) => {},
-              )
+              ),
             ),
-            MagpieCheckbox(public: public),
-            MagpieSwitch(public: public),
+            // MagpieCheckbox(public: public),
+            MagpieSwitch(public: public, setPublic: setPublic),
             MagpieFormField(
               enabled: false,
               icon: Icons.date_range,
