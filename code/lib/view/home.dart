@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:magpie_uni/widgets/magpie.drawer.dart';
 
 import '../Constants.dart' as Constants;
 import '../view/nest.creation.dart';
@@ -18,6 +19,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      drawer: MagpieDrawer(),
       appBar: AppBar(
         title: const Text("Home"),
       ),

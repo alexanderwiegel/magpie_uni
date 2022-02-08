@@ -17,11 +17,6 @@ class MagpieBottomNavigationBar extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: <Widget>[
             MagpieIconButton(
-              icon: Icons.menu,
-              tooltip: "Open menu",
-              onPressed: () => {},
-            ),
-            MagpieIconButton(
               icon: Icons.home,
               tooltip: "Show feed",
               onPressed: () => {},
