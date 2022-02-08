@@ -1,8 +1,8 @@
 const router = require('express').Router();
 const sqlManager = require('./sql');
-const config = require('./config');
-const jwt = require('jsonwebtoken');
+const imageCompareManager = require('./compareImages');
 const multer  = require('multer');
+const { json } = require('express');
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
       cb(null, 'uploads/')
@@ -21,10 +21,11 @@ router.post('/addNest', upload.array('image',1), async function(req, res) {
         photo = encodeURI(req.files[0].path);
     }
     nest = {
-        title: req.body.name,
+        title: req.body.title,
         description: req.body.description,
         user_id: req.body.user_id,
-        photo: photo
+        photo: photo,
+        is_public: req.body.is_public === 'true'
     }
 
     sqlManager.addNest(nest, function(err, result) {
@@ -40,9 +41,10 @@ router.put('/editNest', upload.array('image',1), async function(req, res) {
     
     nest = {
         id : req.body.id,
-        title: req.body.name,
+        title: req.body.title,
         description: req.body.description,
-        favored: req.body.favored ?? 0
+        favored: req.body.favored === 'true' ?? 0,
+        is_public: req.body.is_public === 'true'
     }
 
     if(req.files && req.files.length > 0) {
@@ -106,24 +108,97 @@ router.post('/addNestItem', upload.array('image',1), async function(req, res) {
     var photo = "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png";
     if(req.files && req.files.length > 0) {
         photo = encodeURI(req.files[0].path);
-    }
-    nestItem = {
-        title: req.body.name,
-        description: req.body.description,
-        user_id: req.body.user_id,
-        nest_id: req.body.nest_id,
-        worth: req.body.worth,
-        photo: photo,
-        is_public: req.body.is_public
+        console.log(photo);
+        // if (req.body.compare != undefined && req.body.compare) {
+            // data = { 
+            //     originalImage: req.files[0].path,
+            //     userId: req.body.user_id
+            // }
+        //     console.log("Calling Image comaprision");
+        //     await imageCompareManager.compare(data, async function(err, result) {
+        //         console.log("Image comaprision callback received");
+
+        //         if (err) {
+        //             console.log(err);
+        //         }
+        //         else {
+        //             console.log("Image comaprision callback else condition");
+        //             console.log(result.length);
+        //             if (result.length != 0) {
+        //                 console.log("Image comaprision callback length is greater than 0");
+        //                 res.status(200).json({status:'Similar items found in your collections.', items: result});
+        //             }
+        //         }
+        //     });
+        // }
     }
 
-    sqlManager.addNestItem(nestItem, function(err, result) {
-        if (err) {
-            res.status(500).json({status:'Failed', message: err.message});
-            return
+    var compare = (req.body.compare === 'true');
+    var data = { 
+        originalImage: req.files.length > 0 ? req.files[0].path : undefined,
+        userId: req.body.user_id,
+        compare: compare
+    }
+    
+    console.log(req.body);
+    console.log(data);
+
+    imageCompareManager.compare(data)
+    .then ( result =>  {
+        console.log("Inside then");
+        if (result.length != 0) {
+            console.log("Image comaprision callback length is greater than 0");
+            res.status(200).json({status:'Similar items found in your collections.', items: result});
         }
-        res.status(200).json({status:'Success', message:'Nest Item Added Succesfully'});
+        else {
+            console.log("Image comaprision callback length is 0");
+            nestItem = {
+                title: req.body.title,
+                description: req.body.description,
+                user_id: req.body.user_id,
+                nest_id: req.body.nest_id,
+                worth: req.body.worth,
+                photo: photo,
+                is_public: req.body.is_public === 'true'
+            }
+        
+            console.log("calling add nest item");
+            sqlManager.addNestItem(nestItem, function(err, result) {
+                console.log("callback add nest item");
+                if (err) {
+                    res.status(500).json({status:'Failed', message: err.message});
+                    return
+                }
+                res.status(200).json({status:'Success', message:'Nest Item Added Succesfully'});
+            });
+        }
+    })
+    .catch( e => {
+        res.status(500).json({status:'Failed', message: e.message});
     });
+    // console.log("COntinuing with add flow");
+
+
+
+    // nestItem = {
+    //     title: req.body.name,
+    //     description: req.body.description,
+    //     user_id: req.body.user_id,
+    //     nest_id: req.body.nest_id,
+    //     worth: req.body.worth,
+    //     photo: photo,
+    //     is_public: req.body.is_public
+    // }
+
+    // console.log("calling add nest item");
+    // sqlManager.addNestItem(nestItem, function(err, result) {
+    //     console.log("callback add nest item");
+    //     if (err) {
+    //         res.status(500).json({status:'Failed', message: err.message});
+    //         return
+    //     }
+    //     res.status(200).json({status:'Success', message:'Nest Item Added Succesfully'});
+    // });
 })
 
 
@@ -132,7 +207,7 @@ router.put('/editNestItem', upload.array('image',1), async function(req, res) {
     
     nestItem = {
         id: req.body.id,
-        title: req.body.name,
+        title: req.body.title,
         description: req.body.description,
         worth: req.body.worth,
         is_public: req.body.is_public ?? 0,

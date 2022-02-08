@@ -77,27 +77,28 @@ io.on('connection', socket => {
 
 
 server.listen(3000, function () {
-    console.log("Express server listening on port 3000");
+  console.log("Express server listening on port 3000");
 });
 
 
 function jwt() {
-    const secret = config.jwtSecret;
-    return expressJwt({ secret, algorithms: ['HS256'] }).unless({
-        path: [
-            '/user/login',
-            '/user/register',
-            /\/uploads*/
-        ]
-    });
+  const secret = config.jwtSecret;
+  return expressJwt({ secret, algorithms: ['HS256'] }).unless({
+    path: [
+      '/user/login',
+      '/user/register',
+      '/nest/addNest',
+      /\/uploads*/
+    ]
+  });
 }
 
 function errorHandler(err, req, res, next) {
-    if (err.name === 'UnauthorizedError') {
-        // jwt authentication error
-        return res.status(401).json({ message: 'Invalid Token' });
-    }
-    // default to 500 server error
-    return res.status(500).json({ message: err.message });
+  if (err.name === 'UnauthorizedError') {
+    // jwt authentication error
+    return res.status(401).json({ message: 'Invalid Token' });
+  }
+  // default to 500 server error
+  return res.status(500).json({ message: err.message });
 }
 
