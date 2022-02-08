@@ -5,7 +5,7 @@ async function compare(body) {
     return new Promise(async (resolve, reject) => {
         console.log(body.compare);
         console.log(body.originalImage);
-        if (!body.compare || body.originalImage == undefined) {
+        if (!body.compare || body.originalImage === undefined) {
             resolve ([]);
         }
         console.log("Comparision funcion");
