@@ -31,20 +31,20 @@ abstract class NestOrNestItem extends StatefulWidget {
   Map<String, dynamic> toMap() {
     return {
       'id': id,
-      'userId': userId,
+      'user_id': userId,
       'photo': photo.toString(),
       'name': name,
       'description': description,
       'worth': worth,
       'favored': favored ? -1 : 0,
-      'createdAt': createdAt!.toIso8601String().substring(0, 10),
-      'public': public ? -1 : 0,
+      'created_at': createdAt!.toIso8601String().substring(0, 10),
+      'is_public': public ? -1 : 0,
     };
   }
 
   NestOrNestItem.fromMap(dynamic obj, {Key? key}) : super(key: key) {
     id = obj["id"];
-    userId = obj["userId"];
+    userId = obj["user_id"];
     String path = obj["photo"].toString();
     // TODO: change according to the way photos are saved
     if (!path.startsWith("http")) {
@@ -57,8 +57,8 @@ abstract class NestOrNestItem extends StatefulWidget {
     description = obj["description"];
     worth = obj["worth"];
     favored = obj["favored"] == 0 ? false : true;
-    createdAt = DateTime.parse(obj["createdAt"]);
-    public = obj["public"];
+    createdAt = DateTime.parse(obj["created_at"]);
+    public = obj["is_public"];
   }
 
   @override
@@ -73,8 +73,7 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
     final Widget image = Material(
         shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
         clipBehavior: Clip.antiAlias,
-        child: Image.asset("pics/placeholder.jpg", fit: BoxFit.cover)
-    );
+        child: Image.asset("pics/placeholder.jpg", fit: BoxFit.cover));
 
     return GestureDetector(
       onTap: () => {},
@@ -116,14 +115,10 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
           fit: BoxFit.scaleDown,
           alignment: AlignmentDirectional.topStart,
           child: IconButton(
-            tooltip: widget.favored
-                ? "Remove as favorite"
-                : "Mark as favorite",
+            tooltip: widget.favored ? "Remove as favorite" : "Mark as favorite",
             alignment: AlignmentDirectional.centerStart,
-            icon: Icon(
-              widget.favored ? Icons.favorite : Icons.favorite_border,
-              color: accentColor
-            ),
+            icon: Icon(widget.favored ? Icons.favorite : Icons.favorite_border,
+                color: accentColor),
             onPressed: toggleFavored,
           ),
         ),
