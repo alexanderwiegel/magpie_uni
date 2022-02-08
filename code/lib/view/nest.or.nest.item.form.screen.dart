@@ -4,15 +4,16 @@ import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/widgets/magpie.photo.alert.dart';
 import 'package:magpie_uni/widgets/magpie.form.dart';
 import 'package:magpie_uni/widgets/magpie.icon.button.dart';
+import 'package:magpie_uni/widgets/magpie.delete.dialog.dart';
 
-abstract class NestOrNestItemCreation extends StatefulWidget {
-  const NestOrNestItemCreation({Key? key}) : super(key: key);
+abstract class NestOrNestItemFormScreen extends StatefulWidget {
+  const NestOrNestItemFormScreen({Key? key}) : super(key: key);
 
   @override
-  NestOrNestItemCreationState createState() => NestOrNestItemCreationState();
+  NestOrNestItemFormScreenState createState() => NestOrNestItemFormScreenState();
 }
 
-class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
+class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
     extends State<T> {
   //#region fields
   MagpieDeleteDialog _magpieDeleteDialog = MagpieDeleteDialog();
@@ -52,17 +53,19 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
   @override
   Widget build(BuildContext context) {
     bool _isNest = !context.toString().contains("NestItem");
-    String name = _isNest ? "nest" : "nest item";
+    bool _isNew = context.toString().contains("Creation");
+    String thing = _isNest ? "nest" : "nest item";
     return Scaffold(
       appBar: AppBar(
-        title: Text("New " + name),
+        // TODO: check if this works
+        title: Text(_isNew ? "New " + thing : _name!),
         actions: [
           MagpieIconButton(
             icon: Icons.save,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
                 if (_photo != null)
-                  addNestOrNestItem();
+                  uploadNestOrNestItem();
                 else
                   MagpiePhotoAlert.displayPhotoAlert(context);
               }
@@ -102,7 +105,7 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
     if (_public != value) setState(() => _public = value);
   }
 
-  Future<void> addNestOrNestItem() async {
+  Future<void> uploadNestOrNestItem() async {
     nestOrNestItem.photo = _photo;
     nestOrNestItem.name = _nameEditingController.text;
     nestOrNestItem.description = _descriptionEditingController.text;
@@ -110,7 +113,6 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
         ? 0
         : int.parse(_worthEditingController.text);
     nestOrNestItem.public = _public;
-    nestOrNestItem.createdAt = DateTime.now();
     print("Successfully set attributes");
   }
 }

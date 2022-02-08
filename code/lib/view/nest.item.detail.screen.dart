@@ -4,17 +4,20 @@ import 'package:magpie_uni/model/nest.item.dart';
 import 'package:magpie_uni/services/apiEndpoints.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 
-class NestItemCreation extends NestOrNestItemFormScreen {
-  const NestItemCreation({Key? key}) : super(key: key);
+class NestItemDetailScreen extends NestOrNestItemFormScreen {
+  NestItem nestItem;
+
+  NestItemDetailScreen({required this.nestItem}) : super();
 
   @override
-  _NestItemCreationState createState() => _NestItemCreationState();
+  _NestDetailScreenState createState() => _NestDetailScreenState();
 }
 
-class _NestItemCreationState
-    extends NestOrNestItemFormScreenState<NestItemCreation> {
+class _NestDetailScreenState
+    extends NestOrNestItemFormScreenState<NestItemDetailScreen> {
   @override
   Widget build(BuildContext context) {
+    // TODO: find a way to add the delete button
     return super.build(context);
   }
 
@@ -24,9 +27,9 @@ class _NestItemCreationState
     super.nestOrNestItem = NestItem();
     print("Call super method to set attributes");
     super.uploadNestOrNestItem();
-    print("Call api endpoint to create a new nest item");
+    print("Call api endpoint to edit a nest item");
     var response =
-        await apiEndpoints.uploadNestOrNestItem(nestOrNestItem, false, true);
+    await apiEndpoints.uploadNestOrNestItem(nestOrNestItem, false, false);
     print(response);
   }
 }
