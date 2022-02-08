@@ -6,6 +6,7 @@ import 'package:magpie_uni/view/chat/chatDetailPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:magpie_uni/model/chatSessionModel.dart';
 import 'package:magpie_uni/model/feedUserProfileModel.dart';
+import 'package:magpie_uni/Constants.dart' as Constants;
 
 class FeedItemDetail extends StatefulWidget {
   Feed? feed;
@@ -129,7 +130,7 @@ class _FeedItemDetailState extends State<FeedItemDetail> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
         child: FloatingActionButton(
-          backgroundColor: Color.fromRGBO(4, 9, 35, 1),
+          backgroundColor: Constants.mainColor[900],
           child: Icon(Icons.chat_outlined),
           onPressed: () {
             this.floatingBtnPressed();

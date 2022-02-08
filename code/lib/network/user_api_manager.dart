@@ -10,7 +10,7 @@ class UserAPIManager {
   Map<String, String> getAPIHeader() {
     var header = {
       "Authorization":
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE2NDQyNzY4ODMsImV4cCI6MTY0NDI4MDQ4M30.scAAgewA8E7SdG9TxFknTy1jI4Jskl1G-yR_9m_Pugw"
+          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE2NDQzMzkwMjMsImV4cCI6MTY0NDM0MjYyM30.LcyJlq2gtmX6zQcCIuDWerz5C6yAxzn-nQtaWTd8NFI"
     };
     return header;
   }

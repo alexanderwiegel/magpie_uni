@@ -6,6 +6,7 @@ import 'package:magpie_uni/model/chatSessionModel.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:http/http.dart' as http;
+import 'package:magpie_uni/Constants.dart' as Constants;
 
 Future<ChatMessageResponse> fetchChat(int loggedUserId, int sessionId) async {
   var headers = UserAPIManager().getAPIHeader();
@@ -189,7 +190,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                               color: (messages[index].senderId !=
                                       this.widget.currentUserId
                                   ? Colors.grey.shade200
-                                  : Colors.blue[200]),
+                                  : Constants.mainColor[200]),
                             ),
                             padding: EdgeInsets.all(16),
                             child: Text(
@@ -260,7 +261,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                       color: Colors.white,
                       size: 18,
                     ),
-                    backgroundColor: Color.fromRGBO(39, 105, 171, 1),
+                    backgroundColor: Constants.mainColor,
                     elevation: 0,
                   ),
                 ],

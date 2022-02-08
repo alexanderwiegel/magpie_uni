@@ -1,10 +1,13 @@
 import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:magpie_uni/model/chatSessionModel.dart';
 import 'package:magpie_uni/model/feedUserProfileModel.dart';
+import 'package:magpie_uni/view/chat/chatDetailPage.dart';
 import 'package:magpie_uni/widgets/nestGridItem.dart';
 import 'package:http/http.dart' as http;
 import 'package:magpie_uni/network/user_api_manager.dart';
+import 'package:magpie_uni/Constants.dart' as Constants;
 
 class FeedUserProfile extends StatefulWidget {
   String userName;
@@ -73,8 +76,8 @@ class _NestUserProfileState extends State<FeedUserProfile> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Color.fromARGB(255, 30, 41, 99),
-                  Color.fromRGBO(39, 105, 171, 1),
+                  Constants.mainColor.shade900,
+                  Constants.mainColor.shade200,
                   // Colors.blue,
                 ],
                 begin: FractionalOffset.bottomCenter,
@@ -124,8 +127,7 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                                         Text(
                                           this.widget.userName,
                                           style: TextStyle(
-                                            color:
-                                                Color.fromRGBO(39, 105, 171, 1),
+                                            color: Constants.mainColor[900],
                                             fontSize: 30,
                                           ),
                                         ),
@@ -169,8 +171,8 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                                                         .nestCount
                                                         .toString(),
                                                     style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          39, 105, 171, 1),
+                                                      color: Constants
+                                                          .mainColor[900],
                                                       fontSize: 25,
                                                     ),
                                                   ),
@@ -215,8 +217,8 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                                                         .nestItemCount
                                                         .toString(),
                                                     style: TextStyle(
-                                                      color: Color.fromRGBO(
-                                                          39, 105, 171, 1),
+                                                      color: Constants
+                                                          .mainColor[900],
                                                       fontSize: 25,
                                                     ),
                                                   ),
@@ -236,7 +238,7 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                                   child: Center(
                                     child: Container(
                                       child: Image.asset(
-                                        'assets/images/profile.png',
+                                        "pics/profile.png",
                                         width: innerWidth * 0.45,
                                         fit: BoxFit.fitWidth,
                                       ),
@@ -268,7 +270,7 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                                 Text(
                                   this.isNestSelected ? "Nests" : "Items",
                                   style: TextStyle(
-                                    color: Color.fromRGBO(39, 105, 171, 1),
+                                    color: Constants.mainColor[900],
                                     fontSize: 25,
                                   ),
                                 ),
@@ -345,11 +347,42 @@ class _NestUserProfileState extends State<FeedUserProfile> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
         child: FloatingActionButton(
-          backgroundColor: Color.fromRGBO(4, 9, 35, 1),
+          backgroundColor: Constants.mainColor[900],
           child: Icon(Icons.chat_outlined),
-          onPressed: () {},
+          onPressed: () {
+            this.floatingBtnPressed();
+          },
         ),
       ),
     );
+  }
+
+  void floatingBtnPressed() {
+    var userId = this.widget.userId;
+    this.fetchUserChatSession(UserAPIManager.currentUserId, userId);
+  }
+
+  Future fetchUserChatSession(int currentUserId, int opponentId) async {
+    var headers = UserAPIManager().getAPIHeader();
+    final response = await http.get(
+        Uri.parse(
+            'http://localhost:3000/chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      print(response.body);
+      NewChatSessionResponse result =
+          NewChatSessionResponse.fromJson(jsonDecode(response.body));
+
+      Navigator.push(context, MaterialPageRoute(builder: (context) {
+        return ChatDetailPage(
+          chatSession: result.chat,
+          onBackPressed: (value) {
+            print(value);
+          },
+        );
+      }));
+    } else {
+      throw Exception('Failed to load Feeds');
+    }
   }
 }

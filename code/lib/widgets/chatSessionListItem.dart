@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/view/chat/chatDetailPage.dart';
 import 'package:magpie_uni/model/chatSessionModel.dart';
+import '../Constants.dart' as Constants;
 
 class ChatSessionListItem extends StatefulWidget {
   final ValueChanged onBackPressed;
@@ -98,7 +99,7 @@ class _ChatSessionListItemState extends State<ChatSessionListItem> {
                       decoration: new BoxDecoration(
                         color: this.widget.chatSession.unreadMessages == 0
                             ? Colors.white
-                            : Color.fromRGBO(39, 105, 171, 1),
+                            : Constants.mainColor,
                         borderRadius: BorderRadius.circular(12.5),
                       ),
                       constraints: BoxConstraints(

@@ -91,7 +91,9 @@ class _RegisterFormState extends State<RegisterForm> {
                     onPrimary: Colors.white,
                   ),
                   onPressed: () {
-                    Navigator.pushNamed(context, '/home');
+                    // Navigator.pushNamed(context, '/home');
+                    Navigator.of(context).pushNamedAndRemoveUntil(
+                        '/home', (Route<dynamic> route) => false);
                     //TODO: Add registration logic
                   }),
             ],

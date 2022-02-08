@@ -69,7 +69,9 @@ class _LoginFormState extends State<LoginForm> {
                       onPrimary: Colors.white,
                     ),
                     onPressed: () {
-                      Navigator.pushNamed(context, '/home');
+                      // Navigator.pushNamed(context, '/home');
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/home', (Route<dynamic> route) => false);
                       //TODO: implement login
                     },
                   ),
