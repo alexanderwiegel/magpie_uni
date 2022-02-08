@@ -1,11 +1,13 @@
 // @dart=2.9
 
 import 'package:flutter/material.dart';
-import 'view/auth/register/register.page.dart';
-import 'view/auth/login/login.page.dart';
-import 'Constants.dart' as Constants;
-import 'view/profile.dart';
-import 'wrapper.dart';
+
+import 'package:magpie_uni/view/auth/register/register.page.dart';
+import 'package:magpie_uni/view/auth/login/login.page.dart';
+import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/view/home.dart';
+import 'package:magpie_uni/view/statistic.dart';
+import 'package:magpie_uni/wrapper.dart';
 
 void main() {
   runApp(const Magpie());
@@ -27,7 +29,8 @@ class Magpie extends StatelessWidget {
         "/": (context) => Wrapper(),
         "/login": (context) => const LoginScreen(),
         "/register": (context) => const RegisterScreen(),
-        "/profile": (context) => const Profile(),
+        "/home": (context) => const Home(),
+        "/statistic": (context) => Statistic(),
       },
     );
   }

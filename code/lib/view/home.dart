@@ -5,21 +5,21 @@ import '../view/nest.creation.dart';
 import '../widgets/magpie.bottom.navigation.bar.dart';
 import '../widgets/magpie.grid.view.dart';
 
-class Profile extends StatefulWidget {
-  const Profile({Key? key}) : super(key: key);
+class Home extends StatefulWidget {
+  const Home({Key? key}) : super(key: key);
 
   @override
-  State<Profile> createState() => _ProfileState();
+  State<Home> createState() => _HomeState();
 }
 
-class _ProfileState extends State<Profile> {
+class _HomeState extends State<Home> {
   bool hasData = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Profile"),
+        title: const Text("Home"),
       ),
       body: hasData
           ? Center(
