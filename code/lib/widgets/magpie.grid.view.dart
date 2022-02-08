@@ -1,34 +1,43 @@
 import 'package:flutter/material.dart';
 
-import '../model/nest.dart';
-import '../model/nest.or.nest.item.dart';
+import 'package:magpie_uni/model/nest.or.nest.item.dart';
 
+// ignore: must_be_immutable
 class MagpieGridView extends StatelessWidget {
-  const MagpieGridView({Key? key}) : super(key: key);
+  List<NestOrNestItem> filteredNames;
+  final bool isNest;
+  final String searchText;
+
+  MagpieGridView({
+    required this.filteredNames,
+    required this.isNest,
+    required this.searchText,
+  });
 
   @override
   Widget build(BuildContext context) {
-    List<NestOrNestItem> nests = List.empty(growable: true);
-
-    // nests.add(NestOrNestItem(
-    //   name: "Vinyl",
-    //   createdAt: DateTime.now(),
-    // ));
-
-    Nest nest = Nest();
-    nest.name = "Bottle caps";
-    nest.createdAt = DateTime.now();
-    // print(nest.toMap());
-    nests.add(nest);
-
-    //print(nests[0].name);
-
     return GridView.count(
         padding: const EdgeInsets.all(8),
         mainAxisSpacing: 8,
         crossAxisSpacing: 8,
         crossAxisCount: 2,
         childAspectRatio: 1.05,
-        children: nests);
+        children: _filterList());
+  }
+
+  List<NestOrNestItem> _filterList() {
+    List<NestOrNestItem> tempList = [];
+    if (searchText.isNotEmpty) {
+      for (int i = 0; i < filteredNames.length; i++) {
+        if (filteredNames[i]
+            .name!
+            .toLowerCase()
+            .contains(searchText.toLowerCase())) {
+          tempList.add(filteredNames[i]);
+        }
+      }
+      filteredNames = tempList;
+    }
+    return filteredNames;
   }
 }

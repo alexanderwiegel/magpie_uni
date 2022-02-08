@@ -3,9 +3,9 @@ import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
 // import 'magpie.checkbox.dart';
-import 'magpie.form.field.dart';
-import 'magpie.image.selector.dart';
-import 'magpie.switch.dart';
+import 'package:magpie_uni/widgets/magpie.form.field.dart';
+import 'package:magpie_uni/widgets/magpie.image.selector.dart';
+import 'package:magpie_uni/widgets/magpie.switch.dart';
 
 class MagpieForm extends StatelessWidget {
   final GlobalKey? formKey;

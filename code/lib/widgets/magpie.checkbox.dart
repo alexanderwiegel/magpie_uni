@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart' as Constants;
 
 class MagpieCheckbox extends StatefulWidget {
   bool? public;
