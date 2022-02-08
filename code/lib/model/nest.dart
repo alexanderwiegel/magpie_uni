@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/sort.mode.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
+import 'package:magpie_uni/view/nest.items.screen.dart';
 
 class Nest extends NestOrNestItem {
   late SortMode sortMode;
@@ -52,5 +53,30 @@ class _NestState extends NestOrNestItemState<Nest> {
   @override
   Widget build(BuildContext context) {
     return super.build(context);
+  }
+
+  @override
+  void openNextScreen(BuildContext context) async {
+    Nest oldNest = Nest(
+      key: widget.key,
+      asc: widget.asc,
+      onlyFavored: widget.onlyFavored,
+      sortMode: widget.sortMode,
+    );
+    oldNest.id = super.widget.id;
+    oldNest.userId = super.widget.userId;
+    oldNest.name = super.widget.name;
+    oldNest.photo = super.widget.photo;
+    oldNest.description = super.widget.description;
+    oldNest.worth = super.widget.worth;
+    oldNest.favored = super.widget.favored;
+    oldNest.public = super.widget.public;
+    oldNest.createdAt = super.widget.createdAt;
+
+    Nest newNest = await Navigator.push(
+      context,
+      // TODO: see if it is somehow possible to pass "widget.this"
+      MaterialPageRoute(builder: (context) => NestItemsScreen(nest: oldNest)),
+    );
   }
 }

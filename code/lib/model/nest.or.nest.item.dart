@@ -79,7 +79,7 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
     );
 
     return GestureDetector(
-      onTap: () => {},
+      onTap: () => openNextScreen(context),
       child: GridTile(
         footer: Material(
           color: Colors.transparent,
@@ -130,6 +130,8 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
       ),
     );
   }
+
+  void openNextScreen(BuildContext context) async {}
 
   void toggleFavored() async {
     setState(() {
