@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart' as Constants;
 
 // ignore: must_be_immutable
 class MagpieFormField extends StatelessWidget {

@@ -5,8 +5,8 @@ import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
-import '../Constants.dart' as Constants;
-import '../size.config.dart';
+import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/size.config.dart';
 
 class MagpieImageSelector extends StatelessWidget {
   //#region fields

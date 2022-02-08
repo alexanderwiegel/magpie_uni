@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart' as Constants;
 
 class MagpieIconButton extends StatelessWidget {
   final IconData? icon;

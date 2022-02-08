@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import '/size.config.dart';
-import '/Constants.dart' as Constants;
+
+import 'package:magpie_uni/widgets/magpie.drawer.dart';
+import 'package:magpie_uni/size.config.dart';
+import 'package:magpie_uni/Constants.dart' as Constants;
 
 class Statistic extends StatelessWidget {
   //#region fields
@@ -55,6 +57,7 @@ class Statistic extends StatelessWidget {
   Widget build(BuildContext context) {
     initEntries();
     return Scaffold(
+      drawer: MagpieDrawer(),
       appBar: AppBar(
         title: Text("Statistic"),
       ),
