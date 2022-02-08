@@ -6,7 +6,7 @@ import 'package:magpie_uni/Constants.dart' as Constants;
 
 abstract class NestOrNestItem extends StatefulWidget {
   late final int? id;
-  late final String? userId;
+  late final int? userId;
   late dynamic photo;
   late String? name;
   late String description;
@@ -18,7 +18,7 @@ abstract class NestOrNestItem extends StatefulWidget {
   NestOrNestItem({
     Key? key,
     this.id = 1,
-    this.userId = "1",
+    this.userId = 1,
     this.photo = "pics/placeholder.jpg",
     this.name = "",
     this.description = "",
@@ -35,10 +35,9 @@ abstract class NestOrNestItem extends StatefulWidget {
       'photo': photo.path,
       'title': name,
       'description': description,
-      'total_worth': worth,
-      'favored': favored ? 1 : 0,
-      'created_at': createdAt!.toIso8601String().substring(0, 10),
-      'is_public': public ? 1 : 0,
+      'worth': worth,
+      'favored': favored,
+      'is_public': public,
     };
   }
 

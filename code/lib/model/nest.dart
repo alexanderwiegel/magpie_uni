@@ -21,8 +21,8 @@ class Nest extends NestOrNestItem {
     Map<String, dynamic> nest = super.toMap();
     nest.addAll({
       'sort_mode': sortMode.toString(),
-      'is_asc': asc ? 1 : 0,
-      'only_favored': onlyFavored ? 1 : 0
+      'is_asc': asc,
+      'only_favored': onlyFavored
     });
     return nest;
   }
