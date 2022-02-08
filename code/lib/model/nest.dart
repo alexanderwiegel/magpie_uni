@@ -10,7 +10,7 @@ class Nest extends NestOrNestItem {
 
   Nest({
     Key? key,
-    this.sortMode = SortMode.sortById,
+    this.sortMode = SortMode.SortById,
     this.asc = false,
     this.onlyFavored = false,
   }) : super(key: key);
@@ -29,16 +29,16 @@ class Nest extends NestOrNestItem {
   Nest.fromMap(dynamic obj, {Key? key}) : super.fromMap(obj, key: key) {
     switch (obj["sort_mode"]) {
       case "SortMode.sortByName":
-        sortMode = SortMode.sortByName;
+        sortMode = SortMode.SortByName;
         break;
       case "SortMode.sortByWorth":
-        sortMode = SortMode.sortByWorth;
+        sortMode = SortMode.SortByWorth;
         break;
       case "SortMode.sortByFavored":
-        sortMode = SortMode.sortByFavored;
+        sortMode = SortMode.SortByFavored;
         break;
       case "SortMode.sortByDate":
-        sortMode = SortMode.sortById;
+        sortMode = SortMode.SortById;
     }
     asc = obj["is_asc"] == 0 ? false : true;
     onlyFavored = obj["only_favored"] == 0 ? false : true;
