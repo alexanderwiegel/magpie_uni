@@ -37,7 +37,7 @@ class MagpieTextFormField extends StatefulWidget {
       {Key? key,
       this.enabled = true,
       this.leadingIcon = Icons.lock,
-      this.labelText = 'Password',
+      required this.labelText,
       this.focusNode,
       required this.validator,
       required this.name,
@@ -82,7 +82,8 @@ class _MagpieTextFormFieldState extends State<MagpieTextFormField> {
       validator: widget.validator,
       obscureText: widget.obscure,
       decoration: InputDecoration(
-        border: const OutlineInputBorder(),
+        border: OutlineInputBorder(borderRadius: BorderRadius.circular(30)),
+        contentPadding: const EdgeInsets.all(20),
         hintText: widget.hintText,
         prefixIcon: widget.leadingIcon != null
             ? Icon(widget.leadingIcon, color: constants.mainColor)
@@ -102,10 +103,6 @@ class _MagpieTextFormFieldState extends State<MagpieTextFormField> {
             : null,
         labelText: widget.labelText,
       ),
-      // TODO: change the properties inputFormatters, onChanged and validator
-      // to make them fit
-      //inputFormatters: inputFormatter,
-
       textCapitalization: TextCapitalization.sentences,
     );
   }
