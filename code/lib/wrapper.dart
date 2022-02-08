@@ -14,6 +14,6 @@ class Wrapper extends StatelessWidget {
         ? SystemChrome.setPreferredOrientations(
             [DeviceOrientation.landscapeLeft, DeviceOrientation.landscapeRight])
         : SystemChrome.setPreferredOrientations([DeviceOrientation.portraitUp]);
-    return const Profile();
+    return Profile();
   }
 }

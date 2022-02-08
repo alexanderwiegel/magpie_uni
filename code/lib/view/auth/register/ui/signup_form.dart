@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/services/validators.dart';
-import 'package:magpie_uni/widgets/magpie.form.field.dart';
-
-import '../../../../constants.dart';
+import 'package:magpie_uni/Constants.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
@@ -33,42 +31,53 @@ class _RegisterFormState extends State<RegisterForm> {
                 ),
               ),
               const SizedBox(height: 20),
-              MagpieTextFormField.name(
-                  labelText: 'First Name',
-                  validator: FirstNameValidator.validate,
-                  name: 'firstName',
-                  onChanged: (value) {},
-                  hintText: 'First Name'),
+              TextFormField(
+                keyboardType: TextInputType.text,
+                autocorrect: false,
+                onChanged: (input) => _firstName = input.trim(),
+                decoration: const InputDecoration(
+                  labelText: 'Firstname',
+                  border: OutlineInputBorder(),
+                ),
+                validator: FirstNameValidator.validate,
+              ),
               const SizedBox(
                 height: 20.0,
               ),
-              MagpieTextFormField.name(
-                  labelText: 'Last Name',
-                  validator: FirstNameValidator.validate,
-                  name: 'lastName',
-                  onChanged: (value) {},
-                  hintText: 'Last Name'),
+              TextFormField(
+                keyboardType: TextInputType.text,
+                autocorrect: false,
+                onChanged: (input) => _lastName = input.trim(),
+                decoration: const InputDecoration(
+                  labelText: 'Lastname',
+                  border: OutlineInputBorder(),
+                ),
+                validator: LastNameValidator.validate,
+              ),
               const SizedBox(
                 height: 20.0,
               ),
-              MagpieTextFormField.email(
+              TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: false,
+                onChanged: (input) => _email = input,
+                decoration: const InputDecoration(
+                  labelText: 'E-Mail Address',
+                  border: OutlineInputBorder(),
+                ),
                 validator: EmailValidator.validate,
-                name: 'Email',
-                onChanged: (value) {},
               ),
               const SizedBox(height: 20.0),
-              MagpieTextFormField.password(
+              TextFormField(
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
+                autocorrect: false,
+                onChanged: (input) => _password = input,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
                 validator: PasswordValidator.validate,
-                name: 'Password',
-                onChanged: (value) {},
-                hintText: 'Password',
-              ),
-              const SizedBox(height: 20.0),
-              MagpieTextFormField.password(
-                validator: PasswordValidator.validate,
-                name: 'Re-enter Password',
-                onChanged: (value) {},
-                hintText: 'Re-enter Password',
               ),
               const SizedBox(height: 20.0),
               ElevatedButton(
@@ -82,12 +91,8 @@ class _RegisterFormState extends State<RegisterForm> {
                     onPrimary: Colors.white,
                   ),
                   onPressed: () {
-                    _formKey.currentState!.save();
-                    if (_formKey.currentState!.validate()) {
-                      Navigator.pushNamed(context, '/profile');
-                      //TODO: Add registration logic
-
-                    }
+                    Navigator.pushNamed(context, '/home');
+                    //TODO: Add registration logic
                   }),
             ],
           )),
