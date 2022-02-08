@@ -11,9 +11,9 @@ var connection = mysql.createConnection({
 })
 
 function connectDB(cb) {
-  connection.connect(function (err) {
-    cb(err)
-  });
+    connection.connect(function (err) {
+        cb(err)
+    });
 }
 
 // User quries...
@@ -91,7 +91,7 @@ function deleteNest(nestID, cb) {
   });
 }
 
-//func update Nest Worth
+//func update nest Worth
 function updateNestWorth(id) {
   var query = "UPDATE nest n set n.total_worth = ( SELECT SUM(ni.worth) from nestItem ni WHERE ni.nest_id = " + id + ") WHERE n.id = " + id;
   connection.query(query, function (err, rows) {
@@ -146,7 +146,7 @@ function addNestItem(nestItem, cb) {
   });
 }
 
-//Edit Nest item
+//Edit nest item
 function editNestItem(nestItem, cb) {
   var query = "UPDATE nestItem SET title = '" + nestItem.title + "', description = '" + nestItem.description + "',favored = " + nestItem.favored + ",worth = " + nestItem.worth + ", is_public = " + nestItem.is_public;
   if (nestItem.photo !== undefined) {
@@ -161,7 +161,16 @@ function editNestItem(nestItem, cb) {
       updateNestWorth(nestItem.nest_id)
       cb(undefined, rows);
     }
-  });
+    query += " where id = " + nestItem.id;
+    console.log(query);
+
+    connection.query(query, function (err, rows) {
+        if (err) cb(err);
+        else {
+            updateNestWorth(nestItem.nest_id)
+            cb(undefined, rows);
+        }
+    });
 }
 
 //Feeds

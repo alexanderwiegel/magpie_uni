@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:magpie_uni/view/profile.dart';
+import 'package:magpie_uni/view/home.dart';
 import 'dart:convert';
 import '../view/chat/chatList.dart';
 import '../view/feeds/feedList.dart';
@@ -44,7 +44,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     tabBarPages = [
-      Profile(),
+      Home(),
       FeedList(),
       ChatList(
         onBackPressed: (value) {
