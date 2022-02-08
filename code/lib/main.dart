@@ -26,7 +26,7 @@ class Magpie extends StatelessWidget {
         primarySwatch: Constants.mainColor,
       ),
       routes: {
-        "/": (context) => LoginScreen(),
+        "/": (context) => Wrapper(),
         "/login": (context) => const LoginScreen(),
         "/register": (context) => const RegisterScreen(),
         // "/profile": (context) => const Profile(),
