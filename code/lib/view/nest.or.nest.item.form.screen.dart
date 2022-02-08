@@ -15,6 +15,7 @@ abstract class NestOrNestItemCreation extends StatefulWidget {
 class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
     extends State<T> {
   //#region fields
+  MagpieDeleteDialog _magpieDeleteDialog = MagpieDeleteDialog();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late NestOrNestItem nestOrNestItem;
@@ -82,6 +83,14 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
         changeImage: _changeImage,
         setPublic: _setPublic,
       ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
+      // TODO: detail screens will need the delete button
+      // floatingActionButton: MagpieButton(
+      //   onPressed: () => _magpieDeleteDialogue.displayDeleteDialogue(
+      //       context, true, widget.nest.id),
+      //   title: "Delete $thing",
+      //   icon: Icons.delete,
+      // ),
     );
   }
 
