@@ -32,11 +32,10 @@ class apiEndpoints {
       req.headers[key] = value;
     });
 
-    // TODO: fix this
     Map nestOrNestItemAsMap = nestOrNestItem.toMap();
     print(nestOrNestItemAsMap);
     nestOrNestItemAsMap.forEach((key, value) {
-      req.fields[key] = value;
+      req.fields[key] = value.toString();
     });
     req.files.add(await http.MultipartFile.fromPath(
         'image', nestOrNestItem.photo.path,
