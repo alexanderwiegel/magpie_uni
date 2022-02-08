@@ -27,22 +27,23 @@ class apiEndpoints {
     // TODO: ask Huzaifa why he didn't use PATCH
     String method = isNew ? "POST" : "PUT";
     var req = http.MultipartRequest(method, Uri.parse(url));
+
     headers.forEach((key, value) {
       req.headers[key] = value;
     });
-    // TODO: use real instead of dummy values
-    // nestOrNestItem.forEach((key, value) {
-    //   req.fields[key] = value;
-    // });
-    req.fields["user_id"] = "1";
-    // TODO: ask Huzaifa why it's undefined in the DB no matter if I use "name" or "title"
-    req.fields["title"] = "Vinyl";
-    req.fields["description"] = "";
+
+    // TODO: fix this
+    Map nestOrNestItemAsMap = nestOrNestItem.toMap();
+    print(nestOrNestItemAsMap);
+    nestOrNestItemAsMap.forEach((key, value) {
+      req.fields[key] = value;
+    });
     req.files.add(await http.MultipartFile.fromPath(
         'image', nestOrNestItem.photo.path,
         contentType: MediaType('image', 'jpg')
         // contentType: MediaType('application', 'x-tar')
         ));
+
     print("Send request");
     var response = await req.send();
     print(response);
