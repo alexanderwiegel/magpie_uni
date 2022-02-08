@@ -2,8 +2,6 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/widgets/magpie.photo.alert.dart';
-import 'package:magpie_uni/model/nest.dart';
-import 'package:magpie_uni/model/nest.item.dart';
 import 'package:magpie_uni/widgets/magpie.form.dart';
 import 'package:magpie_uni/widgets/magpie.icon.button.dart';
 
@@ -20,11 +18,11 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late NestOrNestItem nestOrNestItem;
-  dynamic photo;
-  String? name;
-  String description = "";
-  int? worth;
-  bool public = false;
+  dynamic _photo;
+  String? _name;
+  String _description = "";
+  int? _worth;
+  bool _public = false;
   final DateTime _createdAt = DateTime.now();
 
   late TextEditingController _nameEditingController;
@@ -44,10 +42,10 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
   @override
   void initState() {
     super.initState();
-    _nameEditingController = TextEditingController(text: name);
-    _descriptionEditingController = TextEditingController(text: description);
+    _nameEditingController = TextEditingController(text: _name);
+    _descriptionEditingController = TextEditingController(text: _description);
     _worthEditingController =
-        TextEditingController(text: worth != null ? "$worth" : "");
+        TextEditingController(text: _worth != null ? "$_worth" : "");
   }
 
   @override
@@ -62,7 +60,7 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
             icon: Icons.save,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                if (photo != null)
+                if (_photo != null)
                   addNestOrNestItem();
                 else
                   MagpiePhotoAlert.displayPhotoAlert(context);
@@ -75,11 +73,11 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
       body: MagpieForm(
         formKey: _formKey,
         isNest: _isNest,
-        photo: photo,
+        photo: _photo,
         nameEditingController: _nameEditingController,
         descriptionEditingController: _descriptionEditingController,
         worthEditingController: _worthEditingController,
-        public: public,
+        public: _public,
         createdAt: _createdAt,
         changeImage: _changeImage,
         setPublic: _setPublic,
@@ -88,21 +86,21 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
   }
 
   void _changeImage(dynamic image) {
-    if (photo != image) setState(() => photo = image);
+    if (_photo != image) setState(() => _photo = image);
   }
 
   void _setPublic(value) {
-    if (public != value) setState(() => public = value);
+    if (_public != value) setState(() => _public = value);
   }
 
   Future<void> addNestOrNestItem() async {
-    nestOrNestItem.photo = photo;
+    nestOrNestItem.photo = _photo;
     nestOrNestItem.name = _nameEditingController.text;
     nestOrNestItem.description = _descriptionEditingController.text;
     nestOrNestItem.worth = _worthEditingController.text.isEmpty
         ? 0
         : int.parse(_worthEditingController.text);
-    nestOrNestItem.public = public;
+    nestOrNestItem.public = _public;
     nestOrNestItem.createdAt = DateTime.now();
     print("Successfully set attributes");
   }
