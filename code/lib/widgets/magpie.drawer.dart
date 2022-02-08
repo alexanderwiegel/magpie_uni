@@ -30,25 +30,30 @@ class MagpieDrawer extends StatelessWidget {
             ),
           ),
           option(
-            Icons.home,
-            "Home",
+            Icons.account_circle,
+            "My account",
             () => navigate(context, "/home"),
+          ),
+          option(
+            Icons.home,
+            "Feed",
+            () => Navigator.of(context).pop(),
+          ),
+          option(
+            Icons.chat,
+            "Chat",
+            () => Navigator.of(context).pop(),
           ),
           option(
             Icons.insert_chart, "Statistics",
             //() => Navigator.of(context).pop(),),
             () => navigate(context, "/statistic"),
           ),
-          option(
-            Icons.account_circle,
-            "Account",
-            () => Navigator.of(context).pop(),
-          ),
-          option(
-            Icons.settings,
-            "Settings",
-            () => Navigator.of(context).pop(),
-          ),
+          // option(
+          //   Icons.settings,
+          //   "Settings",
+          //   () => Navigator.of(context).pop(),
+          // ),
           option(
             Icons.exit_to_app,
             "Logout",
