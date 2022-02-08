@@ -162,16 +162,7 @@ function editNestItem(nestItem, cb) {
       updateNestWorth(nestItem.nest_id)
       cb(undefined, rows);
     }
-    query += " where id = " + nestItem.id;
-    console.log(query);
-
-    connection.query(query, function (err, rows) {
-        if (err) cb(err);
-        else {
-            updateNestWorth(nestItem.nest_id)
-            cb(undefined, rows);
-        }
-    });
+  });
 }
 
 //Feeds
