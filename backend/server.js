@@ -23,7 +23,6 @@ app.use(jwt());
 
 
 sqlManager.connectDB(function (err) {
-<<<<<<< HEAD
     if (err) {
         throw err;
     }
@@ -37,20 +36,6 @@ sqlManager.connectDB(function (err) {
     app.get("/", (req, resp) => {
         resp.send("working");
     });
-=======
-  if (err) {
-    throw err;
-  }
-  console.log("Database connected");
-  // api routes
-  app.use('/user', require('./user.js'));
-  app.use('/nest', require('./nest.js'))
-  app.use('/feed', require('./feed.js'))
-
-  app.get("/", (req, resp) => {
-    resp.send("working");
-  });
->>>>>>> origin/development
 
 });
 

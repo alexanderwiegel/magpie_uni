@@ -32,6 +32,15 @@ dependencies:
 
   intl: ^0.17.0
   http:
+  charts_flutter:
+  flutter_staggered_grid_view:
+  flutter_circular_chart:
+  flutter_image_compress:
+  image_picker:
+  permission_handler: ^8.1.0
+  path_provider:
+  socket_io_client: ^1.0.2
+
 
 dev_dependencies:
   flutter_test:

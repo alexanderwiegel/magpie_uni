@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/services/validators.dart';
-import 'package:magpie_uni/widgets/magpie.form.field.dart';
-
-import '../../../../constants.dart';
+import 'package:magpie_uni/Constants.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -34,17 +32,27 @@ class _LoginFormState extends State<LoginForm> {
                 ),
               ),
               const SizedBox(height: 20),
-              MagpieTextFormField.email(
+              TextFormField(
+                keyboardType: TextInputType.emailAddress,
+                autocorrect: false,
+                onChanged: (input) => _email = input,
+                decoration: const InputDecoration(
+                  labelText: 'E-Mail Address',
+                  border: OutlineInputBorder(),
+                ),
                 validator: EmailValidator.validate,
-                name: 'Email',
-                onChanged: (value) {},
               ),
               const SizedBox(height: 20.0),
-              MagpieTextFormField.password(
+              TextFormField(
+                keyboardType: TextInputType.visiblePassword,
+                obscureText: true,
+                autocorrect: false,
+                onChanged: (input) => _password = input,
+                decoration: const InputDecoration(
+                  labelText: 'Password',
+                  border: OutlineInputBorder(),
+                ),
                 validator: PasswordValidator.validate,
-                name: 'Password',
-                onChanged: (value) {},
-                hintText: 'Re-enter password',
               ),
               const SizedBox(height: 20.0),
               Row(
@@ -61,11 +69,10 @@ class _LoginFormState extends State<LoginForm> {
                       onPrimary: Colors.white,
                     ),
                     onPressed: () {
-                      _formKey.currentState!.save();
-                      if (_formKey.currentState!.validate()) {
-                        Navigator.pushNamed(context, '/profile');
-                        //TODO: implement login
-                      }
+                      // Navigator.pushNamed(context, '/home');
+                      Navigator.of(context).pushNamedAndRemoveUntil(
+                          '/home', (Route<dynamic> route) => false);
+                      //TODO: implement login
                     },
                   ),
                   const SizedBox(width: 20.0),
