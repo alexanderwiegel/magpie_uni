@@ -25,7 +25,6 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
   String _description = "";
   int? _worth;
   bool _public = false;
-  final DateTime _createdAt = DateTime.now();
 
   late TextEditingController _nameEditingController;
   late TextEditingController _descriptionEditingController;
@@ -82,7 +81,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
         descriptionEditingController: _descriptionEditingController,
         worthEditingController: _worthEditingController,
         public: _public,
-        createdAt: _createdAt,
+        createdAt: nestOrNestItem.createdAt ?? DateTime.now(),
         changeImage: _changeImage,
         setPublic: _setPublic,
       ),
