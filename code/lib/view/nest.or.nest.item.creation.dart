@@ -1,9 +1,6 @@
-import 'dart:collection';
-import 'package:http_parser/http_parser.dart';
-
 import 'package:flutter/material.dart';
-import 'package:http/http.dart' as http;
 
+import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/widgets/magpie.photo.alert.dart';
 import 'package:magpie_uni/model/nest.dart';
 import 'package:magpie_uni/model/nest.item.dart';
@@ -22,11 +19,12 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
   //#region fields
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  dynamic _photo;
-  String? _name;
-  String _description = "";
-  int? _worth;
-  bool _public = false;
+  late NestOrNestItem nestOrNestItem;
+  dynamic photo;
+  String? name;
+  String description = "";
+  int? worth;
+  bool public = false;
   final DateTime _createdAt = DateTime.now();
 
   late TextEditingController _nameEditingController;
@@ -46,10 +44,10 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
   @override
   void initState() {
     super.initState();
-    _nameEditingController = TextEditingController(text: _name);
-    _descriptionEditingController = TextEditingController(text: _description);
+    _nameEditingController = TextEditingController(text: name);
+    _descriptionEditingController = TextEditingController(text: description);
     _worthEditingController =
-        TextEditingController(text: _worth != null ? "$_worth" : "");
+        TextEditingController(text: worth != null ? "$worth" : "");
   }
 
   @override
@@ -64,8 +62,8 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
             icon: Icons.save,
             onPressed: () {
               if (_formKey.currentState!.validate()) {
-                if (_photo != null)
-                  addNestOrNestItem(context);
+                if (photo != null)
+                  addNestOrNestItem();
                 else
                   MagpiePhotoAlert.displayPhotoAlert(context);
               }
@@ -77,11 +75,11 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
       body: MagpieForm(
         formKey: _formKey,
         isNest: _isNest,
-        photo: _photo,
+        photo: photo,
         nameEditingController: _nameEditingController,
         descriptionEditingController: _descriptionEditingController,
         worthEditingController: _worthEditingController,
-        public: _public,
+        public: public,
         createdAt: _createdAt,
         changeImage: _changeImage,
         setPublic: _setPublic,
@@ -90,58 +88,22 @@ class NestOrNestItemCreationState<T extends NestOrNestItemCreation>
   }
 
   void _changeImage(dynamic image) {
-    if (_photo != image) setState(() => _photo = image);
+    if (photo != image) setState(() => photo = image);
   }
 
   void _setPublic(value) {
-    if (_public != value) setState(() => _public = value);
+    if (public != value) setState(() => public = value);
   }
 
-  Future<bool> addNestOrNestItem(BuildContext context) async {
-    String url = "http://10.0.2.2:3000/nest/addNest";
-    dynamic nestOrNestItem;
-    if (context.toString().contains("NestItem")) {
-      url += "Item";
-      nestOrNestItem = NestItem();
-      nestOrNestItem.worth = _worthEditingController.text.isEmpty
-          ? 0
-          : int.parse(_worthEditingController.text);
-    } else {
-      nestOrNestItem = Nest();
-    }
-    nestOrNestItem.photo = _photo;
+  Future<void> addNestOrNestItem() async {
+    nestOrNestItem.photo = photo;
     nestOrNestItem.name = _nameEditingController.text;
     nestOrNestItem.description = _descriptionEditingController.text;
-    nestOrNestItem.public = _public;
+    nestOrNestItem.worth = _worthEditingController.text.isEmpty
+        ? 0
+        : int.parse(_worthEditingController.text);
+    nestOrNestItem.public = public;
     nestOrNestItem.createdAt = DateTime.now();
-    // nestOrNestItem = nestOrNestItem.toMap();
-
-    String token =
-        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE2NDQwNzA4NzYsImV4cCI6MTY0NDA3NDQ3Nn0.JvlRQCLTH2bUAcx1RJVNW10_KQMccWAnlyNapW-9kfM";
-    Map<String, String> headers = new HashMap();
-    headers['Accept'] = 'application/json';
-    headers['Content-type'] = 'application/json';
-    headers['Authorization'] = "Bearer " + token;
-    var req = http.MultipartRequest('POST', Uri.parse(url));
-    headers.forEach((key, value) {
-      req.headers[key] = value;
-    });
-    // nestOrNestItem.forEach((key, value) {
-    //   req.fields[key] = value;
-    // });
-    req.fields["user_id"] = "1";
-    req.fields["title"] = "Vinyl";
-    req.fields["description"] = "";
-    req.files.add(await http.MultipartFile.fromPath('image', _photo.path,
-        contentType: MediaType('image', 'jpg')
-        // contentType: MediaType('application', 'x-tar')
-        ));
-    print(_photo.path);
-    var response = await req.send();
-    print(response);
-    return (response.statusCode == 200) ? true : false;
-    // final response =
-    //     await http.post(Uri.parse(url), headers: headers, body: nestOrNestItem);
-    // return response.statusCode == 200 ? json.decode(response.body) : null;
+    print("Successfully set attributes");
   }
 }
