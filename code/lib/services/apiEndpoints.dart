@@ -1,14 +1,17 @@
-import 'dart:collection';
-
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
+import 'package:magpie_uni/network/user_api_manager.dart';
 
 class apiEndpoints {
   static String urlPrefix = "http://10.0.2.2:3000/";
-  static String token =
-      "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE2NDQwNzA4NzYsImV4cCI6MTY0NDA3NDQ3Nn0.JvlRQCLTH2bUAcx1RJVNW10_KQMccWAnlyNapW-9kfM";
+  static String token = UserAPIManager.token;
+  static Map<String, String> headers = {
+    "Accept": "application/json",
+    "Content-type": "application/json",
+    "Authorization": "Bearer $token"
+  };
 
   static Future<void> getNests() async {
 
@@ -21,10 +24,6 @@ class apiEndpoints {
     url += isNew ? "add" : "edit";
     url += isNest ? "Nest" : "NestItem";
 
-    Map<String, String> headers = new HashMap();
-    headers['Accept'] = 'application/json';
-    headers['Content-type'] = 'application/json';
-    headers['Authorization'] = "Bearer " + token;
     // TODO: ask Huzaifa why he didn't use PATCH
     String method = isNew ? "POST" : "PUT";
     var req = http.MultipartRequest(method, Uri.parse(url));
