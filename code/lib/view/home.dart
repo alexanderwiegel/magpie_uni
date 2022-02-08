@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:magpie_uni/widgets/magpie.drawer.dart';
 
-import '../Constants.dart' as Constants;
-import '../view/nest.creation.dart';
-import '../widgets/magpie.bottom.navigation.bar.dart';
-import '../widgets/magpie.grid.view.dart';
+import 'package:magpie_uni/widgets/magpie.drawer.dart';
+import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/view/nest.creation.dart';
+import 'package:magpie_uni/widgets/magpie.bottom.navigation.bar.dart';
+import 'package:magpie_uni/widgets/magpie.grid.view.dart';
 
 class Home extends StatefulWidget {
   const Home({Key? key}) : super(key: key);

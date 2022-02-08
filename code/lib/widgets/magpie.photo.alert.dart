@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../size.config.dart';
+import 'package:magpie_uni/size.config.dart';
 
 class MagpiePhotoAlert {
   static void displayPhotoAlert(BuildContext context) async {

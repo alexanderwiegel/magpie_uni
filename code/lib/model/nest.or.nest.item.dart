@@ -2,7 +2,7 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 
-import '../Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart' as Constants;
 
 abstract class NestOrNestItem extends StatefulWidget {
   late final int? id;

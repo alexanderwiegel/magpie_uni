@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../view/nest.or.nest.item.creation.dart';
+import 'package:magpie_uni/view/nest.or.nest.item.creation.dart';
 
 class NestCreation extends NestOrNestItemCreation {
   const NestCreation({Key? key}) : super(key: key);

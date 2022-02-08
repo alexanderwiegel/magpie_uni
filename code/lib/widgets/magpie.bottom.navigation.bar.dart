@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import 'magpie.icon.button.dart';
-import '../Constants.dart' as Constants;
+import 'package:magpie_uni/widgets/magpie.icon.button.dart';
+import 'package:magpie_uni/Constants.dart' as Constants;
 
 class MagpieBottomNavigationBar extends StatelessWidget {
   const MagpieBottomNavigationBar({Key? key}) : super(key: key);

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import '../Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart' as Constants;
 
 class MagpieFormField extends StatelessWidget {
   final bool enabled;

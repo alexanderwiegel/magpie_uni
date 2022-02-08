@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'nest.or.nest.item.dart';
+import 'package:magpie_uni/model/nest.or.nest.item.dart';
 
 class NestItem extends NestOrNestItem {
   NestItem({Key? key}) : super(key: key);

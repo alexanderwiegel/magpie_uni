@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../sort.mode.dart';
-import 'nest.or.nest.item.dart';
+import 'package:magpie_uni/sort.mode.dart';
+import 'package:magpie_uni/model/nest.or.nest.item.dart';
 
 class Nest extends NestOrNestItem {
   late SortMode sortMode;

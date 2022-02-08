@@ -4,11 +4,11 @@ import 'package:http_parser/http_parser.dart';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 
-import '../widgets/magpie.photo.alert.dart';
-import '../model/nest.dart';
-import '../model/nest.item.dart';
-import '../widgets/magpie.form.dart';
-import '../widgets/magpie.icon.button.dart';
+import 'package:magpie_uni/widgets/magpie.photo.alert.dart';
+import 'package:magpie_uni/model/nest.dart';
+import 'package:magpie_uni/model/nest.item.dart';
+import 'package:magpie_uni/widgets/magpie.form.dart';
+import 'package:magpie_uni/widgets/magpie.icon.button.dart';
 
 abstract class NestOrNestItemCreation extends StatefulWidget {
   const NestOrNestItemCreation({Key? key}) : super(key: key);

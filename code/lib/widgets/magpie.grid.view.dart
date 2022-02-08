@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
-import '../model/nest.dart';
-import '../model/nest.or.nest.item.dart';
+import 'package:magpie_uni/model/nest.dart';
+import 'package:magpie_uni/model/nest.or.nest.item.dart';
 
 class MagpieGridView extends StatelessWidget {
   const MagpieGridView({Key? key}) : super(key: key);
