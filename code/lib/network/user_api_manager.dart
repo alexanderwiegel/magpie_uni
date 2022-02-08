@@ -6,11 +6,12 @@ class UserAPIManager {
   }
 
   static int currentUserId = 2;
+  static String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjo1LCJpYXQiOjE2NDQzNDI2MzcsImV4cCI6MTY0NDM0NjIzN30.GV1vrW9eOmUmSaTSiM3nb-lNkPlhll7btDmTw0nXsZw";
 
   Map<String, String> getAPIHeader() {
     var header = {
       "Authorization":
-          "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoxLCJpYXQiOjE2NDQzMzkwMjMsImV4cCI6MTY0NDM0MjYyM30.LcyJlq2gtmX6zQcCIuDWerz5C6yAxzn-nQtaWTd8NFI"
+          "Bearer $token"
     };
     return header;
   }
