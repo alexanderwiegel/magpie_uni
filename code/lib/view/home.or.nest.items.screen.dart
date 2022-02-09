@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/model/nest.dart';
+import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/sort.mode.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
@@ -23,8 +23,8 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
   bool _asc = true;
   bool _onlyFavored = false;
 
-  List<Nest> _names = [];
-  List<Nest> _filteredNames = [];
+  List<NestOrNestItem> _names = [];
+  List<NestOrNestItem> _filteredNames = [];
   final TextEditingController _filter = TextEditingController();
   Icon _searchIcon = const Icon(Icons.search, color: Colors.white);
   Widget _searchTitle = const Text("");
