@@ -73,7 +73,7 @@ router.delete('/deleteNest', async function (req, res) {
       res.status(500).json({ status: 'Failed', message: err.message });
       return
     }
-    res.status(200).json({ result: result });
+    res.status(200).json({ status: 'Success', message: "Nest deleted" });
   });
 })
 
@@ -253,5 +253,18 @@ router.get('/nestItem', async function (req, res) {
     }
   });
 });
+
+//delete Nest
+router.delete('/deleteNestItem', async function (req, res) {
+  let nestItemID = req.body.nest_item_id;
+  console.log(nestItemID);
+  sqlManager.deleteNestItem(nestItemID, async function (err, result) {
+    if (err) {
+      res.status(500).json({ status: 'Failed', message: err.message });
+      return
+    }
+    res.status(200).json({ status: 'Success', message: "Nest item deleted" });
+  });
+})
 
 module.exports = router

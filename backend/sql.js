@@ -86,7 +86,9 @@ function editNest(nest, cb) {
 
 //Delete Nest
 function deleteNest(nestID, cb) {
-  connection.query("DELETE n.*, ni.* FROM nest n, nestItem ni WHERE ni.nest_id = n.id AND n.id =" + nestID, function (err, rows) {
+  var query = `DELETE FROM nestItem WHERE nest_id = ${nestID}; DELETE FROM nest WHERE id =` + nestID;
+  console.log(query);
+  connection.query(query, function (err, rows) {
     if (err) cb(err);
     else cb(undefined, rows);
   });
@@ -162,6 +164,16 @@ function editNestItem(nestItem, cb) {
       updateNestWorth(nestItem.nest_id)
       cb(undefined, rows);
     }
+  });
+}
+
+//Delete Nest Item
+function deleteNestItem(nestItemID, cb) {
+  var query = "DELETE FROM nestItem WHERE id = "+nestItemID;
+  console.log(query);
+  connection.query(query, function (err, rows) {
+    if (err) cb(err);
+    else cb(undefined, rows);
   });
 }
 
@@ -372,6 +384,7 @@ module.exports = {
   getNestItem: getNestItem,
   addNestItem: addNestItem,
   editNestItem: editNestItem,
+  deleteNestItem: deleteNestItem,
   getFeeds: getFeeds,
   getFeedUserProfile: getFeedUserProfile,
   getFeedUserNestItems: getFeedUserNestItems,
