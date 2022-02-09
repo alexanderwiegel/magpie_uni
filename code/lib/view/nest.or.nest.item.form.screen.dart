@@ -102,6 +102,8 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
   }
 
   void _changeImage(dynamic image) {
+    // TODO: will always be true because the timestamp will always change
+    // print("Old photo: $_photo");
     if (_photo != image) setState(() => _photo = image);
   }
 

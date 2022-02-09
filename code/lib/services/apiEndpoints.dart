@@ -20,9 +20,7 @@ class apiEndpoints {
   static Future<dynamic> getUserProfile() async {
     String url = urlPrefix + "user/userProfile?userId=$userId";
     final response = await http.get(Uri.parse(url), headers: headers);
-    final result = response.statusCode == 200
-        ? await response.body
-        : null;
+    final result = response.statusCode == 200 ? await response.body : null;
     final profile = feedUserProfile.welcomeFromJson(result!).profile;
     List counts = [profile.nestCount, profile.nestItemCount];
     return counts;
@@ -54,27 +52,33 @@ class apiEndpoints {
     url += isNest ? "nest/" : "nestItem/";
     url += isNew ? "add" : "edit";
     url += isNest ? "Nest" : "NestItem";
+    // print("Url: $url");
 
-    // TODO: ask Huzaifa why he didn't use PATCH
+    // TODO: use PATCH here and in the backend instead
     String method = isNew ? "POST" : "PUT";
     var req = http.MultipartRequest(method, Uri.parse(url));
 
-    headers.forEach((key, value) {
-      req.headers[key] = value;
-    });
+    headers.forEach((key, value) => req.headers[key] = value);
 
     Map nestOrNestItemAsMap = nestOrNestItem.toMap();
-    print(nestOrNestItemAsMap);
     nestOrNestItemAsMap.forEach((key, value) {
       req.fields[key] = value.toString();
     });
+    // var filename = nestOrNestItem.photo.toString().split("/").last;
+    // // remove the last single quote
+    // filename = filename.substring(0, filename.length-1);
+    // print("Filename: $filename");
+    // TODO: below error makes editing nests (and nest items possibly) impossible
+    // TODO: fix Unhandled Exception: FileSystemException: Cannot retrieve length of file, path = 'http://10.0.2.2:3000/uploads/1644422426064.jpg' (OS Error: No such file or directory, errno = 2)
     req.files.add(await http.MultipartFile.fromPath(
-        'image', nestOrNestItem.photo.path,
-        contentType: MediaType('image', 'jpg')
-        // contentType: MediaType('application', 'x-tar')
-        ));
-
-    print("Send request");
+      'image',
+      nestOrNestItem.photo!,
+      contentType: MediaType('image', 'jpg'),
+      // filename: filename
+    ));
+    print("Path before sending request" + nestOrNestItem.photo!);
+    // TODO: check in the backend why nest items can't be added (comparison?)
+    // print("Send request");
     var response = await req.send();
     print(response);
     return (response.statusCode == 200) ? true : false;

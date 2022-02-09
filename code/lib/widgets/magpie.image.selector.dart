@@ -36,18 +36,25 @@ class MagpieImageSelector extends StatelessWidget {
             borderRadius: BorderRadius.circular(4),
           ),
           child: photo != null
-              ? Image.file(
-            photo,
-            fit: BoxFit.cover,
-            width: 400,
-            height: 250,
-          )
+              ? photo.toString().startsWith("http")
+                  ? Image.network(
+                      photo,
+                      fit: BoxFit.cover,
+                      width: 400,
+                      height: 250,
+                    )
+                  : Image.file(
+                      File(photo),
+                      fit: BoxFit.cover,
+                      width: 400,
+                      height: 250,
+                    )
               : Image.asset(
-            "pics/placeholder.jpg",
-            fit: BoxFit.cover,
-            width: 400,
-            height: 250,
-          ),
+                  "pics/placeholder.jpg",
+                  fit: BoxFit.cover,
+                  width: 400,
+                  height: 250,
+                ),
         ),
       ),
     );
@@ -106,7 +113,7 @@ class MagpieImageSelector extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: SizeConfig.hori),
       child:
-      Container(height: SizeConfig.vert * 20, width: 1, color: Colors.grey),
+          Container(height: SizeConfig.vert * 20, width: 1, color: Colors.grey),
     );
   }
 
@@ -145,13 +152,13 @@ class MagpieImageSelector extends StatelessWidget {
       style: TextStyle(
           fontWeight: index == 2 ? FontWeight.bold : FontWeight.normal,
           fontSize:
-          SizeConfig.isTablet ? SizeConfig.vert * 3 : SizeConfig.hori * 4),
+              SizeConfig.isTablet ? SizeConfig.vert * 3 : SizeConfig.hori * 4),
     );
   }
 
   Future<File> compressFile(File file, String targetPath) async {
     var result = await FlutterImageCompress.compressAndGetFile(
-        file.path, targetPath + "minW400minH250.jpg",
+        file.path, targetPath,
         minWidth: 400, minHeight: 250, quality: 100);
     return result!;
   }
@@ -179,17 +186,17 @@ class MagpieImageSelector extends StatelessWidget {
       File file = File(pickedFile.path);
       var targetDirectory = await getExternalStorageDirectory();
       var targetPath = targetDirectory.toString();
-      targetPath = targetPath
-          .toString()
-          .substring(targetPath.indexOf("/"), targetPath.length - 1) +
-          "/";
-      var fileName = file.toString();
-      fileName = fileName.substring(
-        fileName.lastIndexOf("/") + 1,
-        fileName.lastIndexOf("."),
-      );
-      file = await compressFile(file, targetPath + fileName);
-      changeImage(file);
+      String timestamp = DateTime.now().toString();
+      targetPath =
+          targetPath.substring(targetPath.indexOf("/"), targetPath.length - 1) +
+              "/" +
+              timestamp +
+              ".jpg";
+      // print("Target path: $targetPath");
+      // print("Timestamp: $timestamp");
+      file = await compressFile(file, targetPath);
+      // print("Compressed file:  $file");
+      changeImage(targetPath);
     }
   }
 }
