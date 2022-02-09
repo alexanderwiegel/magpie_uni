@@ -172,6 +172,7 @@ router.post('/addNestItem', upload.array('image', 1), async function (req, res) 
           console.log("callback add nest item");
           if (err) {
             res.status(500).json({ status: 'Failed', message: err.message });
+            console.log(err)
             return
           }
           res.status(200).json({ status: 'Success', message: 'Nest Item Added Succesfully' });
