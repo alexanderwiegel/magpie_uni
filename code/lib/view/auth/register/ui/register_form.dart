@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/services/http_service.dart';
 import 'package:magpie_uni/services/validators.dart';
+import 'package:magpie_uni/view/home.dart';
 import 'package:magpie_uni/widgets/atoms/buttons/magpie_button.dart';
-import 'package:magpie_uni/widgets/magpie.form.field.dart';
-import '../../../../constants.dart';
-import '../../../profile.dart';
+import 'package:magpie_uni/widgets/magpie.text.form.field.dart';
+import 'package:magpie_uni/constants.dart';
 
 class RegisterForm extends StatefulWidget {
   const RegisterForm({Key? key}) : super(key: key);
@@ -99,7 +99,7 @@ class _RegisterFormState extends State<RegisterForm> {
       if (statusCode == 200) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-                builder: (BuildContext context) => const Profile()),
+                builder: (BuildContext context) => Home()),
             (route) => false);
       }
       setState(() {

@@ -4,7 +4,7 @@ import 'package:magpie_uni/services/validators.dart';
 import 'package:magpie_uni/view/home.dart';
 import 'package:magpie_uni/widgets/atoms/buttons/magpie_button.dart';
 import 'package:magpie_uni/widgets/atoms/buttons/magpie_text_button.dart';
-import 'package:magpie_uni/widgets/magpie.form.field.dart';
+import 'package:magpie_uni/widgets/magpie.text.form.field.dart';
 import 'package:magpie_uni/constants.dart';
 
 class LoginForm extends StatefulWidget {
@@ -79,7 +79,7 @@ class _LoginFormState extends State<LoginForm> {
       if (statusCode == 200) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (BuildContext context) => const Home(),
+              builder: (BuildContext context) => Home(),
             ),
             (route) => false);
       }
