@@ -40,7 +40,7 @@ dependencies:
   permission_handler: ^8.1.0
   path_provider:
   socket_io_client: ^1.0.2
-
+  flutter_keyboard_visibility: ^5.0.3
 
 dev_dependencies:
   flutter_test:

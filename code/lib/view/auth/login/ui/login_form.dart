@@ -1,6 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:magpie_uni/services/http_service.dart';
 import 'package:magpie_uni/services/validators.dart';
-import 'package:magpie_uni/Constants.dart';
+import 'package:magpie_uni/view/home.dart';
+import 'package:magpie_uni/widgets/atoms/buttons/magpie_button.dart';
+import 'package:magpie_uni/widgets/atoms/buttons/magpie_text_button.dart';
+import 'package:magpie_uni/widgets/magpie.form.field.dart';
+import 'package:magpie_uni/constants.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -10,90 +15,75 @@ class LoginForm extends StatefulWidget {
 }
 
 class _LoginFormState extends State<LoginForm> {
-  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
-  late String _email, _password, _error, _token;
+  final _formKey = GlobalKey<FormState>();
+  final HttpService httpService = HttpService();
+  late bool isLoading = false;
+  late String _email, _password;
 
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(20.0),
-      child: Form(
-          key: _formKey,
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              const Align(
-                alignment: Alignment.centerLeft,
-                child: Text(
-                  'Login',
-                  style: TextStyle(
-                    fontSize: 25,
-                  ),
-                ),
-              ),
-              const SizedBox(height: 20),
-              TextFormField(
-                keyboardType: TextInputType.emailAddress,
-                autocorrect: false,
-                onChanged: (input) => _email = input,
-                decoration: const InputDecoration(
-                  labelText: 'E-Mail Address',
-                  border: OutlineInputBorder(),
-                ),
-                validator: EmailValidator.validate,
-              ),
-              const SizedBox(height: 20.0),
-              TextFormField(
-                keyboardType: TextInputType.visiblePassword,
-                obscureText: true,
-                autocorrect: false,
-                onChanged: (input) => _password = input,
-                decoration: const InputDecoration(
-                  labelText: 'Password',
-                  border: OutlineInputBorder(),
-                ),
-                validator: PasswordValidator.validate,
-              ),
-              const SizedBox(height: 20.0),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  ElevatedButton(
-                    child: const Text('Login'),
-                    style: ElevatedButton.styleFrom(
-                      textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      primary: mainColor,
-                      onPrimary: Colors.white,
-                    ),
-                    onPressed: () {
-                      // Navigator.pushNamed(context, '/home');
-                      Navigator.of(context).pushNamedAndRemoveUntil(
-                          '/home', (Route<dynamic> route) => false);
-                      //TODO: implement login
-                    },
-                  ),
-                  const SizedBox(width: 20.0),
-                  ElevatedButton(
-                    child: const Text('Register'),
-                    style: ElevatedButton.styleFrom(
-                      textStyle: const TextStyle(
-                        fontSize: 15,
-                        fontWeight: FontWeight.bold,
-                      ),
-                      primary: mainColor,
-                      onPrimary: Colors.white,
-                    ),
-                    onPressed: () {
-                      Navigator.pushNamed(context, '/register');
-                    },
-                  ),
-                ],
-              ),
-            ],
-          )),
+    final theme = Theme.of(context);
+    final formFieldColor = theme.primaryColor;
+
+    return Form(
+      key: _formKey,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          MagpieTextFormField.email(
+            validator: EmailValidator.validate,
+            name: 'Email',
+            onChanged: (email) => _email = email!,
+          ),
+          const SizedBox(height: 20.0),
+          MagpieTextFormField.password(
+            validator: PasswordValidator.validate,
+            name: 'Password',
+            labelText: 'Password',
+            onChanged: (password) => _password = password!,
+            hintText: 'Password',
+          ),
+          const SizedBox(height: 10.0),
+          Align(
+            alignment: Alignment.bottomRight,
+            child: MagpieTextButton.primary(
+              color: Colors.black,
+              onPressed: () {},
+              label: "Forgot Password?",
+            ),
+          ),
+          SizedBox(
+            width: double.infinity,
+            child: MagpieButton.primary(
+              loading: isLoading,
+              label: "Login",
+              color: formFieldColor,
+              textColor: textColor,
+              onPressed: _onLoginPressed,
+            ),
+          ),
+        ],
+      ),
     );
+  }
+
+  _onLoginPressed() async {
+    _formKey.currentState!.save();
+    if (_formKey.currentState!.validate()) {
+      Map data = {
+        'email': _email.trim(),
+        'password': _password.trim(),
+      };
+      setState(() => isLoading = true);
+      final statusCode = await httpService.signIn(data);
+      if (statusCode == 200) {
+        Navigator.of(context).pushAndRemoveUntil(
+            MaterialPageRoute(
+              builder: (BuildContext context) => const Home(),
+            ),
+            (route) => false);
+      }
+      setState(() => isLoading = false);
+    }
   }
 }
