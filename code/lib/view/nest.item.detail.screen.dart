@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:magpie_uni/model/nest.item.dart';
 import 'package:magpie_uni/services/apiEndpoints.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
@@ -5,8 +6,8 @@ import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 class NestItemDetailScreen extends NestOrNestItemFormScreen {
   NestItem nestItem;
 
-  NestItemDetailScreen({required this.nestItem})
-      : super(nestOrNestItem: nestItem);
+  NestItemDetailScreen({Key? key, required this.nestItem})
+      : super(key: key, nestOrNestItem: nestItem);
 
   @override
   _NestDetailScreenState createState() => _NestDetailScreenState();
