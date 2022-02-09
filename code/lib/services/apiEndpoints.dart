@@ -3,6 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
+import 'package:magpie_uni/model/nest.dart';
+import 'package:magpie_uni/model/nest.item.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/model/feedUserProfileModel.dart' as feedUserProfile;
 import 'package:magpie_uni/network/user_api_manager.dart';
