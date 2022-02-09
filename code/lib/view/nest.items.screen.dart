@@ -28,13 +28,20 @@ class _NestItemsScreenState
   Widget editButton() => IconButton(
         icon: const Icon(Icons.edit),
         tooltip: "Edit nest",
-        onPressed: () async => await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NestDetailScreen(nest: widget.nest),
-          ),
-        ),
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NestDetailScreen(nest: widget.nest),
+            ),
+          ).then(onDelete);
+        },
       );
+
+  // TODO: not the correct place
+  onDelete(dynamic value) {
+    setState(() {});
+  }
 
   @override
   void initState() {

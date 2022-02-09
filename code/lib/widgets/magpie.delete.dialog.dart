@@ -14,8 +14,10 @@ class MagpieDeleteDialog {
   }
 
   Future<void> _actuallyDelete(BuildContext context, bool isNest, int id) async {
+    print("Is nest: $isNest");
     await ApiEndpoints.deleteNestOrNestItem(isNest, id);
     Navigator.of(context).popUntil((route) => route.isFirst);
+    // TODO: setState in HomeOrNestItemsScreen somehow afterwards
   }
 
   Future<void> _deleteDialogBox(BuildContext context, bool isNest, int id) {
