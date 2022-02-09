@@ -16,10 +16,7 @@ class NestDetailScreen extends NestOrNestItemFormScreen {
 class _NestDetailScreenState
     extends NestOrNestItemFormScreenState<NestDetailScreen> {
   @override
-  Widget build(BuildContext context) {
-    // TODO: find a way to add the delete button
-    return super.build(context);
-  }
+  int getIdOfNestOrNestItem() => widget.nest.id!;
 
   @override
   Future<void> uploadNestOrNestItem() async {

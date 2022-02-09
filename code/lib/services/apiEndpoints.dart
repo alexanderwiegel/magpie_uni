@@ -61,4 +61,29 @@ class apiEndpoints {
     print(response);
     return (response.statusCode == 200) ? true : false;
   }
+
+  static Future<void> deleteNestOrNestItem(
+      bool isNest, int nestOrNestItemId) async {
+    String url = urlPrefix + "nest/deleteNest";
+    if (!isNest) url += "Item";
+    print("Url: $url");
+    final reqKey = isNest ? "nest_id" : "id";
+    final body = {reqKey: nestOrNestItemId.toString()};
+    print("Body: $body");
+
+    final req = http.Request("DELETE", Uri.parse(url));
+
+    final customHeader = {
+      "Accept": "application/json",
+      "Content-type": "application/x-www-form-urlencoded",
+      "Authorization": "Bearer $token"
+    };
+    customHeader.forEach((key, value) => req.headers[key] = value);
+    body.forEach((key, value) => req.bodyFields[key] = value);
+
+    final response = await req.send();
+    final result = response.statusCode == 200;
+    // TODO: check if it works after Huzaifa finished it
+    print(result);
+  }
 }

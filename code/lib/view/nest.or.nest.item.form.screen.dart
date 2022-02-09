@@ -49,6 +49,17 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
         TextEditingController(text: _worth != null ? "$_worth" : "");
   }
 
+  Widget getDeleteButton(bool isNew, String thing) => isNew
+      ? Container()
+      : MagpieButton(
+          onPressed: () => _magpieDeleteDialog.displayDeleteDialog(
+              context, true, getIdOfNestOrNestItem()),
+          title: "Delete $thing",
+          icon: Icons.delete,
+        );
+
+  int getIdOfNestOrNestItem() => -1;
+
   @override
   Widget build(BuildContext context) {
     bool _isNest = !context.toString().contains("NestItem");
@@ -86,13 +97,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
         setPublic: _setPublic,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      // TODO: detail screens will need the delete button
-      // floatingActionButton: MagpieButton(
-      //   onPressed: () => _magpieDeleteDialogue.displayDeleteDialogue(
-      //       context, true, widget.nest.id),
-      //   title: "Delete $thing",
-      //   icon: Icons.delete,
-      // ),
+      floatingActionButton: getDeleteButton(_isNew, _thing),
     );
   }
 
