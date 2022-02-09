@@ -89,12 +89,12 @@ class ApiEndpoints {
     return (response.statusCode == 200) ? true : false;
   }
 
-  static Future<void> deleteNestOrNestItem(
-      bool isNest, int nestOrNestItemId) async {
+  static Future<void> deleteNestOrNestItem(bool isNest,
+      int nestOrNestItemId) async {
     String url = urlPrefix + "nest/deleteNest";
     if (!isNest) url += "Item";
     print("Url: $url");
-    final reqKey = isNest ? "nest_id" : "id";
+    final reqKey = isNest ? "nest_id" : "nest_item_id";
     final body = {reqKey: nestOrNestItemId.toString()};
     print("Body: $body");
 
