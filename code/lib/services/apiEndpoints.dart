@@ -1,11 +1,15 @@
+import 'dart:convert';
+
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
+import 'package:magpie_uni/model/feedUserProfileModel.dart' as feedUserProfile;
 import 'package:magpie_uni/network/user_api_manager.dart';
 
 class apiEndpoints {
   static String urlPrefix = "http://10.0.2.2:3000/";
+  static int userId = UserAPIManager.currentUserId;
   static String token = UserAPIManager.token;
   static Map<String, String> headers = {
     "Accept": "application/json",
@@ -13,7 +17,16 @@ class apiEndpoints {
     "Authorization": "Bearer $token"
   };
 
-  static Future<void> getNests() async {
+  static Future<dynamic> getUserProfile() async {
+    String url = urlPrefix + "user/userProfile?userId=$userId";
+    final response = await http.get(Uri.parse(url), headers: headers);
+    final result = response.statusCode == 200
+        ? await response.body
+        : null;
+    final profile = feedUserProfile.welcomeFromJson(result!).profile;
+    List counts = [profile.nestCount, profile.nestItemCount];
+    return counts;
+  }
 
   }
 
