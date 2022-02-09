@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:intl/intl.dart';
 
-// import 'magpie.checkbox.dart';
 import 'package:magpie_uni/widgets/magpie.form.field.dart';
 import 'package:magpie_uni/widgets/magpie.image.selector.dart';
 import 'package:magpie_uni/widgets/magpie.switch.dart';
@@ -49,14 +48,6 @@ class MagpieForm extends StatelessWidget {
               changeImage: changeImage,
               context: context,
             ),
-            // MagpieFormField.name(
-            //     labelText: "Name *",
-            //     validator: (value) =>
-            //     value!.isEmpty ? "Please give your $thing a name" : null,
-            //     name: thing,
-            //     onChanged: (name) => {},
-            //     hintText: "Give your $thing a name"
-            // ),
             MagpieFormField(
               icon: Icons.title,
               labelText: "Name *",
@@ -83,7 +74,6 @@ class MagpieForm extends StatelessWidget {
                 keyboardType: TextInputType.number,
               ),
             ),
-            // MagpieCheckbox(public: public),
             MagpieSwitch(public: public, setPublic: setPublic),
             MagpieFormField(
               enabled: false,
