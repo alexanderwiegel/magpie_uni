@@ -50,8 +50,7 @@ class apiEndpoints {
 
   static Future<bool> uploadNestOrNestItem(
       NestOrNestItem nestOrNestItem, bool isNest, bool isNew) async {
-    String url = urlPrefix;
-    url += isNest ? "nest/" : "nestItem/";
+    String url = urlPrefix + "nest/";
     url += isNew ? "add" : "edit";
     url += isNest ? "Nest" : "NestItem";
     // print("Url: $url");
@@ -82,7 +81,6 @@ class apiEndpoints {
     // TODO: check in the backend why nest items can't be added (comparison?)
     // print("Send request");
     var response = await req.send();
-    print(response);
     return (response.statusCode == 200) ? true : false;
   }
 
