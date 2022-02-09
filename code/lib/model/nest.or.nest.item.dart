@@ -132,6 +132,11 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
     );
   }
 
+  // TODO: check if this does anything
+  onChange(dynamic value) {
+    setState(() {});
+  }
+
   void openNextScreen(BuildContext context) async {}
 
   void toggleFavored() async {

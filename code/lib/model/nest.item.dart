@@ -47,6 +47,6 @@ class _NestItemState extends NestOrNestItemState<NestItem> {
           nestItem: currentNestItem,
         ),
       ),
-    );
+    ).then(onChange);
   }
 }

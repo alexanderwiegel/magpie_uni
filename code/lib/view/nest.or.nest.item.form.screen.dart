@@ -84,9 +84,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 if (_photo != null) {
-                  await uploadNestOrNestItem();
-                  print("Upload finished. Now pop screen.");
-                  Navigator.of(context).pop();
+                  await uploadNestOrNestItem().then(onChange);
                 } else {
                   MagpiePhotoAlert.displayPhotoAlert(context);
                 }
@@ -111,6 +109,14 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: getDeleteButton(_isNew, _isNest ,_thing),
     );
+  }
+
+  onChange(dynamic value) {
+    // TODO: check if setState needs to be called before or after and if it even does anything
+    print("Upload finished. Now pop screen.");
+    setState(() {});
+    Navigator.of(context).pop();
+    setState(() {});
   }
 
   void _changeImage(dynamic image) {

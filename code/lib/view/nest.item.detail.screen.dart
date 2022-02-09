@@ -26,10 +26,9 @@ class _NestDetailScreenState
     print("Call super method to set attributes");
     super.uploadNestOrNestItem();
     print("Call api endpoint to edit a nest item");
-    var response =
-        // TODO: see if I can use widget.nestItem
-        await ApiEndpoints.uploadNestOrNestItem(
-            super.widget.nestOrNestItem, false, false);
-    print(response);
+    // TODO: see if I can use widget.nestItem
+    await ApiEndpoints.uploadNestOrNestItem(
+            super.widget.nestOrNestItem, false, false)
+        .then(onChange);
   }
 }

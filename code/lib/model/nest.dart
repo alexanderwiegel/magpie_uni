@@ -74,11 +74,6 @@ class _NestState extends NestOrNestItemState<Nest> {
       // TODO: see if it is somehow possible to pass "widget.this"
       MaterialPageRoute(
           builder: (context) => NestItemsScreen(nest: currentNest)),
-    ).then(onDelete);
-  }
-
-  // TODO: not the correct place
-  onDelete(dynamic value) {
-    setState(() {});
+    ).then(onChange);
   }
 }

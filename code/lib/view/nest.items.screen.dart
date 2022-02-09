@@ -34,14 +34,9 @@ class _NestItemsScreenState
             MaterialPageRoute(
               builder: (context) => NestDetailScreen(nest: widget.nest),
             ),
-          ).then(onDelete);
+          ).then(onChange);
         },
       );
-
-  // TODO: not the correct place
-  onDelete(dynamic value) {
-    setState(() {});
-  }
 
   @override
   void initState() {

@@ -114,11 +114,17 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
         child: const Icon(Icons.add),
         onPressed: () async {
           await Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => openCreationScreen()));
-          setState(() {});
+            MaterialPageRoute(
+              builder: (context) => openCreationScreen(),
+            ),
+          ).then(onChange);
         },
       ),
     );
+  }
+
+  onChange(dynamic value) {
+    setState(() {});
   }
 
   void _switchSortOrder(SortMode result) {
