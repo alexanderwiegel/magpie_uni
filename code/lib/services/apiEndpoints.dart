@@ -9,8 +9,14 @@ import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/model/feedUserProfileModel.dart' as feedUserProfile;
 import 'package:magpie_uni/network/user_api_manager.dart';
 
+import 'package:magpie_uni/model/feedsModel.dart';
+import 'package:magpie_uni/model/chatSessionModel.dart';
+import 'package:magpie_uni/model/chatMessage.dart';
+import 'package:magpie_uni/model/feedUserProfileModel.dart';
+import '../model/notificationModel.dart';
+
 class ApiEndpoints {
-  static String urlPrefix = "http://10.0.2.2:3000/";
+  static String urlPrefix = "http://localhost:3000/";
   static int userId = UserAPIManager.currentUserId;
   static String token = UserAPIManager.token;
   static Map<String, String> headers = {
@@ -109,5 +115,111 @@ class ApiEndpoints {
     final result = response.statusCode == 200;
     // TODO: check if it works after Huzaifa finished it
     print(result);
+  }
+
+  // Get Feeds
+  static Future<FeedResponse> fetchFeeds(int loggedUserId) async {
+    var headers = UserAPIManager().getAPIHeader();
+    print(
+      Uri.parse(urlPrefix + 'feed/getFeeds?userId=$loggedUserId'),
+    );
+    final response = await http.get(
+        Uri.parse(urlPrefix + 'feed/getFeeds?userId=$loggedUserId'),
+        headers: headers);
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return FeedResponse.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load Feeds');
+    }
+  }
+
+  //Get Feed User Profile
+  static Future<FeedUserProfileResponse> fetchFeedUserProfile(
+      int feedUserId) async {
+    var headers = UserAPIManager().getAPIHeader();
+    final response = await http.get(
+        Uri.parse(urlPrefix + 'feed/userProfile?userId=$feedUserId'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return FeedUserProfileResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load Feeds');
+    }
+  }
+
+  // Get Chat Sessions
+  static Future<ChatSessionResponse> fetchChatSessions(int loggedUserId) async {
+    var headers = UserAPIManager().getAPIHeader();
+    final response = await http.get(
+        Uri.parse(urlPrefix + 'chat/getChatList?userId=$loggedUserId'),
+        headers: headers);
+
+    if (response.statusCode == 200) {
+      print(response.body);
+      return ChatSessionResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load chat');
+    }
+  }
+
+  // Get Chat Messages
+  static Future<ChatMessageResponse> fetchChat(
+      int loggedUserId, int sessionId) async {
+    var headers = UserAPIManager().getAPIHeader();
+
+    final response = await http.get(
+        Uri.parse(urlPrefix +
+            'chat/getChatHistoryById?userId=$loggedUserId&chatSessionId=$sessionId'),
+        headers: headers);
+
+    if (response.statusCode == 200) {
+      // If the server did return a 200 OK response,
+      // then parse the JSON.
+      print(response.body);
+      return ChatMessageResponse.fromJson(jsonDecode(response.body));
+    } else {
+      // If the server did not return a 200 OK response,
+      // then throw an exception.
+      throw Exception('Failed to load chat');
+    }
+  }
+
+  //Get chat session for opponents
+  static Future<NewChatSessionResponse> fetchUserChatSession(
+      int currentUserId, int opponentId) async {
+    var headers = UserAPIManager().getAPIHeader();
+    final response = await http.get(
+        Uri.parse(urlPrefix +
+            'chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      print(response.body);
+      return NewChatSessionResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load Feeds');
+    }
+  }
+
+  //fetch notifications
+  static Future<NotificationResponse> fetchChatNotificationCount(
+      int loggedUserId) async {
+    var headers = UserAPIManager().getAPIHeader();
+    final response = await http.get(
+        Uri.parse(urlPrefix + 'chat/getNotification?userId=$loggedUserId'),
+        headers: headers);
+
+    if (response.statusCode == 200) {
+      print(response.body);
+      return NotificationResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load chat');
+    }
   }
 }

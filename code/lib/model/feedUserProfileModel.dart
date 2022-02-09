@@ -14,15 +14,16 @@ class FeedUserProfileResponse {
   String status;
   Profile profile;
   List<FeedNest>? nests;
-  List<NestItem>? nestItems;
+  List<FeedNestItem>? nestItems;
 
   factory FeedUserProfileResponse.fromJson(Map<String, dynamic> json) =>
       FeedUserProfileResponse(
         status: json["status"],
         profile: Profile.fromJson(json["profile"]),
-        nests: List<FeedNest>.from(json["nests"].map((x) => FeedNest.fromJson(x))),
-        nestItems: List<NestItem>.from(
-            json["nestItems"].map((x) => NestItem.fromJson(x))),
+        nests:
+            List<FeedNest>.from(json["nests"].map((x) => FeedNest.fromJson(x))),
+        nestItems: List<FeedNestItem>.from(
+            json["nestItems"].map((x) => FeedNestItem.fromJson(x))),
       );
 }
 
@@ -58,8 +59,8 @@ class FeedNest {
   }
 }
 
-class NestItem {
-  NestItem({
+class FeedNestItem {
+  FeedNestItem({
     required this.id,
     required this.nestId,
     required this.title,
@@ -75,7 +76,7 @@ class NestItem {
   String description;
   String photo;
 
-  factory NestItem.fromJson(Map<String, dynamic> json) => NestItem(
+  factory FeedNestItem.fromJson(Map<String, dynamic> json) => FeedNestItem(
         id: json["id"],
         nestId: json["nest_id"],
         userId: json["user_id"],

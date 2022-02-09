@@ -2,25 +2,26 @@ import 'dart:async';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/model/chatSessionModel.dart';
+import 'package:magpie_uni/services/apiEndpoints.dart';
 import 'package:magpie_uni/widgets/chatSessionListItem.dart';
 import 'package:magpie_uni/model/chatMessage.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:http/http.dart' as http;
 import 'package:magpie_uni/network/user_api_manager.dart';
 
-Future<ChatSessionResponse> fetchChatSessions(int loggedUserId) async {
-  var headers = UserAPIManager().getAPIHeader();
-  final response = await http.get(
-      Uri.parse('http://localhost:3000/chat/getChatList?userId=$loggedUserId'),
-      headers: headers);
+// Future<ChatSessionResponse> fetchChatSessions(int loggedUserId) async {
+//   var headers = UserAPIManager().getAPIHeader();
+//   final response = await http.get(
+//       Uri.parse('http://localhost:3000/chat/getChatList?userId=$loggedUserId'),
+//       headers: headers);
 
-  if (response.statusCode == 200) {
-    print(response.body);
-    return ChatSessionResponse.fromJson(jsonDecode(response.body));
-  } else {
-    throw Exception('Failed to load chat');
-  }
-}
+//   if (response.statusCode == 200) {
+//     print(response.body);
+//     return ChatSessionResponse.fromJson(jsonDecode(response.body));
+//   } else {
+//     throw Exception('Failed to load chat');
+//   }
+// }
 
 class ChatList extends StatefulWidget {
   final ValueChanged onBackPressed;
@@ -30,7 +31,7 @@ class ChatList extends StatefulWidget {
 }
 
 class _ChatPageState extends State<ChatList> {
-  TextEditingController searchTxtField = new TextEditingController();
+  TextEditingController searchTxtField = TextEditingController();
   late Future<ChatSessionResponse> response;
   dynamic socket;
 
@@ -42,7 +43,7 @@ class _ChatPageState extends State<ChatList> {
   }
 
   void initSocket() {
-    socket = IO.io("http://localhost:3000", <String, dynamic>{
+    socket = IO.io(ApiEndpoints.urlPrefix, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
@@ -68,7 +69,7 @@ class _ChatPageState extends State<ChatList> {
 
   void getData() {
     this.setState(() {
-      response = fetchChatSessions(UserAPIManager.currentUserId);
+      response = ApiEndpoints.fetchChatSessions(UserAPIManager.currentUserId);
     });
   }
 

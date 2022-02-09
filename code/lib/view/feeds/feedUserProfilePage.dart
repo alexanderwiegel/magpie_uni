@@ -8,6 +8,7 @@ import 'package:magpie_uni/widgets/nestGridItem.dart';
 import 'package:http/http.dart' as http;
 import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/services/apiEndpoints.dart';
 
 class FeedUserProfile extends StatefulWidget {
   String userName;
@@ -23,9 +24,9 @@ class FeedUserProfile extends StatefulWidget {
 }
 
 class _NestUserProfileState extends State<FeedUserProfile> {
-  late Future<FeedUserProfileResponse> response;
+  // late Future<FeedUserProfileResponse> response;
   List<FeedNest> nests = [];
-  List<NestItem> nestItems = [];
+  List<FeedNestItem> nestItems = [];
   Profile? profile;
   bool isNestSelected = true;
 
@@ -39,28 +40,38 @@ class _NestUserProfileState extends State<FeedUserProfile> {
       nestCount: 0,
       nestItemCount: 0,
     );
-    fetchFeedUserProfile(this.widget.userId);
+    getFeedUserProfile();
   }
 
-  Future fetchFeedUserProfile(int feedUserId) async {
-    var headers = UserAPIManager().getAPIHeader();
-    final response = await http.get(
-        Uri.parse('http://localhost:3000/feed/userProfile?userId=$feedUserId'),
-        headers: headers);
-    if (response.statusCode == 200) {
-      print(response.body);
-      setState(() {
-        FeedUserProfileResponse result =
-            FeedUserProfileResponse.fromJson(jsonDecode(response.body));
-        print(result);
-        this.nestItems = result.nestItems == null ? [] : result.nestItems!;
-        this.nests = result.nests == null ? [] : result.nests!;
-        this.profile = result.profile;
-      });
-    } else {
-      throw Exception('Failed to load Feeds');
-    }
+  Future<void> getFeedUserProfile() async {
+    FeedUserProfileResponse result =
+        await ApiEndpoints.fetchFeedUserProfile(widget.userId);
+    setState(() {
+      nestItems = result.nestItems == null ? [] : result.nestItems!;
+      nests = result.nests == null ? [] : result.nests!;
+      profile = result.profile;
+    });
   }
+
+  // Future fetchFeedUserProfile(int feedUserId) async {
+  //   var headers = UserAPIManager().getAPIHeader();
+  //   final response = await http.get(
+  //       Uri.parse('http://localhost:3000/feed/userProfile?userId=$feedUserId'),
+  //       headers: headers);
+  //   if (response.statusCode == 200) {
+  //     print(response.body);
+  //     setState(() {
+  //       FeedUserProfileResponse result =
+  //           FeedUserProfileResponse.fromJson(jsonDecode(response.body));
+  //       print(result);
+  //       this.nestItems = result.nestItems == null ? [] : result.nestItems!;
+  //       this.nests = result.nests == null ? [] : result.nests!;
+  //       this.profile = result.profile;
+  //     });
+  //   } else {
+  //     throw Exception('Failed to load Feeds');
+  //   }
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -357,32 +368,41 @@ class _NestUserProfileState extends State<FeedUserProfile> {
     );
   }
 
-  void floatingBtnPressed() {
+  void floatingBtnPressed() async {
     var userId = this.widget.userId;
-    this.fetchUserChatSession(UserAPIManager.currentUserId, userId);
+    NewChatSessionResponse response = await ApiEndpoints.fetchUserChatSession(
+        UserAPIManager.currentUserId, userId);
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return ChatDetailPage(
+        chatSession: response.chat,
+        onBackPressed: (value) {
+          print(value);
+        },
+      );
+    }));
   }
 
-  Future fetchUserChatSession(int currentUserId, int opponentId) async {
-    var headers = UserAPIManager().getAPIHeader();
-    final response = await http.get(
-        Uri.parse(
-            'http://localhost:3000/chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
-        headers: headers);
-    if (response.statusCode == 200) {
-      print(response.body);
-      NewChatSessionResponse result =
-          NewChatSessionResponse.fromJson(jsonDecode(response.body));
+  // Future fetchUserChatSession(int currentUserId, int opponentId) async {
+  //   var headers = UserAPIManager().getAPIHeader();
+  //   final response = await http.get(
+  //       Uri.parse(
+  //           'http://localhost:3000/chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
+  //       headers: headers);
+  //   if (response.statusCode == 200) {
+  //     print(response.body);
+  //     NewChatSessionResponse result =
+  //         NewChatSessionResponse.fromJson(jsonDecode(response.body));
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return ChatDetailPage(
-          chatSession: result.chat,
-          onBackPressed: (value) {
-            print(value);
-          },
-        );
-      }));
-    } else {
-      throw Exception('Failed to load Feeds');
-    }
-  }
+  //     Navigator.push(context, MaterialPageRoute(builder: (context) {
+  //       return ChatDetailPage(
+  //         chatSession: result.chat,
+  //         onBackPressed: (value) {
+  //           print(value);
+  //         },
+  //       );
+  //     }));
+  //   } else {
+  //     throw Exception('Failed to load Feeds');
+  //   }
+  // }
 }

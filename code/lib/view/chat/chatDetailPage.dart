@@ -1,5 +1,4 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/model/chatMessage.dart';
 import 'package:magpie_uni/model/chatSessionModel.dart';
@@ -7,26 +6,27 @@ import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import 'package:http/http.dart' as http;
 import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/services/apiEndpoints.dart';
 
-Future<ChatMessageResponse> fetchChat(int loggedUserId, int sessionId) async {
-  var headers = UserAPIManager().getAPIHeader();
+// Future<ChatMessageResponse> fetchChat(int loggedUserId, int sessionId) async {
+//   var headers = UserAPIManager().getAPIHeader();
 
-  final response = await http.get(
-      Uri.parse(
-          'http://localhost:3000/chat/getChatHistoryById?userId=$loggedUserId&chatSessionId=$sessionId'),
-      headers: headers);
+//   final response = await http.get(
+//       Uri.parse(
+//           'http://localhost:3000/chat/getChatHistoryById?userId=$loggedUserId&chatSessionId=$sessionId'),
+//       headers: headers);
 
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    print(response.body);
-    return ChatMessageResponse.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load chat');
-  }
-}
+//   if (response.statusCode == 200) {
+//     // If the server did return a 200 OK response,
+//     // then parse the JSON.
+//     print(response.body);
+//     return ChatMessageResponse.fromJson(jsonDecode(response.body));
+//   } else {
+//     // If the server did not return a 200 OK response,
+//     // then throw an exception.
+//     throw Exception('Failed to load chat');
+//   }
+// }
 
 Future<http.Response?> updateReadBit(int loggedUserId, int sessionId) async {
   var headers = UserAPIManager().getAPIHeader();
@@ -65,13 +65,13 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
   @override
   void initState() {
     super.initState();
-    response = fetchChat(this.widget.currentUserId, this.widget.chatSession.id);
+    // response = fetchChat(this.widget.currentUserId, this.widget.chatSession.id);
     updateReadBit(this.widget.currentUserId, this.widget.chatSession.id);
     initSocket();
   }
 
   void initSocket() {
-    socket = IO.io("http://localhost:3000", <String, dynamic>{
+    socket = IO.io(ApiEndpoints.urlPrefix, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
@@ -159,7 +159,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       body: Stack(
         children: <Widget>[
           FutureBuilder<ChatMessageResponse>(
-            future: response,
+            future: ApiEndpoints.fetchChat(
+                this.widget.currentUserId, this.widget.chatSession.id),
             builder: (context, snapshot) {
               if (snapshot.hasData) {
                 this.messages = snapshot.data!.chat;
@@ -274,10 +275,6 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
   }
 
   List<ChatMessage> messages = [];
-
-  void getMessages() {
-    response = fetchChat(this.widget.currentUserId, this.widget.chatSession.id);
-  }
 
   void sendMessage() {
     if (messageTxtField.text.trim().isNotEmpty) {
