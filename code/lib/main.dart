@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/view/auth/register/register.page.dart';
 import 'package:magpie_uni/view/auth/login/login.page.dart';
-import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart';
 import 'package:magpie_uni/view/homePage.dart';
 import 'package:magpie_uni/view/statistic.dart';
 import 'package:magpie_uni/wrapper.dart';
@@ -23,13 +23,12 @@ class Magpie extends StatelessWidget {
       title: 'Magpie',
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
-        primarySwatch: Constants.mainColor,
+        primarySwatch: mainColor,
       ),
       routes: {
-        "/": (context) => Wrapper(),
+        "/": (context) => const Wrapper(),
         "/login": (context) => const LoginScreen(),
         "/register": (context) => const RegisterScreen(),
-        // "/profile": (context) => const Profile(),
         "/home": (context) => const HomePage(),
         "/statistic": (context) => Statistic(),
       },

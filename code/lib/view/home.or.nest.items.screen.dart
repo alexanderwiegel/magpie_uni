@@ -73,24 +73,25 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
       body: FutureBuilder<List>(
         future: getNestsOrNestItems(),
         builder: (context, snapshot) {
-          if (snapshot.hasData && snapshot.data!.length > 0) {
+          if (snapshot.hasData && snapshot.data!.isNotEmpty) {
             _fillList(snapshot);
             return MagpieGridView(
               filteredNames: _filteredNames,
               isNest: isNest,
               searchText: _searchText,
             );
-          } else
+          } else {
             return Center(
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
                   Text("You don't have any " + thing + "s."),
-                  Text("Click on the button"),
-                  Text("to create your first nest."),
+                  const Text("Click on the button"),
+                  const Text("to create your first nest."),
                 ],
               ),
             );
+          }
         },
       ),
       bottomNavigationBar: MagpieBottomNavigationBar(
@@ -118,13 +119,14 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
   }
 
   void _switchSortOrder(SortMode result) {
-    if (_sortMode != result)
+    if (_sortMode != result) {
       setState(() {
         _asc = true;
         _sortMode = result;
       });
-    else
+    } else {
       setState(() => _asc ^= true);
+    }
     // TODO: call update home(?) API
     // DatabaseHelper.instance
     //     .updateHome(_asc, _onlyFavored, _sortMode, _getUserId());
