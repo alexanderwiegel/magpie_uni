@@ -89,9 +89,13 @@ function jwt() {
       '/user/register',
       '/nest/addNest',
       '/nest/addNestItem',
+      '/nest/editNest',
+      '/nest/editNestItem',
       /\/uploads*/,
       '/nest/userNests',
       '/nest/nestItems',
+      '/nest/deleteNest',
+      '/nest/deleteNestItem',
       '/user/userProfile'
     ]
   });

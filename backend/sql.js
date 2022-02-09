@@ -75,7 +75,7 @@ function editNest(nest, cb) {
   if (nest.photo !== undefined) {
     query += ", photo ='" + nest.photo + "'";
   }
-  query += "where id = " + nest.id;
+  query += " where id = " + nest.id;
   console.log(query);
 
   connection.query(query, function (err, rows) {
@@ -86,7 +86,7 @@ function editNest(nest, cb) {
 
 //Delete Nest
 function deleteNest(nestID, cb) {
-  var query = `DELETE FROM nestItem WHERE nest_id = ${nestID}; DELETE FROM nest WHERE id =` + nestID;
+  var query = `DELETE FROM nestItem WHERE nestItem.nest_id = "${nestID}"; DELETE FROM nest WHERE nest.id = "${nestID}";`
   console.log(query);
   connection.query(query, function (err, rows) {
     if (err) cb(err);
@@ -169,7 +169,7 @@ function editNestItem(nestItem, cb) {
 
 //Delete Nest Item
 function deleteNestItem(nestItemID, cb) {
-  var query = "DELETE FROM nestItem WHERE id = "+nestItemID;
+  var query = "DELETE FROM nestItem WHERE id = " + nestItemID;
   console.log(query);
   connection.query(query, function (err, rows) {
     if (err) cb(err);

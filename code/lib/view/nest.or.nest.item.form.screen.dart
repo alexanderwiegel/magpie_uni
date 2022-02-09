@@ -57,11 +57,11 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
     _worthEditingController = TextEditingController(text: _worth.toString());
   }
 
-  Widget getDeleteButton(bool isNew, String thing) => isNew
+  Widget getDeleteButton(bool isNew, bool isNest, String thing) => isNew
       ? Container()
       : MagpieButton(
           onPressed: () => _magpieDeleteDialog.displayDeleteDialog(
-              context, true, getIdOfNestOrNestItem()),
+              context, isNest, getIdOfNestOrNestItem()),
           title: "Delete $thing",
           icon: Icons.delete,
         );
@@ -70,8 +70,10 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
 
   @override
   Widget build(BuildContext context) {
-    bool _isNest = !context.toString().contains("NestItem");
-    bool _isNew = context.toString().contains("Creation");
+    String ctx = context.toString();
+    print("Context $ctx");
+    bool _isNest = !ctx.contains("NestItem");
+    bool _isNew = ctx.contains("Creation");
     String _thing = _isNest ? "nest" : "nest item";
     return Scaffold(
       appBar: AppBar(
@@ -107,13 +109,13 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
         setPublic: _setPublic,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: getDeleteButton(_isNew, _thing),
+      floatingActionButton: getDeleteButton(_isNew, _isNest ,_thing),
     );
   }
 
   void _changeImage(dynamic image) {
     // TODO: will always be true because the timestamp will always change
-    // print("Old photo: $_photo");
+    print("Old photo: $_photo");
     if (_photo != image) setState(() => _photo = image);
   }
 

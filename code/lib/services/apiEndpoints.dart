@@ -23,7 +23,9 @@ class ApiEndpoints {
     String url = urlPrefix + "user/userProfile?userId=$userId";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200 ? response.body : null;
-    final profile = feedUserProfile.welcomeFromJson(result!).profile;
+    final profile = feedUserProfile
+        .welcomeFromJson(result!)
+        .profile;
     List counts = [profile.nestCount, profile.nestItemCount];
     return counts;
   }
@@ -48,12 +50,12 @@ class ApiEndpoints {
     return list;
   }
 
-  static Future<bool> uploadNestOrNestItem(
-      NestOrNestItem nestOrNestItem, bool isNest, bool isNew) async {
+  static Future<bool> uploadNestOrNestItem(NestOrNestItem nestOrNestItem,
+      bool isNest, bool isNew) async {
     String url = urlPrefix + "nest/";
     url += isNew ? "add" : "edit";
     url += isNest ? "Nest" : "NestItem";
-    // print("Url: $url");
+    print("Url: $url");
 
     // TODO: use PATCH here and in the backend instead
     String method = isNew ? "POST" : "PUT";
@@ -63,7 +65,7 @@ class ApiEndpoints {
 
     Map nestOrNestItemAsMap = nestOrNestItem.toMap();
 
-    print("Nest item: $nestOrNestItemAsMap");
+    print("NestOrNestItem: $nestOrNestItemAsMap");
 
     nestOrNestItemAsMap.forEach((key, value) {
       req.fields[key] = value.toString();
@@ -72,16 +74,17 @@ class ApiEndpoints {
     // // remove the last single quote
     // filename = filename.substring(0, filename.length-1);
     // print("Filename: $filename");
-    // TODO: below error makes editing nests (and nest items possibly) impossible
-    // TODO: fix Unhandled Exception: FileSystemException: Cannot retrieve length of file, path = 'http://10.0.2.2:3000/uploads/1644422426064.jpg' (OS Error: No such file or directory, errno = 2)
-    req.files.add(await http.MultipartFile.fromPath(
-      'image',
-      nestOrNestItem.photo!,
-      contentType: MediaType('image', 'jpg'),
-      // filename: filename
-    ));
+    if (!nestOrNestItem.photo!.startsWith("http")) {
+      req.files.add(await http.MultipartFile.fromPath(
+        'image',
+        nestOrNestItem.photo!,
+        contentType: MediaType('image', 'jpg'),
+        // filename: filename
+      ));
+    }
+
     print("Path before sending request" + nestOrNestItem.photo!);
-    // print("Send request");
+    print("Send request");
     var response = await req.send();
     return (response.statusCode == 200) ? true : false;
   }
@@ -103,7 +106,8 @@ class ApiEndpoints {
       "Authorization": "Bearer $token"
     };
     customHeader.forEach((key, value) => req.headers[key] = value);
-    body.forEach((key, value) => req.bodyFields[key] = value);
+    req.bodyFields = body;
+    print(req.bodyFields);
 
     final response = await req.send();
     final result = response.statusCode == 200;

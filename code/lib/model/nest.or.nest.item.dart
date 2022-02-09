@@ -28,16 +28,19 @@ abstract class NestOrNestItem extends StatefulWidget {
   }) : super(key: key);
 
   Map<String, dynamic> toMap() {
-    return {
+    Map<String, dynamic> nestOrNestItem = {
       'id': id,
       'user_id': userId,
-      'photo': photo,
       'title': name,
       'description': description,
       'worth': worth,
       'favored': favored,
       'is_public': public,
     };
+    if (!photo!.startsWith("http")) {
+      nestOrNestItem.addAll({'photo': photo});
+    }
+    return nestOrNestItem;
   }
 
   NestOrNestItem.fromMap(dynamic obj, {Key? key}) : super(key: key) {
@@ -65,6 +68,8 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
+    final bool isNest = !context.toString().contains("NestItem");
+
     final Widget image = Material(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
@@ -94,10 +99,11 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
                 style: TextStyle(color: accentColor),
               ),
             ),
-            subtitle: const FittedBox(
+            subtitle: FittedBox(
               fit: BoxFit.scaleDown,
               alignment: AlignmentDirectional.centerStart,
-              child: Text("0 nest items"),
+              // TODO: display number of nestItems or date or...nothing for now? (description might be too long)
+              child: Text(isNest ? "0 nest items" : widget.createdAt.toString().substring(0, 10)),
             ),
             trailing: FittedBox(
               alignment: AlignmentDirectional.centerStart,
