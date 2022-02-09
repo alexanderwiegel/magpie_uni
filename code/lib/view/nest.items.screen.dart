@@ -20,7 +20,7 @@ class _NestItemsScreenState
 
   @override
   Future<List> getNestsOrNestItems() async =>
-      await apiEndpoints.getNestItems(widget.nest.id!);
+      await ApiEndpoints.getNestItems(widget.nest.id!);
 
   @override
   Widget editButton() => IconButton(

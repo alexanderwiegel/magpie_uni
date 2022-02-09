@@ -28,7 +28,7 @@ class _NestItemCreationState
     print("Call api endpoint to create a new nest item");
     var response =
         // TODO: see if I can use widget.nestItem
-        await apiEndpoints.uploadNestOrNestItem(
+        await ApiEndpoints.uploadNestOrNestItem(
             super.widget.nestOrNestItem, false, true);
     print(response);
   }

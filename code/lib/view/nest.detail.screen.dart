@@ -25,7 +25,7 @@ class _NestDetailScreenState
     super.uploadNestOrNestItem();
     print("Call api endpoint to edit a nest");
     // TODO: see if I can use widget.nest
-    var response = await apiEndpoints.uploadNestOrNestItem(
+    var response = await ApiEndpoints.uploadNestOrNestItem(
         super.widget.nestOrNestItem, true, false);
     print(response);
   }

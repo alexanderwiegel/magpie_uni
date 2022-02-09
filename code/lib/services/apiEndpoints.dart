@@ -9,7 +9,7 @@ import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/model/feedUserProfileModel.dart' as feedUserProfile;
 import 'package:magpie_uni/network/user_api_manager.dart';
 
-class apiEndpoints {
+class ApiEndpoints {
   static String urlPrefix = "http://10.0.2.2:3000/";
   static int userId = UserAPIManager.currentUserId;
   static String token = UserAPIManager.token;
@@ -22,7 +22,7 @@ class apiEndpoints {
   static Future<dynamic> getUserProfile() async {
     String url = urlPrefix + "user/userProfile?userId=$userId";
     final response = await http.get(Uri.parse(url), headers: headers);
-    final result = response.statusCode == 200 ? await response.body : null;
+    final result = response.statusCode == 200 ? response.body : null;
     final profile = feedUserProfile.welcomeFromJson(result!).profile;
     List counts = [profile.nestCount, profile.nestItemCount];
     return counts;
@@ -62,6 +62,9 @@ class apiEndpoints {
     headers.forEach((key, value) => req.headers[key] = value);
 
     Map nestOrNestItemAsMap = nestOrNestItem.toMap();
+
+    print("Nest item: $nestOrNestItemAsMap");
+
     nestOrNestItemAsMap.forEach((key, value) {
       req.fields[key] = value.toString();
     });
@@ -78,7 +81,6 @@ class apiEndpoints {
       // filename: filename
     ));
     print("Path before sending request" + nestOrNestItem.photo!);
-    // TODO: check in the backend why nest items can't be added (comparison?)
     // print("Send request");
     var response = await req.send();
     return (response.statusCode == 200) ? true : false;

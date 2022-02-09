@@ -53,7 +53,7 @@ abstract class NestOrNestItem extends StatefulWidget {
   }
 
   String getPhotoPath(String path) {
-    return apiEndpoints.urlPrefix + path;
+    return ApiEndpoints.urlPrefix + path;
   }
 
   @override

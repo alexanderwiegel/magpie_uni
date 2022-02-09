@@ -25,7 +25,7 @@ class _NestCreationState extends NestOrNestItemFormScreenState<NestCreation> {
     super.uploadNestOrNestItem();
     print("Call api endpoint to create a new nest");
     print(super.widget.nestOrNestItem.photo);
-    var response = await apiEndpoints.uploadNestOrNestItem(
+    var response = await ApiEndpoints.uploadNestOrNestItem(
         super.widget.nestOrNestItem, true, true);
     print(response);
   }

@@ -251,7 +251,7 @@ class Statistic extends StatelessWidget {
                   fontSize: smallTitleSize, color: Constants.mainColor),
             ),
             FutureBuilder(
-              future: apiEndpoints.getUserProfile(),
+              future: ApiEndpoints.getUserProfile(),
               builder: (context, snapshot) {
                 List counts = snapshot.data as List;
                 return Text(
