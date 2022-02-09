@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:magpie_uni/services/apiEndpoints.dart';
 
 import 'package:magpie_uni/view/home.or.nest.items.screen.dart';
+import 'package:magpie_uni/view/nest.creation.dart';
+import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 
 class Home extends HomeOrNestItemsScreen {
   @override
@@ -13,11 +15,16 @@ class _HomeState extends HomeOrNestItemsScreenState<Home> {
   void setTitle(String title) => super.setTitle(title);
 
   @override
-  Future<List> getNestsOrNestItems() async => await apiEndpoints.getNests();
+  Future<List> getNestsOrNestItems() async => await ApiEndpoints.getNests();
 
   @override
   void initState() {
     setTitle("Home");
     super.initState();
+  }
+
+  @override
+  NestOrNestItemFormScreen openCreationScreen() {
+    return NestCreation();
   }
 }

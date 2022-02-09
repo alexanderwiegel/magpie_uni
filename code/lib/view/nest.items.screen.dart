@@ -3,6 +3,8 @@ import 'package:magpie_uni/model/nest.dart';
 import 'package:magpie_uni/services/apiEndpoints.dart';
 import 'package:magpie_uni/view/home.or.nest.items.screen.dart';
 import 'package:magpie_uni/view/nest.detail.screen.dart';
+import 'package:magpie_uni/view/nest.item.creation.dart';
+import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 
 class NestItemsScreen extends HomeOrNestItemsScreen {
   final Nest nest;
@@ -38,5 +40,10 @@ class _NestItemsScreenState
   void initState() {
     setTitle(widget.nest.name);
     super.initState();
+  }
+
+  @override
+  NestOrNestItemFormScreen openCreationScreen() {
+    return NestItemCreation(nestId: widget.nest.id);
   }
 }

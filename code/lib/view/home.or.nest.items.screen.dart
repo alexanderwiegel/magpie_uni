@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/model/nest.dart';
-import 'package:magpie_uni/services/apiEndpoints.dart';
 import 'package:magpie_uni/sort.mode.dart';
-import 'package:magpie_uni/view/nest.item.creation.dart';
+import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
 import 'package:magpie_uni/Constants.dart' as Constants;
-import 'package:magpie_uni/view/nest.creation.dart';
 import 'package:magpie_uni/widgets/magpie.bottom.navigation.bar.dart';
 import 'package:magpie_uni/widgets/magpie.grid.view.dart';
 
@@ -58,6 +56,10 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
 
   Widget editButton() => Container();
 
+  NestOrNestItemFormScreen openCreationScreen() {
+    throw UnimplementedError();
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isNest = context.toString().contains("Home");
@@ -107,9 +109,8 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
         backgroundColor: Constants.mainColor,
         child: const Icon(Icons.add),
         onPressed: () async {
-          await Navigator.of(context).push(MaterialPageRoute(
-              builder: (context) =>
-                  isNest ? NestCreation() : NestItemCreation()));
+          await Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => openCreationScreen()));
           setState(() {});
         },
       ),
