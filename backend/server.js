@@ -91,6 +91,7 @@ function jwt() {
       '/nest/addNestItem',
       /\/uploads*/,
       '/nest/userNests',
+      '/nest/nestItems',
       '/user/userProfile'
     ]
   });
