@@ -21,7 +21,7 @@ abstract class NestOrNestItemFormScreen extends StatefulWidget {
 class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
     extends State<T> {
   //#region fields
-  MagpieDeleteDialog _magpieDeleteDialog = MagpieDeleteDialog();
+  final MagpieDeleteDialog _magpieDeleteDialog = MagpieDeleteDialog();
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   late dynamic _photo;
@@ -85,8 +85,9 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
                   await uploadNestOrNestItem();
                   print("Upload finished. Now pop screen.");
                   Navigator.of(context).pop();
-                } else
+                } else {
                   MagpiePhotoAlert.displayPhotoAlert(context);
+                }
               }
             },
             tooltip: "Save",

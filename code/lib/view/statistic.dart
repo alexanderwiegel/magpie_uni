@@ -6,7 +6,7 @@ import 'package:magpie_uni/services/apiEndpoints.dart';
 
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
 import 'package:magpie_uni/size.config.dart';
-import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart';
 
 class Statistic extends StatelessWidget {
   //#region fields
@@ -39,10 +39,11 @@ class Statistic extends StatelessWidget {
       CircularSegmentEntry(5, colors[4], rankKey: "Others"),
     ];
     descriptions = [];
-    for (int i = 0; i < 5; i++)
+    for (int i = 0; i < 5; i++) {
       descriptions.add(
         description(i),
       );
+    }
     if (SizeConfig.isTablet) {
       smallTitleSize = SizeConfig.hori * 2;
       bigTitleSize = SizeConfig.hori * 3;
@@ -60,10 +61,10 @@ class Statistic extends StatelessWidget {
     return Scaffold(
       drawer: MagpieDrawer(),
       appBar: AppBar(
-        title: Text("Statistic"),
+        title: const Text("Statistic"),
       ),
       body: Container(
-        color: Constants.textColor,
+        color: textColor,
         child: StaggeredGrid.count(
           crossAxisCount: 8,
           children: <Widget>[
@@ -108,12 +109,12 @@ class Statistic extends StatelessWidget {
 
   Material nestsOverTimeChart(String title, String subtitle) {
     return Material(
-      color: Constants.textColor,
+      color: textColor,
       elevation: 14,
       borderRadius: BorderRadius.circular(24),
-      shadowColor: Constants.mainColor,
+      shadowColor: mainColor,
       child: Padding(
-        padding: EdgeInsets.all(12),
+        padding: const EdgeInsets.all(12),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           mainAxisAlignment: MainAxisAlignment.center,
@@ -121,14 +122,14 @@ class Statistic extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                  fontSize: smallTitleSize, color: Constants.mainColor),
+                  fontSize: smallTitleSize, color: mainColor),
             ),
             Text(
               subtitle,
               style: TextStyle(fontSize: bigTitleSize),
             ),
-            Padding(
-              padding: const EdgeInsets.symmetric(vertical: 8),
+            const Padding(
+              padding: EdgeInsets.symmetric(vertical: 8),
             ),
             Expanded(
               child: Padding(
@@ -173,10 +174,10 @@ class Statistic extends StatelessWidget {
 
   Material nestShares(String title, String subtitle) {
     return Material(
-      color: Constants.textColor,
+      color: textColor,
       elevation: 14,
       borderRadius: BorderRadius.circular(24),
-      shadowColor: Constants.mainColor,
+      shadowColor: mainColor,
       child: Row(
         children: <Widget>[
           Expanded(
@@ -186,7 +187,7 @@ class Statistic extends StatelessWidget {
                 Text(
                   title,
                   style: TextStyle(
-                      fontSize: smallTitleSize, color: Constants.mainColor),
+                      fontSize: smallTitleSize, color: mainColor),
                 ),
                 Text(
                   subtitle,
@@ -222,12 +223,12 @@ class Statistic extends StatelessWidget {
             radius: 9,
             backgroundColor: colors[index],
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 5),
+          const Padding(
+            padding: EdgeInsets.symmetric(horizontal: 5),
           ),
           Text(
             entries[index].rankKey,
-            style: TextStyle(fontSize: 15),
+            style: const TextStyle(fontSize: 15),
           )
         ],
       ),
@@ -236,10 +237,10 @@ class Statistic extends StatelessWidget {
 
   Material total(String title) {
     return Material(
-      color: Constants.textColor,
+      color: textColor,
       elevation: 14,
       borderRadius: BorderRadius.circular(24),
-      shadowColor: Constants.mainColor,
+      shadowColor: mainColor,
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -248,7 +249,7 @@ class Statistic extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                  fontSize: smallTitleSize, color: Constants.mainColor),
+                  fontSize: smallTitleSize, color: mainColor),
             ),
             FutureBuilder(
               future: ApiEndpoints.getUserProfile(),

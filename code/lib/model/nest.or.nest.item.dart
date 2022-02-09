@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart' as constants;
 import 'package:magpie_uni/services/apiEndpoints.dart';
 
 abstract class NestOrNestItem extends StatefulWidget {
@@ -61,7 +61,7 @@ abstract class NestOrNestItem extends StatefulWidget {
 }
 
 class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
-  MaterialColor accentColor = Constants.accentColor;
+  MaterialColor accentColor = constants.accentColor;
 
   @override
   Widget build(BuildContext context) {
