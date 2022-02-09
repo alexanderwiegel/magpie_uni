@@ -1,14 +1,13 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/services/apiEndpoints.dart';
 
 abstract class NestOrNestItem extends StatefulWidget {
-  late final int? id;
-  late final int? userId;
-  late dynamic photo;
-  late String? name;
+  late int? id;
+  late int? userId;
+  late String? photo;
+  late String name;
   late String description;
   late int worth;
   late bool favored;
@@ -17,9 +16,9 @@ abstract class NestOrNestItem extends StatefulWidget {
 
   NestOrNestItem({
     Key? key,
-    this.id = 1,
-    this.userId = 1,
-    this.photo = "pics/placeholder.jpg",
+    this.id,
+    this.userId = 5,
+    this.photo,
     this.name = "",
     this.description = "",
     this.worth = 0,
@@ -32,7 +31,7 @@ abstract class NestOrNestItem extends StatefulWidget {
     return {
       'id': id,
       'user_id': userId,
-      'photo': photo.path,
+      'photo': photo,
       'title': name,
       'description': description,
       'worth': worth,
@@ -44,20 +43,17 @@ abstract class NestOrNestItem extends StatefulWidget {
   NestOrNestItem.fromMap(dynamic obj, {Key? key}) : super(key: key) {
     id = obj["id"];
     userId = obj["user_id"];
-    String path = obj["photo"].toString();
-    // TODO: change according to the way photos are saved
-    if (!path.startsWith("http")) {
-      path = path.substring(path.indexOf("/"), path.length - 1);
-      photo = File(path);
-    } else {
-      photo = path;
-    }
+    photo = getPhotoPath(obj["photo"]);
     name = obj["title"];
     description = obj["description"];
-    worth = obj["worth"];
-    favored = obj["favored"] == 0 ? false : true;
+    worth = obj["worth"].runtimeType == Null ? 0 : obj["worth"];
+    favored = obj["favored"] == 1 ? true : false;
     createdAt = DateTime.parse(obj["created_at"]);
-    public = obj["is_public"];
+    public = obj["is_public"] == 1 ? true : false;
+  }
+
+  String getPhotoPath(String path) {
+    return apiEndpoints.urlPrefix + path;
   }
 
   @override
@@ -74,7 +70,7 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
         borderRadius: BorderRadius.circular(4),
       ),
       clipBehavior: Clip.antiAlias,
-      child: Image.asset("pics/placeholder.jpg", fit: BoxFit.cover),
+      child: Image.network(widget.photo!, fit: BoxFit.cover),
     );
 
     return GestureDetector(
@@ -94,7 +90,7 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
               fit: BoxFit.scaleDown,
               alignment: AlignmentDirectional.centerStart,
               child: Text(
-                widget.name!,
+                widget.name,
                 style: TextStyle(color: accentColor),
               ),
             ),

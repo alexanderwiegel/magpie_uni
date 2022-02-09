@@ -20,7 +20,7 @@ class Nest extends NestOrNestItem {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> nest = super.toMap();
     nest.addAll({
-      'sort_mode': sortMode.toString(),
+      'sort_mode': sortMode,
       'is_asc': asc,
       'only_favored': onlyFavored
     });
@@ -29,20 +29,20 @@ class Nest extends NestOrNestItem {
 
   Nest.fromMap(dynamic obj, {Key? key}) : super.fromMap(obj, key: key) {
     switch (obj["sort_mode"]) {
-      case "SortMode.sortByName":
+      case "SortByName":
         sortMode = SortMode.SortByName;
         break;
-      case "SortMode.sortByWorth":
+      case "SortByWorth":
         sortMode = SortMode.SortByWorth;
         break;
-      case "SortMode.sortByFavored":
+      case "SortByFavored":
         sortMode = SortMode.SortByFavored;
         break;
-      case "SortMode.sortByDate":
+      case "SortById":
         sortMode = SortMode.SortById;
     }
-    asc = obj["is_asc"] == 0 ? false : true;
-    onlyFavored = obj["only_favored"] == 0 ? false : true;
+    asc = obj["is_asc"] == 1 ? true : false;
+    onlyFavored = obj["only_favored"]  == 1 ? true : false;
   }
 
   @override
@@ -72,8 +72,12 @@ class _NestState extends NestOrNestItemState<Nest> {
     oldNest.favored = super.widget.favored;
     oldNest.public = super.widget.public;
     oldNest.createdAt = super.widget.createdAt;
+    // print("Old nest: " + oldNest.toMap().toString());
+    // print("Created at: " + oldNest.createdAt.toString());
 
-    Nest newNest = await Navigator.push(
+    print("Context: " + context.toString());
+
+    await Navigator.push(
       context,
       // TODO: see if it is somehow possible to pass "widget.this"
       MaterialPageRoute(builder: (context) => NestItemsScreen(nest: oldNest)),

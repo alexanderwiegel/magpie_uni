@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:magpie_uni/services/apiEndpoints.dart';
 
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
 import 'package:magpie_uni/size.config.dart';
@@ -249,10 +250,20 @@ class Statistic extends StatelessWidget {
               style: TextStyle(
                   fontSize: smallTitleSize, color: Constants.mainColor),
             ),
-            Text(
-              title == "Nests" ? "5" : "50",
-              style: TextStyle(fontSize: bigTitleSize),
-            )
+            FutureBuilder(
+              future: apiEndpoints.getUserProfile(),
+              builder: (context, snapshot) {
+                List counts = snapshot.data as List;
+                return Text(
+                  snapshot.hasData
+                      ? title == "Nests"
+                          ? counts[0].toString()
+                          : counts[1].toString()
+                      : "?",
+                  style: TextStyle(fontSize: bigTitleSize),
+                );
+              },
+            ),
           ],
         ),
       ),

@@ -3,17 +3,18 @@ const mysql = require('mysql');
 config = mysql.c
 
 var connection = mysql.createConnection({
-  host: "localhost",
-  user: "root",
-  password: "password",
-  database: "Magpie",
-  multipleStatements: "true",
-})
+  host: 'localhost',
+  user: 'root',
+  password: 'password',
+  database: 'Magpie',
+  multipleStatements: true,
+});
+
 
 function connectDB(cb) {
-    connection.connect(function (err) {
-        cb(err)
-    });
+  connection.connect(function (err) {
+    cb(err)
+  });
 }
 
 // User quries...
@@ -161,16 +162,7 @@ function editNestItem(nestItem, cb) {
       updateNestWorth(nestItem.nest_id)
       cb(undefined, rows);
     }
-    query += " where id = " + nestItem.id;
-    console.log(query);
-
-    connection.query(query, function (err, rows) {
-        if (err) cb(err);
-        else {
-            updateNestWorth(nestItem.nest_id)
-            cb(undefined, rows);
-        }
-    });
+  });
 }
 
 //Feeds
@@ -204,7 +196,7 @@ function getFeedUserProfile(id, cb) {
 
 //Feed users nest items
 function getFeedUserNestItems(id, cb) {
-  connection.query("SELECT n.id, n.nest_id, n.title, n.description, n.photo FROM nestItem n WHERE n.user_id = " + id + " AND n.is_public = true",
+  connection.query("SELECT n.id, n.nest_id, n.user_id, n.title, n.description, n.photo FROM nestItem n WHERE n.user_id = " + id + " AND n.is_public = true",
     function (err, rows) {
       if (err) cb(err);
       else cb(undefined, rows);
@@ -225,7 +217,7 @@ function getFeedUserNestItem(id, cb) {
 /////////////////////////////////////////////CHAT////////////////////////////////////////////////
 function getChatHistoryById(chatSessionId, loggedInUserId, cb) {
   var queryString = `SELECT c.*,
-	U.username as opponentuserName,
+	U.username as opponentUserName,
     MU.username as myName
         FROM chat c
         inner join user U on (U.id = c.sender_id and c.sender_id <> `+ loggedInUserId + `) OR (U.id = c.receiver_id and c.receiver_id <>` + loggedInUserId + `)

@@ -6,6 +6,9 @@ class NestItem extends NestOrNestItem {
   NestItem({Key? key}) : super(key: key);
 
   @override
+  NestItem.fromMap(dynamic obj, {Key? key}) : super.fromMap(obj, key: key) {}
+
+  @override
   _NestItemState createState() => _NestItemState();
 }
 
