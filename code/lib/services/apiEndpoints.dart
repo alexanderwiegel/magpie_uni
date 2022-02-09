@@ -28,6 +28,24 @@ class apiEndpoints {
     return counts;
   }
 
+  static Future<List> getNests() async {
+    String url = urlPrefix + "nest/userNests?user_id=$userId";
+    final response = await http.get(Uri.parse(url), headers: headers);
+    final result = response.statusCode == 200
+        ? await json.decode(response.body)["result"]
+        : null;
+    List list = result.map((item) => Nest.fromMap(item)).toList();
+    return list;
+  }
+
+  static Future<List> getNestItems(int nestId) async {
+    String url = urlPrefix + "nest/nestItems?nest_id=$nestId";
+    final response = await http.get(Uri.parse(url), headers: headers);
+    final result = response.statusCode == 200
+        ? await json.decode(response.body)["result"]
+        : null;
+    List list = result.map((item) => NestItem.fromMap(item)).toList();
+    return list;
   }
 
   static Future<bool> uploadNestOrNestItem(
