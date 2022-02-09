@@ -5,8 +5,8 @@ class UserAPIManager {
     return _shared;
   }
 
-  static int currentUserId = 2;
-  static String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjo1LCJpYXQiOjE2NDQzNDI2MzcsImV4cCI6MTY0NDM0NjIzN30.GV1vrW9eOmUmSaTSiM3nb-lNkPlhll7btDmTw0nXsZw";
+  static int currentUserId = 5;
+  static String token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjo1LCJpYXQiOjE2NDQ0MTMyOTgsImV4cCI6MTY0NDQxNjg5OH0.jYQ8cRpmCjaKwELaYTne2tFdz2V6d7yYBB2VGN27QIk";
 
   Map<String, String> getAPIHeader() {
     var header = {

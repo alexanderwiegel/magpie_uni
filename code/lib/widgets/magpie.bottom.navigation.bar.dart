@@ -73,7 +73,7 @@ class MagpieBottomNavigationBar extends StatelessWidget {
             IconButton(
               color: color,
               // TODO: change this according to nest/nestitem
-              tooltip: "Search nest",
+              tooltip: "Search",
               padding: const EdgeInsets.only(left: 12.0),
               alignment: Alignment.centerLeft,
               icon: searchIcon,
@@ -81,21 +81,6 @@ class MagpieBottomNavigationBar extends StatelessWidget {
               onPressed: searchPressed,
             ),
             Expanded(child: searchTitle),
-            // MagpieIconButton(
-            //   icon: Icons.home,
-            //   tooltip: "Show feed",
-            //   onPressed: () => {},
-            // ),
-            // MagpieIconButton(
-            //   icon: Icons.chat,
-            //   tooltip: "Show chat",
-            //   onPressed: () => {},
-            // ),
-            // MagpieIconButton(
-            //   icon: Icons.person_pin,
-            //   tooltip: "Show profile",
-            //   onPressed: () => {},
-            // ),
           ],
         ),
       ),

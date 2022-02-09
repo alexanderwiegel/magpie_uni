@@ -58,8 +58,8 @@ class MagpieDrawer extends StatelessWidget {
             Icons.exit_to_app,
             "Logout",
             () async {
-              //Navigator.of(context).pop();
-              navigate(context, "/");
+              Navigator.of(context).pop();
+              // navigate(context, "/");
               // TODO: call sign-out function from auth
               // await _auth.signOut();
             },

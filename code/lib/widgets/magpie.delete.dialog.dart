@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:magpie_uni/services/apiEndpoints.dart';
 
 import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/constants.dart' as Constants;
@@ -12,12 +13,8 @@ class MagpieDeleteDialog {
     await _actuallyDelete(context, isNest, id);
   }
 
-  // ignore: missing_return
   Future<void> _actuallyDelete(BuildContext context, bool isNest, int id) async {
-    // TODO: call delete APIs here
-    // isNest
-    //     ? DatabaseHelper.instance.deleteNest(id)
-    //     : DatabaseHelper.instance.deleteNestItem(id);
+    await apiEndpoints.deleteNestOrNestItem(isNest, id);
     Navigator.of(context).popUntil((route) => route.isFirst);
   }
 

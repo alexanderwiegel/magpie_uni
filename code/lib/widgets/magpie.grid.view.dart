@@ -30,7 +30,7 @@ class MagpieGridView extends StatelessWidget {
     if (searchText.isNotEmpty) {
       for (int i = 0; i < filteredNames.length; i++) {
         if (filteredNames[i]
-            .name!
+            .name
             .toLowerCase()
             .contains(searchText.toLowerCase())) {
           tempList.add(filteredNames[i]);

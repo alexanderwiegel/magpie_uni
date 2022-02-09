@@ -1,5 +1,3 @@
-import 'package:flutter/material.dart';
-
 import 'package:magpie_uni/model/nest.item.dart';
 import 'package:magpie_uni/services/apiEndpoints.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
@@ -7,7 +5,8 @@ import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 class NestItemDetailScreen extends NestOrNestItemFormScreen {
   NestItem nestItem;
 
-  NestItemDetailScreen({required this.nestItem}) : super();
+  NestItemDetailScreen({required this.nestItem})
+      : super(nestOrNestItem: nestItem);
 
   @override
   _NestDetailScreenState createState() => _NestDetailScreenState();
@@ -16,20 +15,20 @@ class NestItemDetailScreen extends NestOrNestItemFormScreen {
 class _NestDetailScreenState
     extends NestOrNestItemFormScreenState<NestItemDetailScreen> {
   @override
-  Widget build(BuildContext context) {
-    // TODO: find a way to add the delete button
-    return super.build(context);
-  }
+  int getIdOfNestOrNestItem() => widget.nestItem.id!;
 
   @override
   Future<void> uploadNestOrNestItem() async {
     print("Specify that it is a nest item");
-    super.nestOrNestItem = NestItem();
+    // TODO: see if I can use widget.nestItem
+    super.widget.nestOrNestItem = NestItem();
     print("Call super method to set attributes");
     super.uploadNestOrNestItem();
     print("Call api endpoint to edit a nest item");
     var response =
-    await apiEndpoints.uploadNestOrNestItem(nestOrNestItem, false, false);
+        // TODO: see if I can use widget.nestItem
+        await apiEndpoints.uploadNestOrNestItem(
+            super.widget.nestOrNestItem, false, false);
     print(response);
   }
 }

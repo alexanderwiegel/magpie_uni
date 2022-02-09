@@ -24,7 +24,7 @@ class FeedUserProfile extends StatefulWidget {
 
 class _NestUserProfileState extends State<FeedUserProfile> {
   late Future<FeedUserProfileResponse> response;
-  List<Nest> nests = [];
+  List<FeedNest> nests = [];
   List<NestItem> nestItems = [];
   Profile? profile;
   bool isNestSelected = true;
