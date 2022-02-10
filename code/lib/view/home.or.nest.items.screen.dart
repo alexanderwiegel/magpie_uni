@@ -1,14 +1,18 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/model/nest.dart';
+import 'package:magpie_uni/model/nest.or.nest.item.dart';
+import 'package:magpie_uni/model/user.dart';
+import 'package:magpie_uni/services/apiEndpoints.dart';
 import 'package:magpie_uni/sort.mode.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
-import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart' as constants;
 import 'package:magpie_uni/widgets/magpie.bottom.navigation.bar.dart';
 import 'package:magpie_uni/widgets/magpie.grid.view.dart';
 
 abstract class HomeOrNestItemsScreen extends StatefulWidget {
+  const HomeOrNestItemsScreen({Key? key}) : super(key: key);
+
   @override
   State<HomeOrNestItemsScreen> createState() => HomeOrNestItemsScreenState();
 }
@@ -21,11 +25,11 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
   bool _asc = true;
   bool _onlyFavored = false;
 
-  List<Nest> _names = [];
-  List<Nest> _filteredNames = [];
+  List<NestOrNestItem> _names = [];
+  List<NestOrNestItem> _filteredNames = [];
   final TextEditingController _filter = TextEditingController();
-  Icon _searchIcon = Icon(Icons.search, color: Colors.white);
-  Widget _searchTitle = Text("");
+  Icon _searchIcon = const Icon(Icons.search, color: Colors.white);
+  Widget _searchTitle = const Text("");
   String _searchText = "";
 
   HomeOrNestItemsScreenState() {
@@ -35,8 +39,24 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
           _searchText = "";
           _filteredNames = _names;
         });
-      } else
+      } else {
         setState(() => _searchText = _filter.text);
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    _initUser();
+    super.initState();
+  }
+
+  Future<void> _initUser() async {
+    User user = await ApiEndpoints.getHomeScreen();
+    setState(() {
+      _sortMode = user.sortMode;
+      _asc = user.asc;
+      _onlyFavored = user.onlyFavored;
     });
   }
 
@@ -107,18 +127,24 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         tooltip: "Create new $thing",
-        backgroundColor: Constants.mainColor,
+        backgroundColor: constants.mainColor,
         child: const Icon(Icons.add),
         onPressed: () async {
           await Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => openCreationScreen()));
-          setState(() {});
+            MaterialPageRoute(
+              builder: (context) => openCreationScreen(),
+            ),
+          ).then(onChange);
         },
       ),
     );
   }
 
-  void _switchSortOrder(SortMode result) {
+  onChange(dynamic value) {
+    setState(() {});
+  }
+
+  void _switchSortOrder(SortMode result) async {
     if (_sortMode != result) {
       setState(() {
         _asc = true;
@@ -127,33 +153,31 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     } else {
       setState(() => _asc ^= true);
     }
-    // TODO: call update home(?) API
-    // DatabaseHelper.instance
-    //     .updateHome(_asc, _onlyFavored, _sortMode, _getUserId());
+    // TODO: call setState() ?
+    await ApiEndpoints.updateHomeScreen(_sortMode.name, _asc, _onlyFavored);
   }
 
-  void _showFavorites() {
+  void _showFavorites() async {
     setState(() => _onlyFavored ^= true);
-    // TODO: call update home(?) API
-    // DatabaseHelper.instance
-    //     .updateHome(_asc, _onlyFavored, _sortMode, _getUserId());
+    // TODO: call setState() ?
+    await ApiEndpoints.updateHomeScreen(_sortMode.name, _asc, _onlyFavored);
   }
 
   void _searchPressed() {
     setState(() {
-      if (this._searchIcon.icon == Icons.search) {
-        this._searchIcon = Icon(Icons.close, color: Colors.white);
-        this._searchTitle = TextField(
-          style: TextStyle(color: Constants.textColor),
+      if (_searchIcon.icon == Icons.search) {
+        _searchIcon = const Icon(Icons.close, color: Colors.white);
+        _searchTitle = TextField(
+          style: const TextStyle(color: constants.textColor),
           controller: _filter,
-          decoration: InputDecoration(
+          decoration: const InputDecoration(
             hintText: 'Search...',
             hintStyle: TextStyle(color: Colors.white),
           ),
         );
       } else {
-        this._searchIcon = Icon(Icons.search, color: Colors.white);
-        this._searchTitle = Text('');
+        _searchIcon = const Icon(Icons.search, color: Colors.white);
+        _searchTitle = const Text('');
         _filteredNames = _names;
         _filter.clear();
       }

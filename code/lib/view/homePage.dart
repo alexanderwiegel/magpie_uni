@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:magpie_uni/services/apiEndpoints.dart';
 import 'package:magpie_uni/view/home.dart';
 import 'dart:convert';
 import '../view/chat/chatList.dart';
@@ -18,22 +17,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  // Future fetchChatNotificationCount(int loggedUserId) async {
-  //   var headers = UserAPIManager().getAPIHeader();
-  //   final response = await http.get(
-  //       Uri.parse(
-  //           'http://localhost:3000/chat/getNotification?userId=$loggedUserId'),
-  //       headers: headers);
+  Future fetchChatNotificationCount(int loggedUserId) async {
+    var headers = UserAPIManager().getAPIHeader();
+    final response = await http.get(
+        Uri.parse(
+            'http://10.0.2.2:3000/chat/getNotification?userId=$loggedUserId'),
+        headers: headers);
 
-  //   if (response.statusCode == 200) {
-  //     print(response.body);
-  //     NotificationResponse n =
-  //         NotificationResponse.fromJson(jsonDecode(response.body));
-  //     this.badgeCount = n.notificationCount;
-  //   } else {
-  //     throw Exception('Failed to load chat');
-  //   }
-  // }
+    if (response.statusCode == 200) {
+      print(response.body);
+      NotificationResponse n =
+          NotificationResponse.fromJson(jsonDecode(response.body));
+      this.badgeCount = n.notificationCount;
+    } else {
+      throw Exception('Failed to load chat');
+    }
+  }
 
   int badgeCount = 0;
   int selectedIndex = 0;
@@ -85,11 +84,9 @@ class _HomePageState extends State<HomePage> {
     super.dispose();
   }
 
-  void getNotifications() async {
-    NotificationResponse n = await ApiEndpoints.fetchChatNotificationCount(
-        UserAPIManager.currentUserId);
-    setState(() {
-      badgeCount = n.notificationCount;
+  void getNotifications() {
+    this.setState(() {
+      this.fetchChatNotificationCount(UserAPIManager.currentUserId);
     });
   }
 

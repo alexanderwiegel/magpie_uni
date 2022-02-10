@@ -8,6 +8,7 @@ import 'package:magpie_uni/widgets/magpie.switch.dart';
 
 class MagpieForm extends StatelessWidget {
   final GlobalKey? formKey;
+  final bool isNew;
   final bool isNest;
   final dynamic photo;
   final Function changeImage;
@@ -21,6 +22,7 @@ class MagpieForm extends StatelessWidget {
 
   MagpieForm({
     required this.formKey,
+    required this.isNew,
     required this.isNest,
     required this.photo,
     required this.changeImage,
@@ -63,9 +65,11 @@ class MagpieForm extends StatelessWidget {
               controller: descriptionEditingController,
             ),
             Visibility(
-              visible: !isNest,
+              // if it is a nest, only show the worth if it is not new,
+              // if it is a nest item, always show it
+              visible: isNest ? !isNew : true,
               child: MagpieFormField(
-                enabled: true,
+                enabled: !isNest,
                 icon: Icons.euro_symbol,
                 labelText: "Worth (optional)",
                 // initialValue: ,

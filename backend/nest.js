@@ -29,6 +29,7 @@ router.post('/addNest', upload.array('image', 1), async function (req, res) {
     photo: photo,
     is_public: req.body.is_public === 'true'
   }
+  console.log(nest)
 
   sqlManager.addNest(nest, function (err, result) {
     if (err) {
@@ -39,6 +40,7 @@ router.post('/addNest', upload.array('image', 1), async function (req, res) {
   });
 })
 
+// Edit Nest
 router.put('/editNest', upload.array('image', 1), async function (req, res) {
 
   nest = {
@@ -67,9 +69,11 @@ router.put('/editNest', upload.array('image', 1), async function (req, res) {
 //delete Nest
 router.delete('/deleteNest', async function (req, res) {
   let nestID = req.body.nest_id;
+  console.log("Nest id:")
   console.log(nestID);
   sqlManager.deleteNest(nestID, async function (err, result) {
     if (err) {
+      console.log(err)
       res.status(500).json({ status: 'Failed', message: err.message });
       return
     }

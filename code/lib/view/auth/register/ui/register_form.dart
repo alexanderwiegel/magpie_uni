@@ -62,6 +62,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   } else if (value != _password) {
                     return 'Your password doesn\'t match';
                   }
+                  return null;
                 },
                 name: 'Re-enter Password',
                 labelText: 'Confirm Password',

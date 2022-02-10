@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart' as constants;
 import 'package:magpie_uni/services/apiEndpoints.dart';
 
 abstract class NestOrNestItem extends StatefulWidget {
@@ -10,9 +10,9 @@ abstract class NestOrNestItem extends StatefulWidget {
   late String name;
   late String description;
   late int worth;
-  late bool favored;
+  late bool? favored;
   late DateTime? createdAt;
-  late bool public;
+  late bool? public;
 
   NestOrNestItem({
     Key? key,
@@ -22,22 +22,25 @@ abstract class NestOrNestItem extends StatefulWidget {
     this.name = "",
     this.description = "",
     this.worth = 0,
-    this.favored = false,
+    this.favored,
     this.createdAt,
-    this.public = false,
+    this.public,
   }) : super(key: key);
 
   Map<String, dynamic> toMap() {
-    return {
+    Map<String, dynamic> nestOrNestItem = {
       'id': id,
       'user_id': userId,
-      'photo': photo,
       'title': name,
       'description': description,
       'worth': worth,
       'favored': favored,
       'is_public': public,
     };
+    if (!photo!.startsWith("http")) {
+      nestOrNestItem.addAll({'photo': photo});
+    }
+    return nestOrNestItem;
   }
 
   NestOrNestItem.fromMap(dynamic obj, {Key? key}) : super(key: key) {
@@ -46,7 +49,6 @@ abstract class NestOrNestItem extends StatefulWidget {
     photo = getPhotoPath(obj["photo"]);
     name = obj["title"];
     description = obj["description"];
-    worth = obj["worth"].runtimeType == Null ? 0 : obj["worth"];
     favored = obj["favored"] == 1 ? true : false;
     createdAt = DateTime.parse(obj["created_at"]);
     public = obj["is_public"] == 1 ? true : false;
@@ -61,10 +63,13 @@ abstract class NestOrNestItem extends StatefulWidget {
 }
 
 class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
-  MaterialColor accentColor = Constants.accentColor;
+  MaterialColor accentColor = constants.accentColor;
 
   @override
   Widget build(BuildContext context) {
+    print("Id: " + widget.id.toString());
+    final bool isNest = !context.toString().contains("NestItem");
+
     final Widget image = Material(
       shape: RoundedRectangleBorder(
         borderRadius: BorderRadius.circular(4),
@@ -94,10 +99,11 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
                 style: TextStyle(color: accentColor),
               ),
             ),
-            subtitle: const FittedBox(
+            subtitle: FittedBox(
               fit: BoxFit.scaleDown,
               alignment: AlignmentDirectional.centerStart,
-              child: Text("0 nest items"),
+              // TODO: display number of nestItems or date or...nothing for now? (description might be too long)
+              child: Text(isNest ? "0 nest items" : widget.createdAt.toString().substring(0, 10)),
             ),
             trailing: FittedBox(
               alignment: AlignmentDirectional.centerStart,
@@ -115,9 +121,9 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
           fit: BoxFit.scaleDown,
           alignment: AlignmentDirectional.topStart,
           child: IconButton(
-            tooltip: widget.favored ? "Remove as favorite" : "Mark as favorite",
+            tooltip: widget.favored! ? "Remove as favorite" : "Mark as favorite",
             alignment: AlignmentDirectional.centerStart,
-            icon: Icon(widget.favored ? Icons.favorite : Icons.favorite_border,
+            icon: Icon(widget.favored! ? Icons.favorite : Icons.favorite_border,
                 color: accentColor),
             onPressed: toggleFavored,
           ),
@@ -126,11 +132,16 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
     );
   }
 
+  // TODO: check if this does anything
+  onChange(dynamic value) {
+    setState(() {});
+  }
+
   void openNextScreen(BuildContext context) async {}
 
   void toggleFavored() async {
     setState(() {
-      widget.favored ^= true;
+      widget.favored == null ? false : widget.favored = !widget.favored!;
     });
   }
 }

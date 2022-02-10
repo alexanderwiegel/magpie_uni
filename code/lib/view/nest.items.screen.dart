@@ -9,7 +9,7 @@ import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 class NestItemsScreen extends HomeOrNestItemsScreen {
   final Nest nest;
 
-  NestItemsScreen({required this.nest});
+  const NestItemsScreen({required this.nest});
 
   @override
   _NestItemsScreenState createState() => _NestItemsScreenState();
@@ -26,14 +26,16 @@ class _NestItemsScreenState
 
   @override
   Widget editButton() => IconButton(
-        icon: Icon(Icons.edit),
+        icon: const Icon(Icons.edit),
         tooltip: "Edit nest",
-        onPressed: () async => await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NestDetailScreen(nest: widget.nest),
-          ),
-        ),
+        onPressed: () async {
+          await Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => NestDetailScreen(nest: widget.nest),
+            ),
+          ).then(onChange);
+        },
       );
 
   @override
