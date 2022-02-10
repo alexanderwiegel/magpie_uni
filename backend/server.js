@@ -96,7 +96,9 @@ function jwt() {
       '/nest/nestItems',
       '/nest/deleteNest',
       '/nest/deleteNestItem',
-      '/user/userProfile'
+      '/user/getUser',
+      '/user/userProfile',
+      '/user/editUser',
     ]
   });
 }

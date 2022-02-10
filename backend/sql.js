@@ -25,8 +25,17 @@ function registerUser(user, cb) {
   });
 }
 
-function getUser(email, cb) {
-  connection.query("SELECT id,username,password,email,created_at,sort_mode,only_favored,is_asc,photo,phone_number FROM user u WHERE u.email = '" + email + "'",
+function getUser(id, cb) {
+  connection.query("SELECT sort_mode,only_favored,is_asc FROM user u WHERE u.id = '" + id + "'",
+    function (err, rows) {
+      if (err) cb(err);
+      else cb(undefined, rows);
+    });
+}
+
+function editUser(body, cb) {
+  console.log(`UPDATE user SET sort_mode="${body.sort_mode}", only_favored="${body.only_favored}", is_asc="${body.is_asc}" WHERE id = "${body.id}";`);
+  connection.query(`UPDATE user SET sort_mode="${body.sort_mode}", only_favored="${body.only_favored}", is_asc="${body.is_asc}" WHERE id = "${body.id}";`,
     function (err, rows) {
       if (err) cb(err);
       else cb(undefined, rows);
@@ -373,6 +382,7 @@ module.exports = {
   connectDB: connectDB,
   registerUser: registerUser,
   getUser: getUser,
+  editUser: editUser,
   getUserofId: getUserofId,
   getUserProfile: getUserProfile,
   getAllNestItems: getAllNestItems,
