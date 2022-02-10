@@ -49,7 +49,6 @@ abstract class NestOrNestItem extends StatefulWidget {
     photo = getPhotoPath(obj["photo"]);
     name = obj["title"];
     description = obj["description"];
-    worth = obj["worth"].runtimeType == Null ? 0 : obj["worth"];
     favored = obj["favored"] == 1 ? true : false;
     createdAt = DateTime.parse(obj["created_at"]);
     public = obj["is_public"] == 1 ? true : false;

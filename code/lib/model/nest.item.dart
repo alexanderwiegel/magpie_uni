@@ -20,6 +20,7 @@ class NestItem extends NestOrNestItem {
   @override
   NestItem.fromMap(dynamic obj, {Key? key}) : super.fromMap(obj, key: key) {
     nestId = obj["nest_id"];
+    super.worth = obj["worth"].runtimeType == Null ? 0 : obj["worth"];
   }
 
   @override

@@ -23,12 +23,12 @@ class _NestDetailScreenState
     print("Specify that it is a nest item");
     // TODO: see if I can use widget.nestItem
     super.widget.nestOrNestItem = NestItem(nestId: widget.nestItem.nestId);
+    super.widget.nestOrNestItem.id = widget.nestItem.id;
     print("Call super method to set attributes");
     super.uploadNestOrNestItem();
     print("Call api endpoint to edit a nest item");
     // TODO: see if I can use widget.nestItem
     await ApiEndpoints.uploadNestOrNestItem(
-            super.widget.nestOrNestItem, false, false)
-        .then(onChange);
+            super.widget.nestOrNestItem, false, false).then(onChange);
   }
 }

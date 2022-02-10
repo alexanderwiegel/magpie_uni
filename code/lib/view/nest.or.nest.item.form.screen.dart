@@ -27,7 +27,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
   late dynamic _photo;
   late String _name;
   late String _description;
-  late int _worth;
+  late int _worth = 0;
   late bool _public;
 
   late TextEditingController _nameEditingController;
@@ -96,6 +96,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
       ),
       body: MagpieForm(
         formKey: _formKey,
+        isNew: _isNew,
         isNest: _isNest,
         photo: _photo,
         nameEditingController: _nameEditingController,
