@@ -99,6 +99,16 @@ function jwt() {
       '/user/getUser',
       '/user/userProfile',
       '/user/editUser',
+      '/chat/getChatHistoryById',
+      '/chat/getChatList',
+      '/chat/checkAndInsertChatSession',
+      '/chat/updateReadBit',
+      '/chat/getNotification',
+      '/chat/insertChat',
+      '/feed/getFeeds',
+      '/feed/userProfile',
+      '/feed/nestItems',
+      '/feed/nestItem',
     ]
   });
 }
