@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
-import 'package:magpie_uni/network/user_api_manager.dart';
-import 'package:magpie_uni/services/apiEndpoints.dart';
 
+import 'package:magpie_uni/network/user_api_manager.dart';
+import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
 import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/Constants.dart';
 
+//ignore: must_be_immutable
 class Statistic extends StatelessWidget {
   //#region fields
-  // Statistic({Key? key}) : super(key: key);
+  Statistic({Key? key}) : super(key: key);
 
   late double smallTitleSize = 0;
   late double bigTitleSize = 0;
@@ -30,6 +31,7 @@ class Statistic extends StatelessWidget {
   late List<CircularStackEntry> circularData;
 
   //#endregion
+
   void getDict() {
     var nests = UserAPIManager().currentUserProfile.nests!;
     var nestItems = UserAPIManager().currentUserProfile.nestItems!;
@@ -44,8 +46,8 @@ class Statistic extends StatelessWidget {
     }
   }
 
-  Map<String, int> dict = Map();
-  Map<String, int> finalDict = Map();
+  Map<String, int> dict = {};
+  Map<String, int> finalDict = {};
 
   void initEntries() {
     getDict();
@@ -62,9 +64,7 @@ class Statistic extends StatelessWidget {
     }
     descriptions = [];
     for (int i = 0; i < entries.length; i++) {
-      descriptions.add(
-        description(i),
-      );
+      descriptions.add(description(i));
     }
     if (SizeConfig.isTablet) {
       smallTitleSize = SizeConfig.hori * 2;
@@ -81,7 +81,7 @@ class Statistic extends StatelessWidget {
   Widget build(BuildContext context) {
     initEntries();
     return Scaffold(
-      drawer: MagpieDrawer(),
+      drawer: const MagpieDrawer(),
       appBar: AppBar(
         title: const Text("Statistic"),
       ),
@@ -149,40 +149,39 @@ class Statistic extends StatelessWidget {
               subtitle,
               style: TextStyle(fontSize: bigTitleSize),
             ),
-            const Padding(
-              padding: EdgeInsets.symmetric(vertical: 8),
-            ),
+            const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.symmetric(horizontal: 8),
                 child: charts.TimeSeriesChart(
                   [
                     charts.Series<TimeSeriesData, DateTime>(
-                        id: "",
-                        data: [
-                          TimeSeriesData(
-                            count: 5,
-                            date: DateTime(2022, 1, 15),
-                          ),
-                          TimeSeriesData(
-                            count: 12,
-                            date: DateTime(2022, 1, 20),
-                          ),
-                          TimeSeriesData(
-                            count: 20,
-                            date: DateTime(2022, 1, 25),
-                          ),
-                          TimeSeriesData(
-                            count: 30,
-                            date: DateTime(2022, 1, 29),
-                          ),
-                          TimeSeriesData(
-                            count: 50,
-                            date: DateTime(2022, 2, 3),
-                          ),
-                        ],
-                        domainFn: (TimeSeriesData tsd, _) => tsd.date!,
-                        measureFn: (TimeSeriesData tsd, _) => tsd.count),
+                      id: "",
+                      data: [
+                        TimeSeriesData(
+                          count: 5,
+                          date: DateTime(2022, 1, 15),
+                        ),
+                        TimeSeriesData(
+                          count: 12,
+                          date: DateTime(2022, 1, 20),
+                        ),
+                        TimeSeriesData(
+                          count: 20,
+                          date: DateTime(2022, 1, 25),
+                        ),
+                        TimeSeriesData(
+                          count: 30,
+                          date: DateTime(2022, 1, 29),
+                        ),
+                        TimeSeriesData(
+                          count: 50,
+                          date: DateTime(2022, 2, 3),
+                        ),
+                      ],
+                      domainFn: (TimeSeriesData tsd, _) => tsd.date!,
+                      measureFn: (TimeSeriesData tsd, _) => tsd.count,
+                    ),
                   ],
                 ),
               ),
@@ -214,20 +213,22 @@ class Statistic extends StatelessWidget {
                   style: TextStyle(fontSize: bigTitleSize),
                 ),
                 AnimatedCircularChart(
-                    size: SizeConfig.isTablet
-                        ? Size(radius * 1.75, radius * 1.75)
-                        : Size(radius, radius),
-                    initialChartData: <CircularStackEntry>[
-                      CircularStackEntry(entries, rankKey: "Nest shares"),
-                    ],
-                    chartType: CircularChartType.Pie),
+                  size: SizeConfig.isTablet
+                      ? Size(radius * 1.75, radius * 1.75)
+                      : Size(radius, radius),
+                  initialChartData: <CircularStackEntry>[
+                    CircularStackEntry(entries, rankKey: "Nest shares"),
+                  ],
+                  chartType: CircularChartType.Pie,
+                ),
               ],
             ),
           ),
           Expanded(
             child: Column(
-                children: descriptions,
-                mainAxisAlignment: MainAxisAlignment.center),
+              children: descriptions,
+              mainAxisAlignment: MainAxisAlignment.center,
+            ),
           ),
         ],
       ),
@@ -243,9 +244,7 @@ class Statistic extends StatelessWidget {
             radius: 9,
             backgroundColor: colors[index],
           ),
-          const Padding(
-            padding: EdgeInsets.symmetric(horizontal: 5),
-          ),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
           Text(
             entries[index].rankKey,
             style: const TextStyle(fontSize: 15),

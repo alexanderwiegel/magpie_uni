@@ -1,7 +1,3 @@
-import 'dart:convert';
-
-// NotificationResponse NotificationFromJson(String str) => NotificationResponse.fromJson(json.decode(str));
-
 class NotificationResponse {
   NotificationResponse({
     required this.status,

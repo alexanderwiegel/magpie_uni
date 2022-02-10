@@ -1,13 +1,12 @@
 import 'package:flutter/material.dart';
+
 import 'package:magpie_uni/services/http_service.dart';
 import 'package:magpie_uni/services/validators.dart';
-// import 'package:magpie_uni/view/home.dart';
+import 'package:magpie_uni/view/home.page.dart';
 import 'package:magpie_uni/widgets/atoms/buttons/magpie_button.dart';
 import 'package:magpie_uni/widgets/atoms/buttons/magpie_text_button.dart';
 import 'package:magpie_uni/widgets/magpie.text.form.field.dart';
 import 'package:magpie_uni/constants.dart';
-
-import '../../../homePage.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -51,7 +50,7 @@ class _LoginFormState extends State<LoginForm> {
             child: MagpieTextButton.primary(
               color: Colors.black,
               onPressed: () {},
-              label: "Forgot Password?",
+              label: "Forgot password?",
             ),
           ),
           SizedBox(

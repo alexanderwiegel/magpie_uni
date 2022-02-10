@@ -1,12 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:magpie_uni/view/chat/chatDetailPage.dart';
-import 'package:magpie_uni/model/chatSessionModel.dart';
-import '../Constants.dart' as Constants;
+import 'package:magpie_uni/view/chat/chat.detail.page.dart';
+import 'package:magpie_uni/model/chat.session.model.dart';
+import 'package:magpie_uni/constants.dart';
 
 class ChatSessionListItem extends StatefulWidget {
   final ValueChanged onBackPressed;
-  ChatSession chatSession;
-  ChatSessionListItem({required this.chatSession, required this.onBackPressed});
+  final ChatSession chatSession;
+
+  const ChatSessionListItem({
+    Key? key,
+    required this.chatSession,
+    required this.onBackPressed,
+  }) : super(key: key);
+
   @override
   _ChatSessionListItemState createState() => _ChatSessionListItemState();
 }
@@ -15,19 +21,21 @@ class _ChatSessionListItemState extends State<ChatSessionListItem> {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () {
-        Navigator.push(context, MaterialPageRoute(builder: (context) {
-          return ChatDetailPage(
+      onTap: () => Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => ChatDetailPage(
             chatSession: widget.chatSession,
             onBackPressed: (value) {
-              this.widget.onBackPressed(value);
-              print(value);
+              widget.onBackPressed(value);
+              //print(value);
             },
-          );
-        }));
-      },
+          ),
+        ),
+      ),
       child: Container(
-        padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
+        padding:
+            const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 10),
         child: Column(
           children: <Widget>[
             Row(
@@ -35,14 +43,12 @@ class _ChatSessionListItemState extends State<ChatSessionListItem> {
                 Expanded(
                   child: Row(
                     children: <Widget>[
-                      CircleAvatar(
+                      const CircleAvatar(
                         backgroundImage: NetworkImage(
                             "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJGNHFnbUHLoK_9zZ8nM1aI0HLu7P6eyu83eJAs_D9lv9qY_au3YFraMk01LgqOm6ju5I&usqp=CAU"),
                         maxRadius: 30,
                       ),
-                      SizedBox(
-                        width: 16,
-                      ),
+                      const SizedBox(width: 16),
                       Expanded(
                         child: Container(
                           color: Colors.transparent,
@@ -59,18 +65,17 @@ class _ChatSessionListItemState extends State<ChatSessionListItem> {
                                           : FontWeight.normal,
                                 ),
                               ),
-                              SizedBox(
-                                height: 6,
-                              ),
+                              const SizedBox(height: 6),
                               Text(
                                 widget.chatSession.topMessage ?? "",
                                 style: TextStyle(
-                                    fontSize: 13,
-                                    color: Colors.grey.shade600,
-                                    fontWeight:
-                                        widget.chatSession.unreadMessages != 0
-                                            ? FontWeight.bold
-                                            : FontWeight.normal),
+                                  fontSize: 13,
+                                  color: Colors.grey.shade600,
+                                  fontWeight:
+                                      widget.chatSession.unreadMessages != 0
+                                          ? FontWeight.bold
+                                          : FontWeight.normal,
+                                ),
                               ),
                             ],
                           ),
@@ -85,37 +90,32 @@ class _ChatSessionListItemState extends State<ChatSessionListItem> {
                     Text(
                       widget.chatSession.lastMessageTime ?? "",
                       style: TextStyle(
-                          color: Colors.grey[600],
-                          fontSize: 12,
-                          fontWeight: widget.chatSession.unreadMessages != 0
-                              ? FontWeight.bold
-                              : FontWeight.normal),
+                        color: Colors.grey[600],
+                        fontSize: 12,
+                        fontWeight: widget.chatSession.unreadMessages != 0
+                            ? FontWeight.bold
+                            : FontWeight.normal,
+                      ),
                     ),
-                    SizedBox(
-                      height: 6,
-                    ),
+                    const SizedBox(height: 6),
                     Container(
-                      padding: EdgeInsets.all(1),
-                      decoration: new BoxDecoration(
-                        color: this.widget.chatSession.unreadMessages == 0
+                      padding: const EdgeInsets.all(1),
+                      decoration: BoxDecoration(
+                        color: widget.chatSession.unreadMessages == 0
                             ? Colors.white
-                            : Constants.mainColor,
+                            : mainColor,
                         borderRadius: BorderRadius.circular(12.5),
                       ),
-                      constraints: BoxConstraints(
+                      constraints: const BoxConstraints(
                         minWidth: 25,
                         minHeight: 25,
                       ),
                       child: Center(
-                        child: new Text(
-                          this.widget.chatSession.unreadMessages == 0
+                        child: Text(
+                          widget.chatSession.unreadMessages == 0
                               ? ""
-                              : this
-                                  .widget
-                                  .chatSession
-                                  .unreadMessages
-                                  .toString(),
-                          style: new TextStyle(
+                              : widget.chatSession.unreadMessages.toString(),
+                          style: const TextStyle(
                             color: Colors.white,
                             fontSize: 14,
                             fontWeight: FontWeight.bold,

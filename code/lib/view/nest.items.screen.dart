@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:magpie_uni/model/nest.dart';
-import 'package:magpie_uni/services/apiEndpoints.dart';
+import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/view/home.or.nest.items.screen.dart';
 import 'package:magpie_uni/view/nest.detail.screen.dart';
 import 'package:magpie_uni/view/nest.item.creation.dart';
@@ -9,7 +10,7 @@ import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 class NestItemsScreen extends HomeOrNestItemsScreen {
   final Nest nest;
 
-  const NestItemsScreen({required this.nest});
+  const NestItemsScreen({Key? key, required this.nest}) : super(key: key);
 
   @override
   _NestItemsScreenState createState() => _NestItemsScreenState();
@@ -28,14 +29,12 @@ class _NestItemsScreenState
   Widget editButton() => IconButton(
         icon: const Icon(Icons.edit),
         tooltip: "Edit nest",
-        onPressed: () async {
-          await Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => NestDetailScreen(nest: widget.nest),
-            ),
-          ).then(onChange);
-        },
+        onPressed: () async => await Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => NestDetailScreen(nest: widget.nest),
+          ),
+        ).then(onChange),
       );
 
   @override
@@ -45,7 +44,6 @@ class _NestItemsScreenState
   }
 
   @override
-  NestOrNestItemFormScreen openCreationScreen() {
-    return NestItemCreation(nestId: widget.nest.id);
-  }
+  NestOrNestItemFormScreen openCreationScreen() =>
+      NestItemCreation(nestId: widget.nest.id);
 }

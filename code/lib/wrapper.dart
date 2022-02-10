@@ -3,7 +3,7 @@ import 'package:flutter/services.dart';
 
 import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/view/auth/login/login.page.dart';
-// import 'package:magpie_uni/view/homePage.dart';
+// import 'package:magpie_uni/view/home.page.dart';
 
 class Wrapper extends StatelessWidget {
   const Wrapper({Key? key}) : super(key: key);

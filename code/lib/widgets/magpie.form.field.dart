@@ -1,9 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
-import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart';
 
-// ignore: must_be_immutable
 class MagpieFormField extends StatelessWidget {
   final bool enabled;
   final IconData? icon;
@@ -16,19 +15,19 @@ class MagpieFormField extends StatelessWidget {
   final TextInputType? keyboardType;
   final Function? validate;
 
-  const MagpieFormField(
-      {Key? key,
-        this.enabled = true,
-        required this.icon,
-        required this.labelText,
-        this.hintText,
-        this.initialValue,
-        this.border,
-        this.controller,
-        this.inputFormatter,
-        this.keyboardType,
-        this.validate})
-      : super(key: key);
+  const MagpieFormField({
+    Key? key,
+    this.enabled = true,
+    required this.icon,
+    required this.labelText,
+    this.hintText,
+    this.initialValue,
+    this.border,
+    this.controller,
+    this.inputFormatter,
+    this.keyboardType,
+    this.validate,
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -39,7 +38,7 @@ class MagpieFormField extends StatelessWidget {
         decoration: InputDecoration(
           border: border,
           hintText: hintText,
-          icon: Icon(icon, color: Constants.mainColor),
+          icon: Icon(icon, color: mainColor),
           labelText: labelText,
         ),
         initialValue: initialValue,

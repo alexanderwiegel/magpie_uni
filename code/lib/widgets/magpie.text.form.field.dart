@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../constants.dart' as constants;
+import 'package:magpie_uni/constants.dart';
 
 // ignore: must_be_immutable
 class MagpieTextFormField extends StatefulWidget {
@@ -86,7 +86,7 @@ class _MagpieTextFormFieldState extends State<MagpieTextFormField> {
         contentPadding: const EdgeInsets.all(20),
         hintText: widget.hintText,
         prefixIcon: widget.leadingIcon != null
-            ? Icon(widget.leadingIcon, color: constants.mainColor)
+            ? Icon(widget.leadingIcon, color: mainColor)
             : null,
         suffixIcon: widget.trailingIcon != null
             ? IconButton(
@@ -94,8 +94,9 @@ class _MagpieTextFormFieldState extends State<MagpieTextFormField> {
                   !widget.obscure ? Icons.visibility : Icons.visibility_off,
                   color: Theme.of(context).primaryColorDark,
                 ),
-                onPressed: () =>
-                    setState(() => widget.obscure = !widget.obscure),
+                onPressed: () => setState(
+                  () => widget.obscure = !widget.obscure,
+                ),
               )
             : null,
         labelText: widget.labelText,

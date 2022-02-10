@@ -7,6 +7,7 @@ import 'package:magpie_uni/widgets/magpie.form.dart';
 import 'package:magpie_uni/widgets/magpie.icon.button.dart';
 import 'package:magpie_uni/widgets/magpie.delete.dialog.dart';
 
+//ignore: must_be_immutable
 abstract class NestOrNestItemFormScreen extends StatefulWidget {
   NestOrNestItem nestOrNestItem;
 
@@ -61,17 +62,20 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
       ? Container()
       : MagpieButton(
           onPressed: () => _magpieDeleteDialog.displayDeleteDialog(
-              context, isNest, getIdOfNestOrNestItem()),
+            context,
+            isNest,
+            getIdOfNestOrNestItem(),
+          ),
           title: "Delete $thing",
           icon: Icons.delete,
         );
 
-  int getIdOfNestOrNestItem() => -1;
+  int getIdOfNestOrNestItem() => throw UnimplementedError();
 
   @override
   Widget build(BuildContext context) {
     String ctx = context.toString();
-    print("Context $ctx");
+    //print("Context $ctx");
     bool _isNest = !ctx.contains("NestItem");
     bool _isNew = ctx.contains("Creation");
     String _thing = _isNest ? "nest" : "nest item";
@@ -83,11 +87,9 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
             icon: Icons.save,
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
-                if (_photo != null) {
-                  await uploadNestOrNestItem().then(onChange);
-                } else {
-                  MagpiePhotoAlert.displayPhotoAlert(context);
-                }
+                _photo != null
+                    ? await uploadNestOrNestItem().then(onChange)
+                    : MagpiePhotoAlert.displayPhotoAlert(context);
               }
             },
             tooltip: "Save",
@@ -114,7 +116,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
 
   onChange(dynamic value) {
     // TODO: check if setState needs to be called before or after and if it even does anything
-    print("Upload finished. Now pop screen.");
+    //print("Upload finished. Now pop screen.");
     setState(() {});
     Navigator.of(context).pop();
     setState(() {});
@@ -122,7 +124,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
 
   void _changeImage(dynamic image) {
     // TODO: will always be true because the timestamp will always change
-    print("Old photo: $_photo");
+    //print("Old photo: $_photo");
     if (_photo != image) setState(() => _photo = image);
   }
 
@@ -138,6 +140,6 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
         ? 0
         : int.parse(_worthEditingController.text);
     widget.nestOrNestItem.public = _public;
-    print("Successfully set attributes");
+    //print("Successfully set attributes");
   }
 }

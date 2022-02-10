@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/model/nest.or.nest.item.dart';
-
 // import 'package:magpie_uni/model/user.dart';
-// import 'package:magpie_uni/services/apiEndpoints.dart';
+// import 'package:magpie_uni/services/api.endpoints.dart';
 // import 'package:magpie_uni/sort.mode.dart';
+// import 'package:magpie_uni/widgets/magpie.bottom.navigation.bar.dart';
+import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
 import 'package:magpie_uni/Constants.dart';
-
-// import 'package:magpie_uni/widgets/magpie.bottom.navigation.bar.dart';
 import 'package:magpie_uni/widgets/magpie.grid.view.dart';
 
 abstract class HomeOrNestItemsScreen extends StatefulWidget {
@@ -68,46 +66,39 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     _filteredNames = _names;
   }
 
-  void setTitle(String title) {
-    this.title = title;
-  }
+  void setTitle(String title) => this.title = title;
 
-  Future<List> getNestsOrNestItems() async {
-    return [];
-  }
+  Future<List> getNestsOrNestItems() async => throw UnimplementedError();
 
   Widget editButton() => Container();
 
-  NestOrNestItemFormScreen openCreationScreen() {
-    throw UnimplementedError();
-  }
+  NestOrNestItemFormScreen openCreationScreen() => throw UnimplementedError();
 
-  Widget searchBar() {
-    return IconButton(
-      color: textColor,
-      // TODO: change this according to nest/nestItem
-      tooltip: "Search",
-      padding: const EdgeInsets.only(left: 12.0),
-      alignment: Alignment.centerLeft,
-      icon: _searchIcon,
-      iconSize: 30.0,
-      onPressed: _searchPressed,
-    );
-  }
+  Widget searchBar() => IconButton(
+        color: textColor,
+        // TODO: change this according to nest/nestItem
+        tooltip: "Search",
+        padding: const EdgeInsets.only(left: 12.0),
+        alignment: Alignment.centerLeft,
+        icon: _searchIcon,
+        iconSize: 30.0,
+        onPressed: _searchPressed,
+      );
 
   @override
   Widget build(BuildContext context) {
     bool isNest = context.toString().contains("Home");
     String thing = isNest ? "nest" : "nest item";
     return Scaffold(
-      drawer: MagpieDrawer(),
+      drawer: const MagpieDrawer(),
       appBar: AppBar(
         title: Text(title),
         actions: [
           searchBar(),
           Container(
-              child: SizedBox(child: searchTitle, width: 180),
-              alignment: Alignment.center),
+            child: SizedBox(child: searchTitle, width: 180),
+            alignment: Alignment.center,
+          ),
           editButton()
         ],
       ),
@@ -150,22 +141,14 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
         tooltip: "Create new $thing",
         backgroundColor: mainColor,
         child: const Icon(Icons.add),
-        onPressed: () async {
-          await Navigator.of(context)
-              .push(
-                MaterialPageRoute(
-                  builder: (context) => openCreationScreen(),
-                ),
-              )
-              .then(onChange);
-        },
+        onPressed: () async => await Navigator.of(context)
+            .push(MaterialPageRoute(builder: (context) => openCreationScreen()))
+            .then(onChange),
       ),
     );
   }
 
-  onChange(dynamic value) {
-    setState(() {});
-  }
+  onChange(dynamic value) => setState(() {});
 
   // void _switchSortOrder(SortMode result) async {
   //   if (_sortMode != result) {

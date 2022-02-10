@@ -1,31 +1,18 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:magpie_uni/model/chatSessionModel.dart';
-import 'package:magpie_uni/services/apiEndpoints.dart';
-import 'package:magpie_uni/widgets/chatSessionListItem.dart';
-import 'package:magpie_uni/model/chatMessage.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-import 'package:http/http.dart' as http;
+
+import 'package:magpie_uni/model/chat.session.model.dart';
+import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/widgets/chat.session.list.item.dart';
+import 'package:magpie_uni/model/chat.message.dart';
+import 'package:socket_io_client/socket_io_client.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
-
-// Future<ChatSessionResponse> fetchChatSessions(int loggedUserId) async {
-//   var headers = UserAPIManager().getAPIHeader();
-//   final response = await http.get(
-//       Uri.parse('http://localhost:3000/chat/getChatList?userId=$loggedUserId'),
-//       headers: headers);
-
-//   if (response.statusCode == 200) {
-//     print(response.body);
-//     return ChatSessionResponse.fromJson(jsonDecode(response.body));
-//   } else {
-//     throw Exception('Failed to load chat');
-//   }
-// }
 
 class ChatList extends StatefulWidget {
   final ValueChanged onBackPressed;
-  ChatList({required this.onBackPressed});
+
+  const ChatList({Key? key, required this.onBackPressed}) : super(key: key);
+
   @override
   _ChatPageState createState() => _ChatPageState();
 }
@@ -38,25 +25,25 @@ class _ChatPageState extends State<ChatList> {
   @override
   void initState() {
     super.initState();
-    this.getData();
+    getData();
     initSocket();
   }
 
   void initSocket() {
-    socket = IO.io(ApiEndpoints.urlPrefix, <String, dynamic>{
+    socket = io(ApiEndpoints.urlPrefix, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
     socket.connect();
 
     socket.on("receive_message", (message) {
-      print("Received Message: ");
-      print(message);
+      //print("Received Message: ");
+      //print(message);
       ChatMessage newMessage = ChatMessage.fromJson(message);
-      print(newMessage.message);
+      //print(newMessage.message);
       if (newMessage.senderId == UserAPIManager.currentUserId ||
           newMessage.receiverId == UserAPIManager.currentUserId) {
-        this.getData();
+        getData();
       }
     });
   }
@@ -68,7 +55,7 @@ class _ChatPageState extends State<ChatList> {
   }
 
   void getData() {
-    this.setState(() {
+    setState(() {
       response = ApiEndpoints.fetchChatSessions(UserAPIManager.currentUserId);
     });
   }
@@ -83,10 +70,10 @@ class _ChatPageState extends State<ChatList> {
         backgroundColor: Colors.white,
         flexibleSpace: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 15),
+            padding: const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
+              children: const <Widget>[
                 Text(
                   "Chats",
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
@@ -97,18 +84,18 @@ class _ChatPageState extends State<ChatList> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             SafeArea(
               child: Padding(
-                padding: EdgeInsets.only(top: 10, left: 16, right: 16),
+                padding: const EdgeInsets.only(top: 10, left: 16, right: 16),
                 child: TextField(
                   controller: searchTxtField,
                   textAlignVertical: TextAlignVertical.center,
                   onChanged: (text) {
-                    this.didEditSearchTextField(text);
+                    didEditSearchTextField(text);
                   },
                   decoration: InputDecoration(
                     hintText: "Search...",
@@ -120,7 +107,7 @@ class _ChatPageState extends State<ChatList> {
                     ),
                     filled: true,
                     fillColor: Colors.grey.shade100,
-                    contentPadding: EdgeInsets.all(8),
+                    contentPadding: const EdgeInsets.all(8),
                     enabledBorder: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(20),
                         borderSide: BorderSide(color: Colors.grey.shade100)),
@@ -132,21 +119,21 @@ class _ChatPageState extends State<ChatList> {
               future: response,
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
-                  this.chatSessions = snapshot.data!.chat;
-                  this.filteredSession = searchTxtField.text.trim().isNotEmpty
+                  chatSessions = snapshot.data!.chat;
+                  filteredSession = searchTxtField.text.trim().isNotEmpty
                       ? chatSessions
                           .where((element) => element.opponentUserName
                               .toLowerCase()
                               .contains(
                                   searchTxtField.text.trim().toLowerCase()))
                           .toList()
-                      : this.chatSessions;
+                      : chatSessions;
                   if (snapshot.data!.chat.isNotEmpty) {
                     if (filteredSession.isEmpty &&
                         searchTxtField.text.trim().isNotEmpty) {
                       return Container(
-                        padding: EdgeInsets.only(top: 20),
-                        child: Center(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: const Center(
                           child: Text(
                             "No search results founds.",
                             textAlign: TextAlign.center,
@@ -166,15 +153,15 @@ class _ChatPageState extends State<ChatList> {
                         ),
                         itemCount: filteredSession.length,
                         shrinkWrap: true,
-                        padding: EdgeInsets.only(top: 10),
-                        physics: NeverScrollableScrollPhysics(),
+                        padding: const EdgeInsets.only(top: 10),
+                        physics: const NeverScrollableScrollPhysics(),
                         itemBuilder: (context, index) {
                           return ChatSessionListItem(
                             chatSession: filteredSession[index],
                             onBackPressed: (value) {
-                              this.widget.onBackPressed(value);
-                              print(value);
-                              this.getData();
+                              widget.onBackPressed(value);
+                              //print(value);
+                              getData();
                             },
                           );
                         },
@@ -182,8 +169,8 @@ class _ChatPageState extends State<ChatList> {
                     }
                   } else {
                     return Container(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Center(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: const Center(
                         child: Text(
                           "No Chats Available.",
                           textAlign: TextAlign.center,
@@ -196,14 +183,12 @@ class _ChatPageState extends State<ChatList> {
                     );
                   }
                 } else if (snapshot.hasError) {
-                  return Container(
-                    child: Text("$snapshot"),
-                  );
+                  return Text("$snapshot");
                 }
                 // By default, show a loading spinner.
                 return Container(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Center(
+                  padding: const EdgeInsets.only(top: 20),
+                  child: const Center(
                     child: CircularProgressIndicator(),
                   ),
                 );
@@ -221,19 +206,19 @@ class _ChatPageState extends State<ChatList> {
   List<ChatSession> filteredSession = [];
 
   void didEditSearchTextField(String text) {
-    this.setState(() {
+    setState(() {
       //Scrolldown the list to show the latest message
-      print('Inside Function: $text');
+      //print('Inside Function: $text');
       if (text.isNotEmpty) {
-        print('text not empty: $text');
-        this.filteredSession = chatSessions
+        //print('text not empty: $text');
+        filteredSession = chatSessions
             .where((element) => element.opponentUserName
                 .toLowerCase()
                 .contains(text.toLowerCase()))
             .toList();
-        print(filteredSession.length);
+        //print(filteredSession.length);
       } else {
-        this.filteredSession = chatSessions;
+        filteredSession = chatSessions;
       }
     });
   }

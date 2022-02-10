@@ -5,13 +5,11 @@ import 'package:flutter/material.dart';
 import 'package:magpie_uni/view/auth/register/register.page.dart';
 import 'package:magpie_uni/view/auth/login/login.page.dart';
 import 'package:magpie_uni/Constants.dart';
-import 'package:magpie_uni/view/homePage.dart';
+import 'package:magpie_uni/view/home.page.dart';
 import 'package:magpie_uni/view/statistic.dart';
 import 'package:magpie_uni/wrapper.dart';
 
-void main() {
-  runApp(const Magpie());
-}
+void main() => runApp(const Magpie());
 
 class Magpie extends StatelessWidget {
   const Magpie({Key key}) : super(key: key);
@@ -22,9 +20,7 @@ class Magpie extends StatelessWidget {
     return MaterialApp(
       title: 'Magpie',
       debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: mainColor,
-      ),
+      theme: ThemeData(primarySwatch: mainColor),
       routes: {
         "/": (context) => const Wrapper(),
         "/login": (context) => const LoginScreen(),

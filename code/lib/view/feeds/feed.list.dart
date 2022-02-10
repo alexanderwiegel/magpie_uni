@@ -1,34 +1,14 @@
 import 'dart:async';
-// import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:magpie_uni/model/feedsModel.dart';
+
+import 'package:magpie_uni/model/feeds.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
-import 'package:magpie_uni/services/apiEndpoints.dart';
-import 'package:magpie_uni/widgets/feedListItem.dart';
-// import 'package:http/http.dart' as http;
-
-// Future<FeedResponse> fetchFeeds(int loggedUserId) async {
-//   var headers = UserAPIManager().getAPIHeader();
-//   print(
-//     Uri.parse(ApiEndpoints.urlPrefix + 'feed/getFeeds?userId=$loggedUserId'),
-//   );
-//   final response = await http.get(
-//       Uri.parse(ApiEndpoints.urlPrefix + 'feed/getFeeds?userId=$loggedUserId'),
-//       headers: headers);
-
-//   if (response.statusCode == 200) {
-//     // If the server did return a 200 OK response,
-//     // then parse the JSON.
-//     print(response.body);
-//     return FeedResponse.fromJson(jsonDecode(response.body));
-//   } else {
-//     // If the server did not return a 200 OK response,
-//     // then throw an exception.
-//     throw Exception('Failed to load Feeds');
-//   }
-// }
+import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/widgets/feed.list.item.dart';
 
 class FeedList extends StatefulWidget {
+  const FeedList({Key? key}) : super(key: key);
+
   @override
   _FeedListState createState() => _FeedListState();
 }
@@ -52,7 +32,8 @@ class _FeedListState extends State<FeedList> {
         backgroundColor: Colors.white,
         flexibleSpace: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 15),
+            padding:
+                const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: const <Widget>[
@@ -78,8 +59,8 @@ class _FeedListState extends State<FeedList> {
                     return ListView.builder(
                       itemCount: snapshot.data!.feeds.length,
                       shrinkWrap: true,
-                      padding: EdgeInsets.only(top: 10),
-                      physics: NeverScrollableScrollPhysics(),
+                      padding: const EdgeInsets.only(top: 10),
+                      physics: const NeverScrollableScrollPhysics(),
                       itemBuilder: (context, index) {
                         return FeedListItem(
                           feed: snapshot.data!.feeds[index],
@@ -88,10 +69,10 @@ class _FeedListState extends State<FeedList> {
                     );
                   } else {
                     return Container(
-                      padding: EdgeInsets.only(top: 20),
-                      child: Center(
+                      padding: const EdgeInsets.only(top: 20),
+                      child: const Center(
                         child: Text(
-                          "No Feeds Available.",
+                          "No feeds available.",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.grey,
@@ -107,10 +88,8 @@ class _FeedListState extends State<FeedList> {
 
                 // By default, show a loading spinner.
                 return Container(
-                  padding: EdgeInsets.only(top: 20),
-                  child: Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  padding: const EdgeInsets.only(top: 20),
+                  child: const Center(child: CircularProgressIndicator()),
                 );
               },
             ),

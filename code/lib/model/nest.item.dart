@@ -3,17 +3,16 @@ import 'package:flutter/material.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/view/nest.item.detail.screen.dart';
 
+//ignore: must_be_immutable
 class NestItem extends NestOrNestItem {
-  late int? nestId;
+  late final int? nestId;
 
-  NestItem({required this.nestId}) : super();
+  NestItem({Key? key, required this.nestId}) : super(key: key);
 
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> nestItem = super.toMap();
-    nestItem.addAll({
-      'nest_id': nestId,
-    });
+    nestItem.addAll({'nest_id': nestId});
     return nestItem;
   }
 
@@ -57,10 +56,10 @@ class _NestItemState extends NestOrNestItemState<NestItem> {
     ).then(onChange);
   }
 
-  // @override
-  // void toggleFavored(BuildContext context) async {
-  //   super.toggleFavored(context);
-  //   await ApiEndpoints.uploadNestOrNestItem(
-  //       currentNestItem, false, currentNestItem.id == null);
-  // }
+// @override
+// void toggleFavored(BuildContext context) async {
+//   super.toggleFavored(context);
+//   await ApiEndpoints.uploadNestOrNestItem(
+//       currentNestItem, false, currentNestItem.id == null);
+// }
 }

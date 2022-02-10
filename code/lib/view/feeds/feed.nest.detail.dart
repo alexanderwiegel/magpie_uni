@@ -1,15 +1,16 @@
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:magpie_uni/model/feedsModel.dart';
+
+import 'package:magpie_uni/model/feeds.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
-import 'package:magpie_uni/view/chat/chatDetailPage.dart';
-import 'package:http/http.dart' as http;
-import 'package:magpie_uni/model/chatSessionModel.dart';
-import 'package:magpie_uni/services/apiEndpoints.dart';
+import 'package:magpie_uni/view/chat/chat.detail.page.dart';
+import 'package:magpie_uni/model/chat.session.model.dart';
+import 'package:magpie_uni/services/api.endpoints.dart';
 
 class FeedNestDetail extends StatefulWidget {
-  Feed feed;
-  FeedNestDetail({required this.feed});
+  final Feed feed;
+
+  const FeedNestDetail({Key? key, required this.feed}) : super(key: key);
+
   @override
   _FeedNestDetailState createState() => _FeedNestDetailState();
 }
@@ -25,22 +26,21 @@ class _FeedNestDetailState extends State<FeedNestDetail> {
         backgroundColor: Colors.white,
         flexibleSpace: SafeArea(
           child: Padding(
-            padding: EdgeInsets.only(left: 5, right: 16, top: 10, bottom: 10),
+            padding:
+                const EdgeInsets.only(left: 5, right: 16, top: 10, bottom: 10),
             child: Row(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 IconButton(
-                  onPressed: () {
-                    Navigator.pop(context);
-                  },
-                  icon: Icon(
+                  onPressed: () => Navigator.pop(context),
+                  icon: const Icon(
                     Icons.arrow_back,
                     color: Colors.black,
                   ),
                 ),
-                Center(
+                const Center(
                   child: Text(
-                    "Item Detail",
+                    "Item detail",
                     textAlign: TextAlign.center,
                     style: TextStyle(
                       fontSize: 22,
@@ -54,7 +54,7 @@ class _FeedNestDetailState extends State<FeedNestDetail> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         padding: const EdgeInsets.fromLTRB(0, 0, 0, 100),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,16 +68,14 @@ class _FeedNestDetailState extends State<FeedNestDetail> {
                   color: Colors.grey.shade100,
                   image: DecorationImage(
                     fit: BoxFit.fitHeight,
-                    image: NetworkImage(this.widget.feed.getImage()),
+                    image: NetworkImage(widget.feed.getImage()),
                   ),
                 ),
               ),
             ),
-            SizedBox(
-              height: 5,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+            const SizedBox(height: 5),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(8, 10, 8, 2),
               child: Text(
                 "Title:",
                 style: TextStyle(
@@ -89,18 +87,16 @@ class _FeedNestDetailState extends State<FeedNestDetail> {
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
               child: Text(
-                this.widget.feed.title,
-                style: TextStyle(
+                widget.feed.title,
+                style: const TextStyle(
                   fontSize: 20,
                   fontWeight: FontWeight.w600,
                 ),
               ),
             ),
-            SizedBox(
-              height: 10,
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 5, 8, 2),
+            const SizedBox(height: 10),
+            const Padding(
+              padding: EdgeInsets.fromLTRB(8, 5, 8, 2),
               child: Text(
                 "Description:",
                 style: TextStyle(
@@ -112,63 +108,36 @@ class _FeedNestDetailState extends State<FeedNestDetail> {
             Padding(
               padding: const EdgeInsets.fromLTRB(8, 2, 8, 15),
               child: Text(
-                this.widget.feed.description,
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
+                widget.feed.description,
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
             ),
           ],
         ),
       ),
       floatingActionButton: FloatingActionButton(
-        backgroundColor: Color.fromRGBO(4, 9, 35, 1),
-        child: Icon(Icons.chat_outlined),
-        onPressed: () {
-          this.floatingBtnPressed();
-        },
+        backgroundColor: const Color.fromRGBO(4, 9, 35, 1),
+        child: const Icon(Icons.chat_outlined),
+        onPressed: () => floatingBtnPressed(),
       ),
     );
   }
 
-  // void floatingBtnPressed() {
-  //   this.fetchUserChatSession(
-  //       UserAPIManager.currentUserId, this.widget.feed.userId);
-  // }
-
   Future<void> floatingBtnPressed() async {
     NewChatSessionResponse response = await ApiEndpoints.fetchUserChatSession(
-        UserAPIManager.currentUserId, this.widget.feed.userId);
+      UserAPIManager.currentUserId,
+      widget.feed.userId,
+    );
 
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ChatDetailPage(
-        chatSession: response.chat,
-        onBackPressed: (value) {
-          print(value);
-        },
-      );
-    }));
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatDetailPage(
+          chatSession: response.chat,
+          onBackPressed: (value) => print(value),
+        ),
+      ),
+    );
   }
-
-  // Future fetchUserChatSession(int currentUserId, int opponentId) async {
-  //   var headers = UserAPIManager().getAPIHeader();
-  //   final response = await http.get(
-  //       Uri.parse(
-  //           ApiEndpoints.urlPrefix + 'chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
-  //       headers: headers);
-  //   if (response.statusCode == 200) {
-  //     print(response.body);
-  //     NewChatSessionResponse result =
-  //         NewChatSessionResponse.fromJson(jsonDecode(response.body));
-
-  //     Navigator.push(context, MaterialPageRoute(builder: (context) {
-  //       return ChatDetailPage(
-  //         chatSession: result.chat,
-  //         onBackPressed: (value) {
-  //           print(value);
-  //         },
-  //       );
-  //     }));
-  //   } else {
-  //     throw Exception('Failed to load Feeds');
-  //   }
-  // }
 }

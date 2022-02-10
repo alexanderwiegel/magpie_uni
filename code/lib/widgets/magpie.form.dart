@@ -20,7 +20,8 @@ class MagpieForm extends StatelessWidget {
   final TextEditingController descriptionEditingController;
   final TextEditingController worthEditingController;
 
-  MagpieForm({
+  const MagpieForm({
+    Key? key,
     required this.formKey,
     required this.isNew,
     required this.isNest,
@@ -33,7 +34,7 @@ class MagpieForm extends StatelessWidget {
     required this.nameEditingController,
     required this.descriptionEditingController,
     required this.worthEditingController,
-  }) : super();
+  }) : super(key: key);
 
   static final DateFormat formatter = DateFormat("dd.MM.yyyy");
 

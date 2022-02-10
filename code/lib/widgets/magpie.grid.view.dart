@@ -9,20 +9,22 @@ class MagpieGridView extends StatelessWidget {
   final String searchText;
 
   MagpieGridView({
+    Key? key,
     required this.filteredNames,
     required this.isNest,
     required this.searchText,
-  });
+  }) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return GridView.count(
-        padding: const EdgeInsets.all(8),
-        mainAxisSpacing: 8,
-        crossAxisSpacing: 8,
-        crossAxisCount: 2,
-        childAspectRatio: 1.05,
-        children: _filterList());
+      padding: const EdgeInsets.all(8),
+      mainAxisSpacing: 8,
+      crossAxisSpacing: 8,
+      crossAxisCount: 2,
+      childAspectRatio: 1.05,
+      children: _filterList(),
+    );
   }
 
   List<NestOrNestItem> _filterList() {

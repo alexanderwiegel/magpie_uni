@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/constants.dart' as Constants;
+import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/size.config.dart';
 
 class MagpieDrawer extends StatelessWidget {
-  final Color iconColor = Constants.mainColor;
+  final Color iconColor = mainColor;
+
+  const MagpieDrawer({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -18,11 +20,11 @@ class MagpieDrawer extends StatelessWidget {
               child: Text(
                 'Magpie',
                 textAlign: TextAlign.center,
-                style: TextStyle(color: Constants.textColor, fontSize: 20),
+                style: TextStyle(color: textColor, fontSize: 20),
               ),
             ),
             decoration: BoxDecoration(
-              color: Constants.mainColor,
+              color: mainColor,
               image: DecorationImage(
                 fit: BoxFit.fill,
                 image: AssetImage('pics/placeholder.jpg'),
@@ -36,7 +38,6 @@ class MagpieDrawer extends StatelessWidget {
           ),
           option(
             Icons.insert_chart, "Statistics",
-            //() => Navigator.of(context).pop(),),
             () => navigate(context, "/statistic"),
           ),
           option(
@@ -63,7 +64,7 @@ class MagpieDrawer extends StatelessWidget {
               // TODO: call sign-out function from auth
               // await _auth.signOut();
             },
-          )
+          ),
         ],
       ),
     );

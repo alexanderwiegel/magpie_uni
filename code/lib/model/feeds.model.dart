@@ -1,9 +1,4 @@
-import 'dart:convert';
-
-import 'package:magpie_uni/services/apiEndpoints.dart';
-// import 'package:flutter/cupertino.dart';
-
-// Feed FeedFromJson(String str) => Feed.fromJson(json.decode(str));
+import 'package:magpie_uni/services/api.endpoints.dart';
 
 class FeedResponse {
   String status;
@@ -52,12 +47,8 @@ class Feed {
         email: json["email"],
       );
 
-  String getImage() {
-    if (this.photo ==
-        "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png") {
-      return this.photo;
-    } else {
-      return ApiEndpoints.urlPrefix + this.photo;
-    }
-  }
+  String getImage() => photo ==
+          "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png"
+      ? photo
+      : ApiEndpoints.urlPrefix + photo;
 }

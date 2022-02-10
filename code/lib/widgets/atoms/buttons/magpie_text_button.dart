@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import '../../../constants.dart';
+import 'package:magpie_uni/constants.dart';
 
 class MagpieTextButton extends StatelessWidget {
   final String label;
@@ -16,19 +16,19 @@ class MagpieTextButton extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return
-        //primary button
-        OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              side: const BorderSide(color: Colors.transparent),
-              backgroundColor: Colors.transparent,
-            ),
-            onPressed: onPressed,
-            child: Text(
-              label,
-              style: TextStyle(
-                color: color,
-              ),
-            ));
+    //primary button
+    return OutlinedButton(
+      style: OutlinedButton.styleFrom(
+        side: const BorderSide(color: Colors.transparent),
+        backgroundColor: Colors.transparent,
+      ),
+      onPressed: onPressed,
+      child: Text(
+        label,
+        style: TextStyle(
+          color: color,
+        ),
+      ),
+    );
   }
 }

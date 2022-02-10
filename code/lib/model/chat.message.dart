@@ -28,11 +28,12 @@ class ChatMessage {
   int receiverId;
   int chatSessionId;
 
-  ChatMessage(
-      {required this.message,
-      required this.senderId,
-      required this.receiverId,
-      required this.chatSessionId});
+  ChatMessage({
+    required this.message,
+    required this.senderId,
+    required this.receiverId,
+    required this.chatSessionId,
+  });
 
   factory ChatMessage.fromJson(Map<String, dynamic> json) => ChatMessage(
         message: json["message"],

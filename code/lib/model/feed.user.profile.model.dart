@@ -1,6 +1,6 @@
 import 'dart:convert';
 
-import 'package:magpie_uni/services/apiEndpoints.dart';
+import 'package:magpie_uni/services/api.endpoints.dart';
 
 FeedUserProfileResponse welcomeFromJson(String str) =>
     FeedUserProfileResponse.fromJson(json.decode(str));
@@ -46,19 +46,14 @@ class FeedNest {
         id: json["id"],
         title: json["title"],
         description: json["description"],
-        photo: json["photo"] == null
-            ? "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png"
-            : json["photo"],
+        photo: json["photo"] ??
+            "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png",
       );
 
-  String getImage() {
-    if (this.photo ==
-        "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png") {
-      return "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png";
-    } else {
-      return ApiEndpoints.urlPrefix + this.photo;
-    }
-  }
+  String getImage() => photo ==
+      "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png"
+      ? photo
+      : ApiEndpoints.urlPrefix + photo;
 }
 
 class FeedNestItem {
@@ -84,19 +79,14 @@ class FeedNestItem {
         userId: json["user_id"],
         title: json["title"],
         description: json["description"],
-        photo: json["photo"] == null
-            ? "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png"
-            : json["photo"],
+        photo: json["photo"] ??
+            "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png",
       );
 
-  String getImage() {
-    if (this.photo ==
-        "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png") {
-      return "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png";
-    } else {
-      return ApiEndpoints.urlPrefix + this.photo;
-    }
-  }
+  String getImage() => photo ==
+      "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png"
+      ? photo
+      : ApiEndpoints.urlPrefix + photo;
 }
 
 class Profile {

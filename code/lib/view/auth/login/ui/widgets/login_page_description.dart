@@ -7,7 +7,6 @@ class LoginPageDescription extends StatelessWidget {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
     final textStyle = theme.textTheme.bodyText1;
-    final color = theme.primaryColor;
 
     return Column(
       children: [
@@ -18,7 +17,7 @@ class LoginPageDescription extends StatelessWidget {
         ),
         Padding(
           padding: const EdgeInsets.all(10.0),
-          child: Text("Login into your existant account of Magpie",
+          child: Text("Login to your existing account for Magpie",
               style: textStyle?.copyWith(color: Colors.black54)),
         ),
       ],

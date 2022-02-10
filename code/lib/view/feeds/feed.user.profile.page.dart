@@ -1,30 +1,31 @@
 import 'dart:async';
-import 'dart:convert';
 import 'package:flutter/material.dart';
-import 'package:magpie_uni/model/chatSessionModel.dart';
-import 'package:magpie_uni/model/feedUserProfileModel.dart';
-import 'package:magpie_uni/view/chat/chatDetailPage.dart';
-import 'package:magpie_uni/widgets/nestGridItem.dart';
-import 'package:http/http.dart' as http;
+
+import 'package:magpie_uni/model/chat.session.model.dart';
+import 'package:magpie_uni/model/feed.user.profile.model.dart';
+import 'package:magpie_uni/view/chat/chat.detail.page.dart';
+import 'package:magpie_uni/widgets/nest.grid.item.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
-import 'package:magpie_uni/Constants.dart' as Constants;
-import 'package:magpie_uni/services/apiEndpoints.dart';
+import 'package:magpie_uni/Constants.dart';
+import 'package:magpie_uni/services/api.endpoints.dart';
 
 class FeedUserProfile extends StatefulWidget {
-  String userName;
-  String email;
-  int userId;
-  FeedUserProfile({
+  final String userName;
+  final String email;
+  final int userId;
+
+  const FeedUserProfile({
+    Key? key,
     required this.userName,
     required this.email,
     required this.userId,
-  });
+  }) : super(key: key);
+
   @override
   _NestUserProfileState createState() => _NestUserProfileState();
 }
 
 class _NestUserProfileState extends State<FeedUserProfile> {
-  // late Future<FeedUserProfileResponse> response;
   List<FeedNest> nests = [];
   List<FeedNestItem> nestItems = [];
   Profile? profile;
@@ -33,10 +34,10 @@ class _NestUserProfileState extends State<FeedUserProfile> {
   @override
   void initState() {
     super.initState();
-    this.profile = Profile(
-      username: this.widget.userName,
+    profile = Profile(
+      username: widget.userName,
       photo: null,
-      email: this.widget.email,
+      email: widget.email,
       nestCount: 0,
       nestItemCount: 0,
     );
@@ -53,26 +54,6 @@ class _NestUserProfileState extends State<FeedUserProfile> {
     });
   }
 
-  // Future fetchFeedUserProfile(int feedUserId) async {
-  //   var headers = UserAPIManager().getAPIHeader();
-  //   final response = await http.get(
-  //       Uri.parse(ApiEndpoints.urlPrefix + 'feed/userProfile?userId=$feedUserId'),
-  //       headers: headers);
-  //   if (response.statusCode == 200) {
-  //     print(response.body);
-  //     setState(() {
-  //       FeedUserProfileResponse result =
-  //           FeedUserProfileResponse.fromJson(jsonDecode(response.body));
-  //       print(result);
-  //       this.nestItems = result.nestItems == null ? [] : result.nestItems!;
-  //       this.nests = result.nests == null ? [] : result.nests!;
-  //       this.profile = result.profile;
-  //     });
-  //   } else {
-  //     throw Exception('Failed to load Feeds');
-  //   }
-  // }
-
   @override
   Widget build(BuildContext context) {
     double width = MediaQuery.of(context).size.width;
@@ -87,8 +68,8 @@ class _NestUserProfileState extends State<FeedUserProfile> {
             decoration: BoxDecoration(
               gradient: LinearGradient(
                 colors: [
-                  Constants.mainColor.shade900,
-                  Constants.mainColor.shade200,
+                  mainColor.shade900,
+                  mainColor.shade200,
                   // Colors.blue,
                 ],
                 begin: FractionalOffset.bottomCenter,
@@ -97,7 +78,7 @@ class _NestUserProfileState extends State<FeedUserProfile> {
             ),
           ),
           SingleChildScrollView(
-            physics: BouncingScrollPhysics(),
+            physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -107,10 +88,8 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                       const EdgeInsets.symmetric(horizontal: 10, vertical: 10),
                   child: Column(
                     children: [
+                      const SizedBox(height: 100),
                       SizedBox(
-                        height: 100,
-                      ),
-                      Container(
                         height: height * 0.40,
                         child: LayoutBuilder(
                           builder: (context, constraints) {
@@ -132,40 +111,31 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                                     ),
                                     child: Column(
                                       children: [
-                                        SizedBox(
-                                          height: 80,
-                                        ),
+                                        const SizedBox(height: 80),
                                         Text(
-                                          this.widget.userName,
+                                          widget.userName,
                                           style: TextStyle(
-                                            color: Constants.mainColor[900],
+                                            color: mainColor[900],
                                             fontSize: 30,
                                           ),
                                         ),
                                         Text(
-                                          '@' +
-                                              this
-                                                  .widget
-                                                  .email
-                                                  .split("@")
-                                                  .first,
-                                          style: TextStyle(
+                                          '@' + widget.email.split("@").first,
+                                          style: const TextStyle(
                                             color: Color.fromRGBO(4, 9, 35, 1),
                                             fontSize: 14,
                                           ),
                                         ),
-                                        SizedBox(
-                                          height: 10,
-                                        ),
+                                        const SizedBox(height: 10),
                                         Row(
                                           mainAxisAlignment:
                                               MainAxisAlignment.center,
                                           children: [
                                             GestureDetector(
                                               onTap: () {
-                                                print("testing");
-                                                this.isNestSelected = true;
-                                                this.setState(() {});
+                                                //print("testing");
+                                                isNestSelected = true;
+                                                setState(() {});
                                               },
                                               child: Column(
                                                 children: [
@@ -177,13 +147,10 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    this
-                                                        .profile!
-                                                        .nestCount
+                                                    profile!.nestCount
                                                         .toString(),
                                                     style: TextStyle(
-                                                      color: Constants
-                                                          .mainColor[900],
+                                                      color: mainColor[900],
                                                       fontSize: 25,
                                                     ),
                                                   ),
@@ -209,9 +176,9 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                                             ),
                                             GestureDetector(
                                               onTap: () {
-                                                print("testing");
-                                                this.isNestSelected = false;
-                                                this.setState(() {});
+                                                //print("testing");
+                                                isNestSelected = false;
+                                                setState(() {});
                                               },
                                               child: Column(
                                                 children: [
@@ -223,13 +190,10 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                                                     ),
                                                   ),
                                                   Text(
-                                                    this
-                                                        .profile!
-                                                        .nestItemCount
+                                                    profile!.nestItemCount
                                                         .toString(),
                                                     style: TextStyle(
-                                                      color: Constants
-                                                          .mainColor[900],
+                                                      color: mainColor[900],
                                                       fontSize: 25,
                                                     ),
                                                   ),
@@ -247,12 +211,10 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                                   left: 0,
                                   right: 0,
                                   child: Center(
-                                    child: Container(
-                                      child: Image.asset(
-                                        "pics/profile.png",
-                                        width: innerWidth * 0.45,
-                                        fit: BoxFit.fitWidth,
-                                      ),
+                                    child: Image.asset(
+                                      "pics/profile.png",
+                                      width: innerWidth * 0.45,
+                                      fit: BoxFit.fitWidth,
                                     ),
                                   ),
                                 ),
@@ -261,9 +223,8 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                           },
                         ),
                       ),
-                      //
                       ConstrainedBox(
-                        constraints: new BoxConstraints(
+                        constraints: BoxConstraints(
                           minHeight: height * 0.30,
                           minWidth: width,
                         ),
@@ -279,38 +240,36 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                             child: Column(
                               children: [
                                 Text(
-                                  this.isNestSelected ? "Nests" : "Items",
+                                  isNestSelected ? "Nests" : "Items",
                                   style: TextStyle(
-                                    color: Constants.mainColor[900],
+                                    color: mainColor[900],
                                     fontSize: 25,
                                   ),
                                 ),
-                                Divider(
-                                  thickness: 1.5,
-                                ),
+                                const Divider(thickness: 1.5),
                                 Container(
                                   padding:
                                       const EdgeInsets.fromLTRB(0, 0, 0, 0),
                                   child: GridView.builder(
-                                    physics: NeverScrollableScrollPhysics(),
+                                    physics:
+                                        const NeverScrollableScrollPhysics(),
                                     shrinkWrap: true,
                                     gridDelegate:
-                                        SliverGridDelegateWithFixedCrossAxisCount(
+                                        const SliverGridDelegateWithFixedCrossAxisCount(
                                       crossAxisCount: 2,
                                       childAspectRatio: 1.0,
                                       mainAxisSpacing: 5.0,
                                       crossAxisSpacing: 5.0,
                                     ),
                                     itemCount: isNestSelected
-                                        ? this.nests.length
-                                        : this.nestItems.length,
+                                        ? nests.length
+                                        : nestItems.length,
                                     itemBuilder: (context, index) {
-                                      var nest = isNestSelected
-                                          ? this.nests[index]
-                                          : null;
+                                      var nest =
+                                          isNestSelected ? nests[index] : null;
                                       var nestItem = isNestSelected
                                           ? null
-                                          : this.nestItems[index];
+                                          : nestItems[index];
                                       return NestGridItem(
                                         nest: nest,
                                         nestItem: nestItem,
@@ -323,7 +282,6 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                           ),
                         ),
                       ),
-                      //
                     ],
                   ),
                 ),
@@ -340,10 +298,8 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     IconButton(
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                      icon: Icon(
+                      onPressed: () => Navigator.pop(context),
+                      icon: const Icon(
                         Icons.arrow_back,
                         color: Colors.black,
                       ),
@@ -358,51 +314,28 @@ class _NestUserProfileState extends State<FeedUserProfile> {
       floatingActionButton: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
         child: FloatingActionButton(
-          backgroundColor: Constants.mainColor[900],
-          child: Icon(Icons.chat_outlined),
-          onPressed: () {
-            this.floatingBtnPressed();
-          },
+          backgroundColor: mainColor[900],
+          child: const Icon(Icons.chat_outlined),
+          onPressed: () => floatingBtnPressed(),
         ),
       ),
     );
   }
 
   void floatingBtnPressed() async {
-    var userId = this.widget.userId;
+    var userId = widget.userId;
     NewChatSessionResponse response = await ApiEndpoints.fetchUserChatSession(
-        UserAPIManager.currentUserId, userId);
-    Navigator.push(context, MaterialPageRoute(builder: (context) {
-      return ChatDetailPage(
-        chatSession: response.chat,
-        onBackPressed: (value) {
-          print(value);
-        },
-      );
-    }));
+      UserAPIManager.currentUserId,
+      userId,
+    );
+    Navigator.push(
+      context,
+      MaterialPageRoute(
+        builder: (context) => ChatDetailPage(
+          chatSession: response.chat,
+          onBackPressed: (value) => print(value),
+        ),
+      ),
+    );
   }
-
-  // Future fetchUserChatSession(int currentUserId, int opponentId) async {
-  //   var headers = UserAPIManager().getAPIHeader();
-  //   final response = await http.get(
-  //       Uri.parse(
-  //           ApiEndpoints.urlPrefix + 'chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
-  //       headers: headers);
-  //   if (response.statusCode == 200) {
-  //     print(response.body);
-  //     NewChatSessionResponse result =
-  //         NewChatSessionResponse.fromJson(jsonDecode(response.body));
-
-  //     Navigator.push(context, MaterialPageRoute(builder: (context) {
-  //       return ChatDetailPage(
-  //         chatSession: result.chat,
-  //         onBackPressed: (value) {
-  //           print(value);
-  //         },
-  //       );
-  //     }));
-  //   } else {
-  //     throw Exception('Failed to load Feeds');
-  //   }
-  // }
 }

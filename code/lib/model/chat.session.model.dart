@@ -3,8 +3,6 @@ import 'dart:convert';
 ChatSession chatSessionFromJson(String str) =>
     ChatSession.fromJson(json.decode(str));
 
-//       "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJGNHFnbUHLoK_9zZ8nM1aI0HLu7P6eyu83eJAs_D9lv9qY_au3YFraMk01LgqOm6ju5I&usqp=CAU";
-
 class ChatSessionResponse {
   ChatSessionResponse({
     required this.status,
@@ -44,9 +42,8 @@ class ChatSession {
   factory ChatSession.fromJson(Map<String, dynamic> json) => ChatSession(
         id: json["id"],
         unreadMessages: json["unreadMessages"],
-        topMessage: json["topMessage"] == null ? null : json["topMessage"],
-        lastMessageTime:
-            json["lastMessageTime"] == null ? null : json["lastMessageTime"],
+        topMessage: json["topMessage"],
+        lastMessageTime: json["lastMessageTime"],
         opponentUserName: json["opponentUserName"],
         opponentUserId: json["opponentUserId"],
       );

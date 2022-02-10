@@ -1,18 +1,20 @@
-import 'package:flutter/material.dart';
-import 'package:magpie_uni/services/apiEndpoints.dart';
-import 'package:magpie_uni/view/home.dart';
 import 'dart:convert';
-import '../view/chat/chatList.dart';
-import '../view/feeds/feedList.dart';
-import '../model/chatMessage.dart';
-import '../model/notificationModel.dart';
-import 'package:socket_io_client/socket_io_client.dart' as IO;
-import '../network/user_api_manager.dart';
-import 'package:http/http.dart' as http;
+import 'package:flutter/material.dart';
+
+import 'package:magpie_uni/model/chat.message.dart';
+import 'package:magpie_uni/model/notification.model.dart';
+import 'package:magpie_uni/network/user_api_manager.dart';
+import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/view/chat/chat.list.dart';
+import 'package:magpie_uni/view/feeds/feed.list.dart';
+import 'package:magpie_uni/view/home.dart';
+import 'package:socket_io_client/socket_io_client.dart';
+import 'package:http/http.dart';
 import 'package:magpie_uni/constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
+
   @override
   _HomePageState createState() => _HomePageState();
 }
@@ -20,13 +22,13 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   Future fetchChatNotificationCount(int loggedUserId) async {
     var headers = UserAPIManager().getAPIHeader();
-    final response = await http.get(
-        Uri.parse(
-            ApiEndpoints.urlPrefix + 'chat/getNotification?userId=$loggedUserId'),
+    final response = await get(
+        Uri.parse(ApiEndpoints.urlPrefix +
+            'chat/getNotification?userId=$loggedUserId'),
         headers: headers);
 
     if (response.statusCode == 200) {
-      print(response.body);
+      //print(response.body);
       NotificationResponse n =
           NotificationResponse.fromJson(jsonDecode(response.body));
       badgeCount = n.notificationCount;
@@ -45,12 +47,13 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     tabBarPages = [
-      Home(),
-      FeedList(),
+      // TODO: maybe using HomePage() here will solve the issue of updated/deleted nests not showing up
+      const Home(),
+      const FeedList(),
       ChatList(
         onBackPressed: (value) {
-          print(value);
-          print("home on back called");
+          //print(value);
+          //print("home on back called");
           getNotifications();
         },
       ),
@@ -61,17 +64,17 @@ class _HomePageState extends State<HomePage> {
   }
 
   void initSocket() {
-    socket = IO.io(ApiEndpoints.urlPrefix, <String, dynamic>{
+    socket = io(ApiEndpoints.urlPrefix, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
     socket.connect();
 
     socket.on("receive_message", (message) {
-      print("Received Message: ");
-      print(message);
+      //print("Received Message: ");
+      //print(message);
       ChatMessage newMessage = ChatMessage.fromJson(message);
-      print(newMessage.message);
+      //print(newMessage.message);
       if (newMessage.senderId == UserAPIManager.currentUserId ||
           newMessage.receiverId == UserAPIManager.currentUserId) {
         getNotifications();
@@ -81,20 +84,18 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void dispose() {
-    socket.disconnect();
+    // socket.disconnect();
     super.dispose();
   }
 
-  void getNotifications() {
-    setState(() {
-      fetchChatNotificationCount(UserAPIManager.currentUserId);
-    });
+  void getNotifications() async {
+    await fetchChatNotificationCount(UserAPIManager.currentUserId);
+    setState(() {});
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      // body: ChatList(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
         selectedItemColor: mainColor,
@@ -129,43 +130,24 @@ class _HomePageState extends State<HomePage> {
                   child: Container(
                     padding: const EdgeInsets.all(1),
                     decoration: BoxDecoration(
-                      color: badgeCount == 0
-                          ? Colors.transparent
-                          : Colors.red,
+                      color: badgeCount == 0 ? Colors.transparent : Colors.red,
                       borderRadius: BorderRadius.circular(6),
                     ),
                     constraints: const BoxConstraints(
                       minWidth: 12,
                       minHeight: 12,
                     ),
-                    // child: new Text(
-                    //   '5',
-                    //   style: new TextStyle(
-                    //     color: Colors.white,
-                    //     fontSize: 10,
-                    //   ),
-                    //   textAlign: TextAlign.center,
-                    // ),
                   ),
                 )
               ],
             ),
             label: "Chat",
           ),
-          // const BottomNavigationBarItem(
-          //   icon: Icon(
-          //     Icons.menu,
-          //     size: 30.0,
-          //   ),
-          //   label: "Menu",
-          // ),
         ],
-        onTap: (index) {
-          setState(() {
-            getNotifications();
-            selectedIndex = index;
-          });
-        },
+        onTap: (index) => setState(() {
+          getNotifications();
+          selectedIndex = index;
+        }),
       ),
       body: tabBarPages.elementAt(selectedIndex),
     );

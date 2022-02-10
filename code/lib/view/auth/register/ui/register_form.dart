@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:magpie_uni/services/http_service.dart';
 import 'package:magpie_uni/services/validators.dart';
 import 'package:magpie_uni/view/auth/login/login.page.dart';
-// import 'package:magpie_uni/view/home.dart';
 import 'package:magpie_uni/widgets/atoms/buttons/magpie_button.dart';
 import 'package:magpie_uni/widgets/magpie.text.form.field.dart';
 import 'package:magpie_uni/constants.dart';
@@ -32,14 +31,12 @@ class _RegisterFormState extends State<RegisterForm> {
           child: Column(
             children: [
               MagpieTextFormField.name(
-                  labelText: 'User Name',
+                  labelText: 'User name',
                   validator: FirstNameValidator.validate,
                   name: 'userName',
                   onChanged: (userName) => _userName = userName!,
                   hintText: 'Username'),
-              const SizedBox(
-                height: 20.0,
-              ),
+              const SizedBox(height: 20.0),
               MagpieTextFormField.email(
                 validator: EmailValidator.validate,
                 name: 'Email',
@@ -65,10 +62,10 @@ class _RegisterFormState extends State<RegisterForm> {
                   }
                   return null;
                 },
-                name: 'Re-enter Password',
-                labelText: 'Confirm Password',
+                name: 'Re-enter password',
+                labelText: 'Confirm password',
                 onChanged: (confirmPassword) {},
-                hintText: 'Confirm Password',
+                hintText: 'Confirm password',
               ),
               const SizedBox(height: 20.0),
               SizedBox(
@@ -94,19 +91,16 @@ class _RegisterFormState extends State<RegisterForm> {
         'password': _password.trim(),
         'username': _userName.trim(),
       };
-      setState(() {
-        isLoading = true;
-      });
+      setState(() => isLoading = true);
       final statusCode = await httpService.signUp(data);
       if (statusCode == 200) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-                builder: (BuildContext context) => const LoginScreen()),
+              builder: (BuildContext context) => const LoginScreen(),
+            ),
             (route) => false);
       }
-      setState(() {
-        isLoading = false;
-      });
+      setState(() => isLoading = false);
     }
   }
 }

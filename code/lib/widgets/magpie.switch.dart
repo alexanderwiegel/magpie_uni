@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart';
 
 class MagpieSwitch extends StatefulWidget {
   final bool public;
   final Function setPublic;
 
-  MagpieSwitch({Key? key, required this.public, required this.setPublic})
+  const MagpieSwitch({Key? key, required this.public, required this.setPublic})
       : super(key: key);
 
   @override
@@ -18,18 +18,14 @@ class _MagpieSwitchState extends State<MagpieSwitch> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Padding(
-          padding: EdgeInsets.only(left: 16),
-        ),
-        const Icon(Icons.public, color: Constants.mainColor),
-        const Padding(
-          padding: EdgeInsets.only(left: 16),
-        ),
+        const Padding(padding: EdgeInsets.only(left: 16)),
+        const Icon(Icons.public, color: mainColor),
+        const Padding(padding: EdgeInsets.only(left: 16)),
         Text(
           "Private",
           style: TextStyle(
             fontSize: 16,
-            color: widget.public ? Colors.black54 : Constants.mainColor,
+            color: widget.public ? Colors.black54 : mainColor,
           ),
         ),
         Switch(
@@ -40,7 +36,7 @@ class _MagpieSwitchState extends State<MagpieSwitch> {
           "Public",
           style: TextStyle(
             fontSize: 16,
-            color: widget.public ? Constants.accentColor : Colors.black54,
+            color: widget.public ? accentColor : Colors.black54,
           ),
         ),
       ],

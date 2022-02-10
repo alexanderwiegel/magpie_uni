@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+
 import 'package:magpie_uni/size.config.dart';
 
 class MagpieButton extends StatelessWidget {
@@ -7,10 +8,11 @@ class MagpieButton extends StatelessWidget {
   final IconData icon;
 
   MagpieButton({
+    Key? key,
     required this.onPressed,
     required this.title,
     required this.icon,
-  });
+  }) : super(key: key);
 
   final Color bgColor = SizeConfig.isTablet ? Colors.white : Colors.teal;
   final Color textColor = SizeConfig.isTablet ? Colors.teal : Colors.white;
@@ -37,14 +39,15 @@ class MagpieButton extends StatelessWidget {
                     ? SizeConfig.hori * 3
                     : SizeConfig.hori * 5,
               ),
-              SizedBox(width: 8),
+              const SizedBox(width: 8),
               Text(
                 title,
                 style: TextStyle(
-                    color: textColor,
-                    fontSize: SizeConfig.isTablet
-                        ? SizeConfig.hori * 2
-                        : SizeConfig.hori * 4),
+                  color: textColor,
+                  fontSize: SizeConfig.isTablet
+                      ? SizeConfig.hori * 2
+                      : SizeConfig.hori * 4,
+                ),
               ),
             ],
           ),

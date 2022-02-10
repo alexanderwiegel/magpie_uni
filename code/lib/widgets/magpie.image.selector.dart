@@ -1,11 +1,11 @@
 import 'dart:io';
-
 import 'package:flutter/material.dart';
+
 import 'package:flutter_image_compress/flutter_image_compress.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:path_provider/path_provider.dart';
 
-import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart';
 import 'package:magpie_uni/size.config.dart';
 
 class MagpieImageSelector extends StatelessWidget {
@@ -21,7 +21,7 @@ class MagpieImageSelector extends StatelessWidget {
     required this.context,
   }) : super(key: key);
 
-  final Color color = Constants.mainColor;
+  final Color color = mainColor;
 
   //#endregion
 
@@ -37,32 +37,30 @@ class MagpieImageSelector extends StatelessWidget {
           ),
           child: photo != null
               ? photo.toString().startsWith("http")
-              ? Image.network(
-            photo,
-            fit: BoxFit.cover,
-            width: 400,
-            height: 250,
-          )
-              : Image.file(
-            File(photo),
-            fit: BoxFit.cover,
-            width: 400,
-            height: 250,
-          )
+                  ? Image.network(
+                      photo,
+                      fit: BoxFit.cover,
+                      width: 400,
+                      height: 250,
+                    )
+                  : Image.file(
+                      File(photo),
+                      fit: BoxFit.cover,
+                      width: 400,
+                      height: 250,
+                    )
               : Image.asset(
-            "pics/placeholder.jpg",
-            fit: BoxFit.cover,
-            width: 400,
-            height: 250,
-          ),
+                  "pics/placeholder.jpg",
+                  fit: BoxFit.cover,
+                  width: 400,
+                  height: 250,
+                ),
         ),
       ),
     );
   }
 
-  void _displayOptionsDialog() async {
-    await _optionsDialogBox();
-  }
+  void _displayOptionsDialog() async => await _optionsDialogBox();
 
   Future<void> _optionsDialogBox() {
     return showDialog(
@@ -71,18 +69,14 @@ class MagpieImageSelector extends StatelessWidget {
       builder: (BuildContext context) {
         return AlertDialog(
           shape: const RoundedRectangleBorder(
-            borderRadius: BorderRadius.all(
-              Radius.circular(10),
-            ),
+            borderRadius: BorderRadius.all(Radius.circular(10)),
           ),
           contentPadding: const EdgeInsets.all(0),
           content: Container(
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
-              borderRadius: const BorderRadius.all(
-                Radius.circular(10),
-              ),
+              borderRadius: const BorderRadius.all(Radius.circular(10)),
               border: Border.all(color: color, width: SizeConfig.vert / 2),
             ),
             child: SingleChildScrollView(
@@ -112,8 +106,11 @@ class MagpieImageSelector extends StatelessWidget {
   Widget line() {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: SizeConfig.hori),
-      child:
-      Container(height: SizeConfig.vert * 20, width: 1, color: Colors.grey),
+      child: Container(
+        height: SizeConfig.vert * 20,
+        width: 1,
+        color: Colors.grey,
+      ),
     );
   }
 
@@ -150,17 +147,21 @@ class MagpieImageSelector extends StatelessWidget {
     return Text(
       text,
       style: TextStyle(
-          fontWeight: index == 2 ? FontWeight.bold : FontWeight.normal,
-          fontSize:
-          SizeConfig.isTablet ? SizeConfig.vert * 3 : SizeConfig.hori * 4),
+        fontWeight: index == 2 ? FontWeight.bold : FontWeight.normal,
+        fontSize:
+            SizeConfig.isTablet ? SizeConfig.vert * 3 : SizeConfig.hori * 4,
+      ),
     );
   }
 
-  Future<File> compressFile(File file, String targetPath) async {
-    var result = await FlutterImageCompress.compressAndGetFile(
-        file.path, targetPath,
-        minWidth: 400, minHeight: 250, quality: 100);
-    return result!;
+  Future<File?> compressFile(File file, String targetPath) async {
+    return await FlutterImageCompress.compressAndGetFile(
+      file.path,
+      targetPath,
+      minWidth: 400,
+      minHeight: 250,
+      quality: 100,
+    );
   }
 
   void _imageSelectorCamera() async => _imageSelector(ImageSource.camera);
@@ -172,8 +173,8 @@ class MagpieImageSelector extends StatelessWidget {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: source);
     if (pickedFile != null) {
-      File file = File(pickedFile.path);
-      var targetDirectory = await getExternalStorageDirectory();
+      File? file = File(pickedFile.path);
+      final targetDirectory = await getExternalStorageDirectory();
       var targetPath = targetDirectory.toString();
       targetPath =
           targetPath.substring(targetPath.indexOf("/"), targetPath.length - 1) +
@@ -181,7 +182,8 @@ class MagpieImageSelector extends StatelessWidget {
               DateTime.now().toString() +
               ".jpg";
       file = await compressFile(file, targetPath);
-      changeImage(targetPath);
+      // TODO: check if this works
+      changeImage(file?.path);
     }
   }
 }

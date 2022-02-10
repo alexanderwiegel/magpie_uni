@@ -1,20 +1,19 @@
 import 'package:flutter/material.dart';
-import 'package:magpie_uni/services/apiEndpoints.dart';
 
+import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/size.config.dart';
-import 'package:magpie_uni/constants.dart' as Constants;
+import 'package:magpie_uni/constants.dart';
 
 class MagpieDeleteDialog {
-  void displayDeleteDialog(BuildContext context, bool isNest, int id) async {
-    await _deleteDialogBox(context, isNest, id);
-  }
+  void displayDeleteDialog(BuildContext context, bool isNest, int id) async =>
+      await _deleteDialogBox(context, isNest, id);
 
-  void _delete(BuildContext context, bool isNest, int id) async {
-    await _actuallyDelete(context, isNest, id);
-  }
+  void _delete(BuildContext context, bool isNest, int id) async =>
+      await _actuallyDelete(context, isNest, id);
 
-  Future<void> _actuallyDelete(BuildContext context, bool isNest, int id) async {
-    print("Is nest: $isNest");
+  Future<void> _actuallyDelete(
+      BuildContext context, bool isNest, int id) async {
+    //print("Is nest: $isNest");
     await ApiEndpoints.deleteNestOrNestItem(isNest, id);
     Navigator.of(context).popUntil((route) => route.isFirst);
     // TODO: setState in HomeOrNestItemsScreen somehow afterwards
@@ -34,19 +33,14 @@ class MagpieDeleteDialog {
                       ? "Delete this nest forever?"
                       : "Delete this nest item forever?",
                   style: TextStyle(
-                      color: Colors.red,
-                      fontSize: SizeConfig.isTablet
-                          ? SizeConfig.hori * 2
-                          : SizeConfig.hori * 4),
+                    color: Colors.red,
+                    fontSize: SizeConfig.hori * (SizeConfig.isTablet ? 2 : 4),
+                  ),
                 ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                ),
+                const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
                 option(() => _delete(context, isNest, id), Icons.delete_forever,
                     "Yes, I'm sure."),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 8),
-                ),
+                const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
                 option(() => Navigator.of(context).pop(), Icons.cancel,
                     "No, I've changed my mind.")
               ],
@@ -64,19 +58,15 @@ class MagpieDeleteDialog {
         children: <Widget>[
           Icon(
             icon,
-            size:
-            SizeConfig.isTablet ? SizeConfig.hori * 3 : SizeConfig.hori * 4,
-            color: Constants.accentColor,
+            size: SizeConfig.hori * (SizeConfig.isTablet ? 3 : 4),
+            color: accentColor,
           ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 4),
-          ),
+          const Padding(padding: EdgeInsets.symmetric(horizontal: 4)),
           Text(
             text,
             style: TextStyle(
-                fontSize: SizeConfig.isTablet
-                    ? SizeConfig.hori * 2
-                    : SizeConfig.hori * 4),
+              fontSize: SizeConfig.hori * (SizeConfig.isTablet ? 2 : 4),
+            ),
           ),
         ],
       ),

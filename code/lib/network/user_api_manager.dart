@@ -1,4 +1,4 @@
-import 'package:magpie_uni/model/feedUserProfileModel.dart';
+import 'package:magpie_uni/model/feed.user.profile.model.dart';
 
 class UserAPIManager {
   static final UserAPIManager _shared = UserAPIManager._internal();
@@ -7,16 +7,15 @@ class UserAPIManager {
     return _shared;
   }
 
+  // TODO: fix error when clicking on statistics: LateInitializationError: Field 'currentUserProfile' has not been initialized.
   late FeedUserProfileResponse currentUserProfile;
 
-  static int currentUserId = 5;
+  // TODO: make sure this is set after login
+  static late int currentUserId;
   static String token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjo1LCJpYXQiOjE2NDQ0MTMyOTgsImV4cCI6MTY0NDQxNjg5OH0.jYQ8cRpmCjaKwELaYTne2tFdz2V6d7yYBB2VGN27QIk";
 
-  Map<String, String> getAPIHeader() {
-    var header = {"Authorization": "Bearer $token"};
-    return header;
-  }
+  Map<String, String> getAPIHeader() => {"Authorization": "Bearer $token"};
 
   UserAPIManager._internal();
 

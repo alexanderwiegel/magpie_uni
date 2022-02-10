@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class MagpieButton extends StatelessWidget {
@@ -50,63 +49,67 @@ class MagpieButton extends StatelessWidget {
     final disabledColor = this.disabledColor ?? Theme.of(context).disabledColor;
     final TextStyle textStyle = this.textStyle ?? theme.textTheme.headline6!;
 
-    return outlined
-        ?
-        //secondary button
-        OutlinedButton(
-            style: OutlinedButton.styleFrom(
-              side: BorderSide(
-                color: (enabled && !loading) ? color : disabledColor,
+    if (outlined) {
+      //secondary button
+      return OutlinedButton(
+        style: OutlinedButton.styleFrom(
+          side: BorderSide(
+            color: (enabled && !loading) ? color : disabledColor,
+          ),
+          shape: RoundedRectangleBorder(
+            borderRadius: BorderRadius.circular(15),
+          ),
+        ),
+        onPressed: enabled ? onPressed : null,
+        child: Padding(
+          padding: const EdgeInsets.all(10.0),
+          child: Stack(
+            children: [
+              Text(
+                loading ? '' : label,
+                style: textStyle.copyWith(
+                    color: enabled ? textColor : disabledColor),
               ),
-              shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(15)),
-            ),
-            onPressed: enabled ? onPressed : null,
-            child: Padding(
-              padding: const EdgeInsets.all(10.0),
-              child: Stack(
-                children: [
-                  Text(
-                    loading ? '' : label,
-                    style: textStyle.copyWith(
-                        color: enabled ? textColor : disabledColor),
+              if (loading)
+                SizedBox(
+                  height: textStyle.fontSize,
+                  width: textStyle.fontSize,
+                  child: CircularProgressIndicator(
+                    strokeWidth: 2.5,
+                    color: textColor,
                   ),
-                  if (loading)
-                    SizedBox(
-                        height: textStyle.fontSize,
-                        width: textStyle.fontSize,
-                        child: CircularProgressIndicator(
-                          strokeWidth: 2.5,
-                          color: textColor,
-                        ))
-                ],
-              ),
-            ))
-        :
-        //primary button
-        MaterialButton(
-            padding: const EdgeInsets.all(10.0),
-            shape:
-                RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
-            color: color,
-            disabledColor: disabledColor,
-            onPressed: (enabled && !loading) ? onPressed : null,
-            child: Stack(
-              children: [
-                Text(
-                  loading ? '' : label,
-                  style: textStyle.copyWith(color: textColor),
-                ),
-                if (loading)
-                  SizedBox(
-                      height: textStyle.fontSize,
-                      width: textStyle.fontSize,
-                      child: CircularProgressIndicator(
-                        strokeWidth: 2.5,
-                        color: textColor,
-                      ))
-              ],
+                )
+            ],
+          ),
+        ),
+      );
+    } else {
+      //primary button
+      return MaterialButton(
+        padding: const EdgeInsets.all(10.0),
+        shape:
+        RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        color: color,
+        disabledColor: disabledColor,
+        onPressed: (enabled && !loading) ? onPressed : null,
+        child: Stack(
+          children: [
+            Text(
+              loading ? '' : label,
+              style: textStyle.copyWith(color: textColor),
             ),
-          );
+            if (loading)
+              SizedBox(
+                height: textStyle.fontSize,
+                width: textStyle.fontSize,
+                child: CircularProgressIndicator(
+                  strokeWidth: 2.5,
+                  color: textColor,
+                ),
+              )
+          ],
+        ),
+      );
+    }
   }
 }

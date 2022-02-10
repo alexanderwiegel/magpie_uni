@@ -4,10 +4,11 @@ import 'package:magpie_uni/sort.mode.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/view/nest.items.screen.dart';
 
+//ignore: must_be_immutable
 class Nest extends NestOrNestItem {
-  late SortMode sortMode;
-  late bool asc;
-  late bool onlyFavored;
+  late final SortMode sortMode;
+  late final bool asc;
+  late final bool onlyFavored;
 
   Nest({
     Key? key,
@@ -19,9 +20,10 @@ class Nest extends NestOrNestItem {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> nest = super.toMap();
+    // TODO: check if total_worth needs to be set to worth as well
     nest.addAll(
-        // TODO: check if total_worth needs to be set to worth as well
-        {'sort_mode': sortMode, 'is_asc': asc, 'only_favored': onlyFavored});
+      {'sort_mode': sortMode, 'is_asc': asc, 'only_favored': onlyFavored},
+    );
     return nest;
   }
 
@@ -77,7 +79,7 @@ class _NestState extends NestOrNestItemState<Nest> {
     // print("Old nest: " + currentNest.toMap().toString());
     // print("Created at: " + currentNest.createdAt.toString());
 
-    print("Context: " + context.toString());
+    //print("Context: " + context.toString());
 
     await Navigator.push(
       context,
@@ -87,10 +89,10 @@ class _NestState extends NestOrNestItemState<Nest> {
     ).then(onChange);
   }
 
-  // @override
-  // void toggleFavored(BuildContext context) async {
-  //   super.toggleFavored(context);
-  //   await ApiEndpoints.uploadNestOrNestItem(
-  //       currentNest, true, currentNest.id == null);
-  // }
+// @override
+// void toggleFavored(BuildContext context) async {
+//   super.toggleFavored(context);
+//   await ApiEndpoints.uploadNestOrNestItem(
+//       currentNest, true, currentNest.id == null);
+// }
 }

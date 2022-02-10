@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/Constants.dart' as Constants;
+import 'package:magpie_uni/Constants.dart';
 
 class MagpieIconButton extends StatelessWidget {
   final IconData? icon;
@@ -14,7 +14,7 @@ class MagpieIconButton extends StatelessWidget {
     required this.onPressed,
   }) : super(key: key);
 
-  final Color color = Constants.textColor;
+  final Color color = textColor;
 
   @override
   Widget build(BuildContext context) {
