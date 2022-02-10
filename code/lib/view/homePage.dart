@@ -151,13 +151,13 @@ class _HomePageState extends State<HomePage> {
             ),
             label: "Chat",
           ),
-          const BottomNavigationBarItem(
-            icon: Icon(
-              Icons.menu,
-              size: 30.0,
-            ),
-            label: "Menu",
-          ),
+          // const BottomNavigationBarItem(
+          //   icon: Icon(
+          //     Icons.menu,
+          //     size: 30.0,
+          //   ),
+          //   label: "Menu",
+          // ),
         ],
         onTap: (index) {
           setState(() {
