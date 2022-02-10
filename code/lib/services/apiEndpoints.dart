@@ -7,6 +7,7 @@ import 'package:magpie_uni/model/nest.dart';
 import 'package:magpie_uni/model/nest.item.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/model/feedUserProfileModel.dart' as feedUserProfile;
+import 'package:magpie_uni/model/user.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
 
 class ApiEndpoints {
@@ -23,11 +24,47 @@ class ApiEndpoints {
     String url = urlPrefix + "user/userProfile?userId=$userId";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200 ? response.body : null;
-    final profile = feedUserProfile
-        .welcomeFromJson(result!)
-        .profile;
+    final profile = feedUserProfile.welcomeFromJson(result!).profile;
     List counts = [profile.nestCount, profile.nestItemCount];
     return counts;
+  }
+
+  static Future<User> getHomeScreen() async {
+    String url = urlPrefix + "user/getUser?id=$userId";
+
+    final response = await http.get(Uri.parse(url), headers: headers);
+    final result = response.statusCode == 200 ? jsonDecode(response.body)["user"] : null;
+    print(result);
+
+    return User.fromMap(result);
+  }
+
+  static Future<void> updateHomeScreen(
+      String sortMode, bool isAsc, bool onlyFavored) async {
+    String url = urlPrefix + "user/editUser";
+
+    final body = {
+      "id": userId.toString(),
+      "sort_mode": sortMode,
+      "is_asc": isAsc ? "1" : "0",
+      "only_favored": onlyFavored ? "1" : "0",
+    };
+    print("Body: $body");
+
+    final req = http.Request("PUT", Uri.parse(url));
+
+    final customHeader = {
+      "Accept": "application/json",
+      "Content-type": "application/x-www-form-urlencoded",
+      "Authorization": "Bearer $token"
+    };
+    customHeader.forEach((key, value) => req.headers[key] = value);
+    req.bodyFields = body;
+    print(req.bodyFields);
+
+    final response = await req.send();
+    final result = response.statusCode == 200;
+    print(result);
   }
 
   static Future<List> getNests() async {
@@ -50,8 +87,8 @@ class ApiEndpoints {
     return list;
   }
 
-  static Future<bool> uploadNestOrNestItem(NestOrNestItem nestOrNestItem,
-      bool isNest, bool isNew) async {
+  static Future<bool> uploadNestOrNestItem(
+      NestOrNestItem nestOrNestItem, bool isNest, bool isNew) async {
     String url = urlPrefix + "nest/";
     url += isNew ? "add" : "edit";
     url += isNest ? "Nest" : "NestItem";
@@ -89,8 +126,8 @@ class ApiEndpoints {
     return (response.statusCode == 200) ? true : false;
   }
 
-  static Future<void> deleteNestOrNestItem(bool isNest,
-      int nestOrNestItemId) async {
+  static Future<void> deleteNestOrNestItem(
+      bool isNest, int nestOrNestItemId) async {
     String url = urlPrefix + "nest/deleteNest";
     if (!isNest) url += "Item";
     print("Url: $url");

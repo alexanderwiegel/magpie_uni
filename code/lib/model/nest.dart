@@ -20,11 +20,17 @@ class Nest extends NestOrNestItem {
   Map<String, dynamic> toMap() {
     Map<String, dynamic> nest = super.toMap();
     nest.addAll(
-        {'sort_mode': sortMode.name, 'is_asc': asc, 'only_favored': onlyFavored});
+        // TODO: check if total_worth needs to be set to worth as well
+        {
+          'sort_mode': sortMode.name,
+          'is_asc': asc,
+          'only_favored': onlyFavored
+        });
     return nest;
   }
 
   Nest.fromMap(dynamic obj, {Key? key}) : super.fromMap(obj, key: key) {
+    super.worth = obj["total_worth"].runtimeType == Null ? 0 : obj["total_worth"];
     switch (obj["sort_mode"]) {
       case "SortByName":
         sortMode = SortMode.SortByName;
@@ -74,11 +80,6 @@ class _NestState extends NestOrNestItemState<Nest> {
       // TODO: see if it is somehow possible to pass "widget.this"
       MaterialPageRoute(
           builder: (context) => NestItemsScreen(nest: currentNest)),
-    ).then(onDelete);
-  }
-
-  // TODO: not the correct place
-  onDelete(dynamic value) {
-    setState(() {});
+    ).then(onChange);
   }
 }

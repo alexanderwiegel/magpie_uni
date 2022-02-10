@@ -10,9 +10,9 @@ abstract class NestOrNestItem extends StatefulWidget {
   late String name;
   late String description;
   late int worth;
-  late bool favored;
+  late bool? favored;
   late DateTime? createdAt;
-  late bool public;
+  late bool? public;
 
   NestOrNestItem({
     Key? key,
@@ -22,9 +22,9 @@ abstract class NestOrNestItem extends StatefulWidget {
     this.name = "",
     this.description = "",
     this.worth = 0,
-    this.favored = false,
+    this.favored,
     this.createdAt,
-    this.public = false,
+    this.public,
   }) : super(key: key);
 
   Map<String, dynamic> toMap() {
@@ -49,7 +49,6 @@ abstract class NestOrNestItem extends StatefulWidget {
     photo = getPhotoPath(obj["photo"]);
     name = obj["title"];
     description = obj["description"];
-    worth = obj["worth"].runtimeType == Null ? 0 : obj["worth"];
     favored = obj["favored"] == 1 ? true : false;
     createdAt = DateTime.parse(obj["created_at"]);
     public = obj["is_public"] == 1 ? true : false;
@@ -68,6 +67,7 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
+    print("Id: " + widget.id.toString());
     final bool isNest = !context.toString().contains("NestItem");
 
     final Widget image = Material(
@@ -121,9 +121,9 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
           fit: BoxFit.scaleDown,
           alignment: AlignmentDirectional.topStart,
           child: IconButton(
-            tooltip: widget.favored ? "Remove as favorite" : "Mark as favorite",
+            tooltip: widget.favored! ? "Remove as favorite" : "Mark as favorite",
             alignment: AlignmentDirectional.centerStart,
-            icon: Icon(widget.favored ? Icons.favorite : Icons.favorite_border,
+            icon: Icon(widget.favored! ? Icons.favorite : Icons.favorite_border,
                 color: accentColor),
             onPressed: toggleFavored,
           ),
@@ -132,11 +132,16 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
     );
   }
 
+  // TODO: check if this does anything
+  onChange(dynamic value) {
+    setState(() {});
+  }
+
   void openNextScreen(BuildContext context) async {}
 
   void toggleFavored() async {
     setState(() {
-      widget.favored ^= true;
+      widget.favored == null ? false : widget.favored = !widget.favored!;
     });
   }
 }

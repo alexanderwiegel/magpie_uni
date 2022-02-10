@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
+import 'package:magpie_uni/model/user.dart';
+import 'package:magpie_uni/services/apiEndpoints.dart';
 import 'package:magpie_uni/sort.mode.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
@@ -40,6 +42,21 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
       } else {
         setState(() => _searchText = _filter.text);
       }
+    });
+  }
+
+  @override
+  void initState() {
+    _initUser();
+    super.initState();
+  }
+
+  Future<void> _initUser() async {
+    User user = await ApiEndpoints.getHomeScreen();
+    setState(() {
+      _sortMode = user.sortMode;
+      _asc = user.asc;
+      _onlyFavored = user.onlyFavored;
     });
   }
 
@@ -114,14 +131,20 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
         child: const Icon(Icons.add),
         onPressed: () async {
           await Navigator.of(context).push(
-              MaterialPageRoute(builder: (context) => openCreationScreen()));
-          setState(() {});
+            MaterialPageRoute(
+              builder: (context) => openCreationScreen(),
+            ),
+          ).then(onChange);
         },
       ),
     );
   }
 
-  void _switchSortOrder(SortMode result) {
+  onChange(dynamic value) {
+    setState(() {});
+  }
+
+  void _switchSortOrder(SortMode result) async {
     if (_sortMode != result) {
       setState(() {
         _asc = true;
@@ -130,16 +153,14 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     } else {
       setState(() => _asc ^= true);
     }
-    // TODO: call update home(?) API
-    // DatabaseHelper.instance
-    //     .updateHome(_asc, _onlyFavored, _sortMode, _getUserId());
+    // TODO: call setState() ?
+    await ApiEndpoints.updateHomeScreen(_sortMode.name, _asc, _onlyFavored);
   }
 
-  void _showFavorites() {
+  void _showFavorites() async {
     setState(() => _onlyFavored ^= true);
-    // TODO: call update home(?) API
-    // DatabaseHelper.instance
-    //     .updateHome(_asc, _onlyFavored, _sortMode, _getUserId());
+    // TODO: call setState() ?
+    await ApiEndpoints.updateHomeScreen(_sortMode.name, _asc, _onlyFavored);
   }
 
   void _searchPressed() {

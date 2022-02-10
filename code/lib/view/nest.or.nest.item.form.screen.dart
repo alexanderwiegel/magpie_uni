@@ -27,7 +27,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
   late dynamic _photo;
   late String _name;
   late String _description;
-  late int _worth;
+  late int _worth = 0;
   late bool _public;
 
   late TextEditingController _nameEditingController;
@@ -51,7 +51,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
     _name = widget.nestOrNestItem.name;
     _description = widget.nestOrNestItem.description;
     _worth = widget.nestOrNestItem.worth;
-    _public = widget.nestOrNestItem.public;
+    _public = widget.nestOrNestItem.public ?? false;
     _nameEditingController = TextEditingController(text: _name);
     _descriptionEditingController = TextEditingController(text: _description);
     _worthEditingController = TextEditingController(text: _worth.toString());
@@ -84,9 +84,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 if (_photo != null) {
-                  await uploadNestOrNestItem();
-                  print("Upload finished. Now pop screen.");
-                  Navigator.of(context).pop();
+                  await uploadNestOrNestItem().then(onChange);
                 } else {
                   MagpiePhotoAlert.displayPhotoAlert(context);
                 }
@@ -98,6 +96,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
       ),
       body: MagpieForm(
         formKey: _formKey,
+        isNew: _isNew,
         isNest: _isNest,
         photo: _photo,
         nameEditingController: _nameEditingController,
@@ -109,8 +108,16 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
         setPublic: _setPublic,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: getDeleteButton(_isNew, _isNest ,_thing),
+      floatingActionButton: getDeleteButton(_isNew, _isNest, _thing),
     );
+  }
+
+  onChange(dynamic value) {
+    // TODO: check if setState needs to be called before or after and if it even does anything
+    print("Upload finished. Now pop screen.");
+    setState(() {});
+    Navigator.of(context).pop();
+    setState(() {});
   }
 
   void _changeImage(dynamic image) {
