@@ -32,7 +32,7 @@ Future<http.Response?> updateReadBit(int loggedUserId, int sessionId) async {
   var headers = UserAPIManager().getAPIHeader();
   final response = await http.get(
       Uri.parse(ApiEndpoints.urlPrefix +
-          '/chat/updateReadBit?userId=$loggedUserId&chatSessionId=$sessionId'),
+          'chat/updateReadBit?userId=$loggedUserId&chatSessionId=$sessionId'),
       headers: headers);
 
   if (response.statusCode == 200) {
