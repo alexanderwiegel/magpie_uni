@@ -12,7 +12,7 @@ class Nest extends NestOrNestItem {
 
   Nest({
     Key? key,
-    this.sortMode = SortMode.SortById,
+    this.sortMode = SortMode.sortById,
     this.asc = false,
     this.onlyFavored = false,
   }) : super(key: key);
@@ -31,17 +31,17 @@ class Nest extends NestOrNestItem {
     super.worth =
         obj["total_worth"].runtimeType == Null ? 0 : obj["total_worth"];
     switch (obj["sort_mode"]) {
-      case "SortByName":
-        sortMode = SortMode.SortByName;
+      case "sortByName":
+        sortMode = SortMode.sortByName;
         break;
-      case "SortByWorth":
-        sortMode = SortMode.SortByWorth;
+      case "sortByWorth":
+        sortMode = SortMode.sortByWorth;
         break;
-      case "SortByFavored":
-        sortMode = SortMode.SortByFavored;
+      case "sortByFavored":
+        sortMode = SortMode.sortByFavored;
         break;
-      case "SortById":
-        sortMode = SortMode.SortById;
+      case "sortById":
+        sortMode = SortMode.sortById;
     }
     asc = obj["is_asc"] == 1 ? true : false;
     onlyFavored = obj["only_favored"] == 1 ? true : false;

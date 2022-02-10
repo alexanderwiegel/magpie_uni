@@ -58,10 +58,10 @@ class MagpieBottomNavigationBar extends StatelessWidget {
               onSelected: (SortMode result) => switchSortOrder(result),
               initialValue: sortMode,
               itemBuilder: (BuildContext context) => <PopupMenuEntry<SortMode>>[
-                menuItem(SortMode.SortById, "Sort by date"),
-                menuItem(SortMode.SortByName, "Sort by name"),
-                menuItem(SortMode.SortByWorth, "Sort by worth"),
-                menuItem(SortMode.SortByFavored, "Sort by favorites"),
+                menuItem(SortMode.sortById, "Sort by date"),
+                menuItem(SortMode.sortByName, "Sort by name"),
+                menuItem(SortMode.sortByWorth, "Sort by worth"),
+                menuItem(SortMode.sortByFavored, "Sort by favorites"),
               ],
             ),
             MagpieIconButton(

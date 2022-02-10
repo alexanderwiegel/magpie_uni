@@ -9,17 +9,17 @@ class User {
 
   User.fromMap(dynamic obj) {
     switch (obj["sort_mode"]) {
-      case "SortByName":
-        sortMode = SortMode.SortByName;
+      case "sortByName":
+        sortMode = SortMode.sortByName;
         break;
-      case "SortByWorth":
-        sortMode = SortMode.SortByWorth;
+      case "sortByWorth":
+        sortMode = SortMode.sortByWorth;
         break;
-      case "SortByFavored":
-        sortMode = SortMode.SortByFavored;
+      case "sortByFavored":
+        sortMode = SortMode.sortByFavored;
         break;
-      case "SortById":
-        sortMode = SortMode.SortById;
+      case "sortById":
+        sortMode = SortMode.sortById;
     }
     asc = obj["is_asc"] == 1;
     onlyFavored = obj["only_favored"] == 1;

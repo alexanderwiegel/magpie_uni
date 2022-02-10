@@ -21,7 +21,7 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     extends State<T> {
   String title = "";
 
-  // SortMode _sortMode = SortMode.SortById;
+  // SortMode _sortMode = SortMode.sortById;
   // bool _asc = true;
   // bool _onlyFavored = false;
 
