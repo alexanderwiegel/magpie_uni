@@ -32,7 +32,7 @@ class ApiEndpoints {
     final result = response.statusCode == 200 ? response.body : null;
     final profile = feedUserProfile.welcomeFromJson(result!).profile;
     UserAPIManager().currentUserProfile =
-        feedUserProfile.welcomeFromJson(result!);
+        feedUserProfile.welcomeFromJson(result);
     List counts = [profile.nestCount, profile.nestItemCount];
     return counts;
   }
