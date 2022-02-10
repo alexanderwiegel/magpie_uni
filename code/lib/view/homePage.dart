@@ -21,7 +21,7 @@ class _HomePageState extends State<HomePage> {
     var headers = UserAPIManager().getAPIHeader();
     final response = await http.get(
         Uri.parse(
-            'http://localhost:3000/chat/getNotification?userId=$loggedUserId'),
+            'http://10.0.2.2:3000/chat/getNotification?userId=$loggedUserId'),
         headers: headers);
 
     if (response.statusCode == 200) {
