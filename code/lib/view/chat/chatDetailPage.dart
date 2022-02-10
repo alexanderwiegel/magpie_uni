@@ -31,8 +31,8 @@ import 'package:magpie_uni/services/apiEndpoints.dart';
 Future<http.Response?> updateReadBit(int loggedUserId, int sessionId) async {
   var headers = UserAPIManager().getAPIHeader();
   final response = await http.get(
-      Uri.parse(
-          'http://localhost:3000/chat/updateReadBit?userId=$loggedUserId&chatSessionId=$sessionId'),
+      Uri.parse(ApiEndpoints.urlPrefix +
+          '/chat/updateReadBit?userId=$loggedUserId&chatSessionId=$sessionId'),
       headers: headers);
 
   if (response.statusCode == 200) {

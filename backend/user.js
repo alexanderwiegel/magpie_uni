@@ -39,7 +39,7 @@ router.post('/login', async function (req, res) {
   }
 
   // get user from User Table...
-  sqlManager.getUser(email, async function (err, result) {
+  sqlManager.loginUser(email, async function (err, result) {
     if (err) {
       res.status(500).json({ status: 'Failed', message: err.message });
       return

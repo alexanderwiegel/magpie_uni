@@ -31,6 +31,8 @@ class ApiEndpoints {
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200 ? response.body : null;
     final profile = feedUserProfile.welcomeFromJson(result!).profile;
+    UserAPIManager().currentUserProfile =
+        feedUserProfile.welcomeFromJson(result!);
     List counts = [profile.nestCount, profile.nestItemCount];
     return counts;
   }
@@ -39,7 +41,8 @@ class ApiEndpoints {
     String url = urlPrefix + "user/getUser?id=$userId";
 
     final response = await http.get(Uri.parse(url), headers: headers);
-    final result = response.statusCode == 200 ? jsonDecode(response.body)["user"] : null;
+    final result =
+        response.statusCode == 200 ? jsonDecode(response.body)["user"] : null;
     print(result);
 
     return User.fromMap(result);

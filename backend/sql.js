@@ -25,6 +25,14 @@ function registerUser(user, cb) {
   });
 }
 
+function loginUser(email, cb) {
+  connection.query("SELECT id,username,password,email,created_at,sort_mode,only_favored,is_asc,photo,phone_number FROM user u WHERE u.email = '" + email + "'",
+      function (err, rows) {
+          if (err) cb(err);
+          else cb(undefined, rows);
+      });
+}
+
 function getUser(id, cb) {
   connection.query("SELECT sort_mode,only_favored,is_asc FROM user u WHERE u.id = '" + id + "'",
     function (err, rows) {
@@ -381,6 +389,7 @@ function insertChat(body, cb) {
 module.exports = {
   connectDB: connectDB,
   registerUser: registerUser,
+  loginUser:loginUser,
   getUser: getUser,
   editUser: editUser,
   getUserofId: getUserofId,

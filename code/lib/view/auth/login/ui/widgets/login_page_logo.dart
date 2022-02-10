@@ -6,7 +6,7 @@ class LoginPageLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return const Image(
-      image: AssetImage("pics/placeholder.jpg"),
+      image: AssetImage("pics/logo.png"),
       width: 200.0,
     );
   }

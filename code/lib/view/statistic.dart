@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
+import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/services/apiEndpoints.dart';
 
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
@@ -10,7 +11,7 @@ import 'package:magpie_uni/Constants.dart';
 
 class Statistic extends StatelessWidget {
   //#region fields
-  Statistic({Key? key}) : super(key: key);
+  // Statistic({Key? key}) : super(key: key);
 
   late double smallTitleSize = 0;
   late double bigTitleSize = 0;
@@ -29,17 +30,38 @@ class Statistic extends StatelessWidget {
   late List<CircularStackEntry> circularData;
 
   //#endregion
+  void getDict() {
+    var nests = UserAPIManager().currentUserProfile.nests!;
+    var nestItems = UserAPIManager().currentUserProfile.nestItems!;
+
+    for (var nest in nests) {
+      dict[nest.title] = 0;
+      for (var items in nestItems) {
+        if (items.nestId == nest.id) {
+          dict[nest.title] = dict[nest.title]! + 1;
+        }
+      }
+    }
+  }
+
+  Map<String, int> dict = Map();
+  Map<String, int> finalDict = Map();
 
   void initEntries() {
+    getDict();
     entries = [
-      CircularSegmentEntry(20, colors[0], rankKey: "Vinyl"),
-      CircularSegmentEntry(10, colors[1], rankKey: "Bottle caps"),
-      CircularSegmentEntry(8, colors[2], rankKey: "Stamps"),
-      CircularSegmentEntry(7, colors[3], rankKey: "City magnets"),
-      CircularSegmentEntry(5, colors[4], rankKey: "Others"),
+      // CircularSegmentEntry(20, colors[0], rankKey: "Vinyl"),
+      // CircularSegmentEntry(10, colors[1], rankKey: "Bottle caps"),
+      // CircularSegmentEntry(8, colors[2], rankKey: "Stamps"),
+      // CircularSegmentEntry(7, colors[3], rankKey: "City magnets"),
+      // CircularSegmentEntry(5, colors[4], rankKey: "Others"),
     ];
+    for (var key in dict.keys) {
+      entries.add(
+          CircularSegmentEntry(dict[key]!.toDouble(), colors[0], rankKey: key));
+    }
     descriptions = [];
-    for (int i = 0; i < 5; i++) {
+    for (int i = 0; i < entries.length; i++) {
       descriptions.add(
         description(i),
       );
@@ -121,8 +143,7 @@ class Statistic extends StatelessWidget {
           children: <Widget>[
             Text(
               title,
-              style: TextStyle(
-                  fontSize: smallTitleSize, color: mainColor),
+              style: TextStyle(fontSize: smallTitleSize, color: mainColor),
             ),
             Text(
               subtitle,
@@ -186,8 +207,7 @@ class Statistic extends StatelessWidget {
               children: <Widget>[
                 Text(
                   title,
-                  style: TextStyle(
-                      fontSize: smallTitleSize, color: mainColor),
+                  style: TextStyle(fontSize: smallTitleSize, color: mainColor),
                 ),
                 Text(
                   subtitle,
@@ -248,8 +268,7 @@ class Statistic extends StatelessWidget {
           children: <Widget>[
             Text(
               title,
-              style: TextStyle(
-                  fontSize: smallTitleSize, color: mainColor),
+              style: TextStyle(fontSize: smallTitleSize, color: mainColor),
             ),
             FutureBuilder(
               future: ApiEndpoints.getUserProfile(),
