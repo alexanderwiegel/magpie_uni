@@ -37,24 +37,24 @@ class MagpieImageSelector extends StatelessWidget {
           ),
           child: photo != null
               ? photo.toString().startsWith("http")
-                  ? Image.network(
-                      photo,
-                      fit: BoxFit.cover,
-                      width: 400,
-                      height: 250,
-                    )
-                  : Image.file(
-                      File(photo),
-                      fit: BoxFit.cover,
-                      width: 400,
-                      height: 250,
-                    )
+              ? Image.network(
+            photo,
+            fit: BoxFit.cover,
+            width: 400,
+            height: 250,
+          )
+              : Image.file(
+            File(photo),
+            fit: BoxFit.cover,
+            width: 400,
+            height: 250,
+          )
               : Image.asset(
-                  "pics/placeholder.jpg",
-                  fit: BoxFit.cover,
-                  width: 400,
-                  height: 250,
-                ),
+            "pics/placeholder.jpg",
+            fit: BoxFit.cover,
+            width: 400,
+            height: 250,
+          ),
         ),
       ),
     );
@@ -163,39 +163,24 @@ class MagpieImageSelector extends StatelessWidget {
     return result!;
   }
 
-  void _imageSelectorCamera() async {
-    Navigator.pop(context!);
-    final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.camera);
-    if (pickedFile != null) {
-      File file = File(pickedFile.path);
-      var compressedFile = await compressFile(
-        file,
-        file.path.substring(0, file.path.length - 4),
-      );
-      file.deleteSync();
-      changeImage(compressedFile);
-    }
-  }
+  void _imageSelectorCamera() async => _imageSelector(ImageSource.camera);
 
-  void _imageSelectorGallery() async {
+  void _imageSelectorGallery() async => _imageSelector(ImageSource.gallery);
+
+  void _imageSelector(ImageSource source) async {
     Navigator.pop(context!);
     final picker = ImagePicker();
-    final pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    final pickedFile = await picker.pickImage(source: source);
     if (pickedFile != null) {
       File file = File(pickedFile.path);
       var targetDirectory = await getExternalStorageDirectory();
       var targetPath = targetDirectory.toString();
-      String timestamp = DateTime.now().toString();
       targetPath =
           targetPath.substring(targetPath.indexOf("/"), targetPath.length - 1) +
               "/" +
-              timestamp +
+              DateTime.now().toString() +
               ".jpg";
-      // print("Target path: $targetPath");
-      // print("Timestamp: $timestamp");
       file = await compressFile(file, targetPath);
-      // print("Compressed file:  $file");
       changeImage(targetPath);
     }
   }
