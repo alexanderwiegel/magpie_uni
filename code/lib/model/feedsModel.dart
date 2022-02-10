@@ -1,4 +1,6 @@
 import 'dart:convert';
+
+import 'package:magpie_uni/services/apiEndpoints.dart';
 // import 'package:flutter/cupertino.dart';
 
 // Feed FeedFromJson(String str) => Feed.fromJson(json.decode(str));
@@ -55,7 +57,7 @@ class Feed {
         "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png") {
       return this.photo;
     } else {
-      return "http://localhost:3000/" + this.photo;
+      return ApiEndpoints.urlPrefix + this.photo;
     }
   }
 }

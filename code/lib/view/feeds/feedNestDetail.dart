@@ -152,7 +152,7 @@ class _FeedNestDetailState extends State<FeedNestDetail> {
   //   var headers = UserAPIManager().getAPIHeader();
   //   final response = await http.get(
   //       Uri.parse(
-  //           'http://localhost:3000/chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
+  //           ApiEndpoints.urlPrefix + 'chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
   //       headers: headers);
   //   if (response.statusCode == 200) {
   //     print(response.body);

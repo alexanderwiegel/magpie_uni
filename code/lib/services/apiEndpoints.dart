@@ -17,7 +17,7 @@ import 'package:magpie_uni/model/feedUserProfileModel.dart';
 import '../model/notificationModel.dart';
 
 class ApiEndpoints {
-  static String urlPrefix = "http://localhost:3000/";
+  static String urlPrefix = "http://10.0.2.2:3000/";
   static int userId = UserAPIManager.currentUserId;
   static String token = UserAPIManager.token;
   static Map<String, String> headers = {

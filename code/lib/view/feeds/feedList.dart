@@ -10,10 +10,10 @@ import 'package:magpie_uni/widgets/feedListItem.dart';
 // Future<FeedResponse> fetchFeeds(int loggedUserId) async {
 //   var headers = UserAPIManager().getAPIHeader();
 //   print(
-//     Uri.parse('http://localhost:3000/feed/getFeeds?userId=$loggedUserId'),
+//     Uri.parse(ApiEndpoints.urlPrefix + 'feed/getFeeds?userId=$loggedUserId'),
 //   );
 //   final response = await http.get(
-//       Uri.parse('http://localhost:3000/feed/getFeeds?userId=$loggedUserId'),
+//       Uri.parse(ApiEndpoints.urlPrefix + 'feed/getFeeds?userId=$loggedUserId'),
 //       headers: headers);
 
 //   if (response.statusCode == 200) {

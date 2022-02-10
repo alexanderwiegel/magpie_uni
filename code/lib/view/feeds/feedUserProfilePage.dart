@@ -56,7 +56,7 @@ class _NestUserProfileState extends State<FeedUserProfile> {
   // Future fetchFeedUserProfile(int feedUserId) async {
   //   var headers = UserAPIManager().getAPIHeader();
   //   final response = await http.get(
-  //       Uri.parse('http://localhost:3000/feed/userProfile?userId=$feedUserId'),
+  //       Uri.parse(ApiEndpoints.urlPrefix + 'feed/userProfile?userId=$feedUserId'),
   //       headers: headers);
   //   if (response.statusCode == 200) {
   //     print(response.body);
@@ -386,7 +386,7 @@ class _NestUserProfileState extends State<FeedUserProfile> {
   //   var headers = UserAPIManager().getAPIHeader();
   //   final response = await http.get(
   //       Uri.parse(
-  //           'http://localhost:3000/chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
+  //           ApiEndpoints.urlPrefix + 'chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
   //       headers: headers);
   //   if (response.statusCode == 200) {
   //     print(response.body);

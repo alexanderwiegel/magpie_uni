@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:magpie_uni/services/apiEndpoints.dart';
 import 'package:magpie_uni/view/home.dart';
 import 'dart:convert';
 import '../view/chat/chatList.dart';
@@ -21,7 +22,7 @@ class _HomePageState extends State<HomePage> {
     var headers = UserAPIManager().getAPIHeader();
     final response = await http.get(
         Uri.parse(
-            'http://10.0.2.2:3000/chat/getNotification?userId=$loggedUserId'),
+            ApiEndpoints.urlPrefix + 'chat/getNotification?userId=$loggedUserId'),
         headers: headers);
 
     if (response.statusCode == 200) {
@@ -60,7 +61,7 @@ class _HomePageState extends State<HomePage> {
   }
 
   void initSocket() {
-    socket = IO.io("http://localhost:3000", <String, dynamic>{
+    socket = IO.io(ApiEndpoints.urlPrefix, <String, dynamic>{
       'transports': ['websocket'],
       'autoConnect': false,
     });
