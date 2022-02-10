@@ -1,11 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/services/http_service.dart';
 import 'package:magpie_uni/services/validators.dart';
-import 'package:magpie_uni/view/home.dart';
+// import 'package:magpie_uni/view/home.dart';
 import 'package:magpie_uni/widgets/atoms/buttons/magpie_button.dart';
 import 'package:magpie_uni/widgets/atoms/buttons/magpie_text_button.dart';
 import 'package:magpie_uni/widgets/magpie.text.form.field.dart';
 import 'package:magpie_uni/constants.dart';
+
+import '../../../homePage.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -79,7 +81,7 @@ class _LoginFormState extends State<LoginForm> {
       if (statusCode == 200) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
-              builder: (BuildContext context) => Home(),
+              builder: (BuildContext context) => const HomePage(),
             ),
             (route) => false);
       }

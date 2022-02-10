@@ -5,6 +5,7 @@ import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/view/chat/chatDetailPage.dart';
 import 'package:http/http.dart' as http;
 import 'package:magpie_uni/model/chatSessionModel.dart';
+import 'package:magpie_uni/services/apiEndpoints.dart';
 
 class FeedNestDetail extends StatefulWidget {
   Feed feed;
@@ -128,32 +129,46 @@ class _FeedNestDetailState extends State<FeedNestDetail> {
     );
   }
 
-  void floatingBtnPressed() {
-    this.fetchUserChatSession(
+  // void floatingBtnPressed() {
+  //   this.fetchUserChatSession(
+  //       UserAPIManager.currentUserId, this.widget.feed.userId);
+  // }
+
+  Future<void> floatingBtnPressed() async {
+    NewChatSessionResponse response = await ApiEndpoints.fetchUserChatSession(
         UserAPIManager.currentUserId, this.widget.feed.userId);
+
+    Navigator.push(context, MaterialPageRoute(builder: (context) {
+      return ChatDetailPage(
+        chatSession: response.chat,
+        onBackPressed: (value) {
+          print(value);
+        },
+      );
+    }));
   }
 
-  Future fetchUserChatSession(int currentUserId, int opponentId) async {
-    var headers = UserAPIManager().getAPIHeader();
-    final response = await http.get(
-        Uri.parse(
-            'http://localhost:3000/chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
-        headers: headers);
-    if (response.statusCode == 200) {
-      print(response.body);
-      NewChatSessionResponse result =
-          NewChatSessionResponse.fromJson(jsonDecode(response.body));
+  // Future fetchUserChatSession(int currentUserId, int opponentId) async {
+  //   var headers = UserAPIManager().getAPIHeader();
+  //   final response = await http.get(
+  //       Uri.parse(
+  //           'http://localhost:3000/chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
+  //       headers: headers);
+  //   if (response.statusCode == 200) {
+  //     print(response.body);
+  //     NewChatSessionResponse result =
+  //         NewChatSessionResponse.fromJson(jsonDecode(response.body));
 
-      Navigator.push(context, MaterialPageRoute(builder: (context) {
-        return ChatDetailPage(
-          chatSession: result.chat,
-          onBackPressed: (value) {
-            print(value);
-          },
-        );
-      }));
-    } else {
-      throw Exception('Failed to load Feeds');
-    }
-  }
+  //     Navigator.push(context, MaterialPageRoute(builder: (context) {
+  //       return ChatDetailPage(
+  //         chatSession: result.chat,
+  //         onBackPressed: (value) {
+  //           print(value);
+  //         },
+  //       );
+  //     }));
+  //   } else {
+  //     throw Exception('Failed to load Feeds');
+  //   }
+  // }
 }

@@ -1,31 +1,32 @@
 import 'dart:async';
-import 'dart:convert';
+// import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/model/feedsModel.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
+import 'package:magpie_uni/services/apiEndpoints.dart';
 import 'package:magpie_uni/widgets/feedListItem.dart';
-import 'package:http/http.dart' as http;
+// import 'package:http/http.dart' as http;
 
-Future<FeedResponse> fetchFeeds(int loggedUserId) async {
-  var headers = UserAPIManager().getAPIHeader();
-  print(
-    Uri.parse('http://localhost:3000/feed/getFeeds?userId=$loggedUserId'),
-  );
-  final response = await http.get(
-      Uri.parse('http://localhost:3000/feed/getFeeds?userId=$loggedUserId'),
-      headers: headers);
+// Future<FeedResponse> fetchFeeds(int loggedUserId) async {
+//   var headers = UserAPIManager().getAPIHeader();
+//   print(
+//     Uri.parse('http://localhost:3000/feed/getFeeds?userId=$loggedUserId'),
+//   );
+//   final response = await http.get(
+//       Uri.parse('http://localhost:3000/feed/getFeeds?userId=$loggedUserId'),
+//       headers: headers);
 
-  if (response.statusCode == 200) {
-    // If the server did return a 200 OK response,
-    // then parse the JSON.
-    print(response.body);
-    return FeedResponse.fromJson(jsonDecode(response.body));
-  } else {
-    // If the server did not return a 200 OK response,
-    // then throw an exception.
-    throw Exception('Failed to load Feeds');
-  }
-}
+//   if (response.statusCode == 200) {
+//     // If the server did return a 200 OK response,
+//     // then parse the JSON.
+//     print(response.body);
+//     return FeedResponse.fromJson(jsonDecode(response.body));
+//   } else {
+//     // If the server did not return a 200 OK response,
+//     // then throw an exception.
+//     throw Exception('Failed to load Feeds');
+//   }
+// }
 
 class FeedList extends StatefulWidget {
   @override
@@ -38,7 +39,7 @@ class _FeedListState extends State<FeedList> {
   @override
   void initState() {
     super.initState();
-    fetchFeed = fetchFeeds(UserAPIManager.currentUserId);
+    fetchFeed = ApiEndpoints.fetchFeeds(UserAPIManager.currentUserId);
   }
 
   @override
@@ -54,7 +55,7 @@ class _FeedListState extends State<FeedList> {
             padding: EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 15),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: <Widget>[
+              children: const <Widget>[
                 Text(
                   "Feeds",
                   style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
@@ -65,7 +66,7 @@ class _FeedListState extends State<FeedList> {
         ),
       ),
       body: SingleChildScrollView(
-        physics: BouncingScrollPhysics(),
+        physics: const BouncingScrollPhysics(),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[

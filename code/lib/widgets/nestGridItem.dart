@@ -4,7 +4,7 @@ import 'package:magpie_uni/view/feeds/feedItemDetailPage.dart';
 
 class NestGridItem extends StatefulWidget {
   FeedNest? nest;
-  NestItem? nestItem;
+  FeedNestItem? nestItem;
   NestGridItem({
     required this.nest,
     required this.nestItem,
