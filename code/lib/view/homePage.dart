@@ -8,7 +8,7 @@ import '../model/notificationModel.dart';
 import 'package:socket_io_client/socket_io_client.dart' as IO;
 import '../network/user_api_manager.dart';
 import 'package:http/http.dart' as http;
-import '../Constants.dart' as Constants;
+import 'package:magpie_uni/constants.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({Key? key}) : super(key: key);
@@ -28,7 +28,7 @@ class _HomePageState extends State<HomePage> {
       print(response.body);
       NotificationResponse n =
           NotificationResponse.fromJson(jsonDecode(response.body));
-      this.badgeCount = n.notificationCount;
+      badgeCount = n.notificationCount;
     } else {
       throw Exception('Failed to load chat');
     }
@@ -50,12 +50,12 @@ class _HomePageState extends State<HomePage> {
         onBackPressed: (value) {
           print(value);
           print("home on back called");
-          this.getNotifications();
+          getNotifications();
         },
       ),
       Container(),
     ];
-    this.getNotifications();
+    getNotifications();
     initSocket();
   }
 
@@ -73,7 +73,7 @@ class _HomePageState extends State<HomePage> {
       print(newMessage.message);
       if (newMessage.senderId == UserAPIManager.currentUserId ||
           newMessage.receiverId == UserAPIManager.currentUserId) {
-        this.getNotifications();
+        getNotifications();
       }
     });
   }
@@ -85,8 +85,8 @@ class _HomePageState extends State<HomePage> {
   }
 
   void getNotifications() {
-    this.setState(() {
-      this.fetchChatNotificationCount(UserAPIManager.currentUserId);
+    setState(() {
+      fetchChatNotificationCount(UserAPIManager.currentUserId);
     });
   }
 
@@ -96,20 +96,20 @@ class _HomePageState extends State<HomePage> {
       // body: ChatList(),
       bottomNavigationBar: BottomNavigationBar(
         currentIndex: selectedIndex,
-        selectedItemColor: Constants.mainColor,
+        selectedItemColor: mainColor,
         unselectedItemColor: Colors.grey.shade600,
-        selectedLabelStyle: TextStyle(fontWeight: FontWeight.w600),
-        unselectedLabelStyle: TextStyle(fontWeight: FontWeight.w400),
+        selectedLabelStyle: const TextStyle(fontWeight: FontWeight.w600),
+        unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400),
         type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(
               Icons.person_pin,
               size: 30.0,
             ),
             label: "Profile",
           ),
-          BottomNavigationBarItem(
+          const BottomNavigationBarItem(
             icon: Icon(
               Icons.feed_outlined,
               size: 30.0,
@@ -117,23 +117,23 @@ class _HomePageState extends State<HomePage> {
             label: "Feeds",
           ),
           BottomNavigationBarItem(
-            icon: new Stack(
+            icon: Stack(
               children: <Widget>[
-                new Icon(
+                const Icon(
                   Icons.chat,
                   size: 30.0,
                 ),
-                new Positioned(
+                Positioned(
                   right: 0,
-                  child: new Container(
-                    padding: EdgeInsets.all(1),
-                    decoration: new BoxDecoration(
-                      color: this.badgeCount == 0
+                  child: Container(
+                    padding: const EdgeInsets.all(1),
+                    decoration: BoxDecoration(
+                      color: badgeCount == 0
                           ? Colors.transparent
                           : Colors.red,
                       borderRadius: BorderRadius.circular(6),
                     ),
-                    constraints: BoxConstraints(
+                    constraints: const BoxConstraints(
                       minWidth: 12,
                       minHeight: 12,
                     ),
@@ -151,18 +151,18 @@ class _HomePageState extends State<HomePage> {
             ),
             label: "Chat",
           ),
-          BottomNavigationBarItem(
-            icon: Icon(
-              Icons.menu,
-              size: 30.0,
-            ),
-            label: "Menu",
-          ),
+          // const BottomNavigationBarItem(
+          //   icon: Icon(
+          //     Icons.menu,
+          //     size: 30.0,
+          //   ),
+          //   label: "Menu",
+          // ),
         ],
         onTap: (index) {
-          this.setState(() {
-            this.getNotifications();
-            this.selectedIndex = index;
+          setState(() {
+            getNotifications();
+            selectedIndex = index;
           });
         },
       ),
