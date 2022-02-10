@@ -1,13 +1,15 @@
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
-import 'package:magpie_uni/model/user.dart';
-import 'package:magpie_uni/services/apiEndpoints.dart';
-import 'package:magpie_uni/sort.mode.dart';
+
+// import 'package:magpie_uni/model/user.dart';
+// import 'package:magpie_uni/services/apiEndpoints.dart';
+// import 'package:magpie_uni/sort.mode.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
-import 'package:magpie_uni/Constants.dart' as constants;
-import 'package:magpie_uni/widgets/magpie.bottom.navigation.bar.dart';
+import 'package:magpie_uni/Constants.dart';
+
+// import 'package:magpie_uni/widgets/magpie.bottom.navigation.bar.dart';
 import 'package:magpie_uni/widgets/magpie.grid.view.dart';
 
 abstract class HomeOrNestItemsScreen extends StatefulWidget {
@@ -21,15 +23,15 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     extends State<T> {
   String title = "";
 
-  SortMode _sortMode = SortMode.SortById;
-  bool _asc = true;
-  bool _onlyFavored = false;
+  // SortMode _sortMode = SortMode.SortById;
+  // bool _asc = true;
+  // bool _onlyFavored = false;
 
   List<NestOrNestItem> _names = [];
   List<NestOrNestItem> _filteredNames = [];
   final TextEditingController _filter = TextEditingController();
   Icon _searchIcon = const Icon(Icons.search, color: Colors.white);
-  Widget _searchTitle = const Text("");
+  Widget searchTitle = const Text("");
   String _searchText = "";
 
   HomeOrNestItemsScreenState() {
@@ -45,20 +47,20 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     });
   }
 
-  @override
-  void initState() {
-    _initUser();
-    super.initState();
-  }
+  // @override
+  // void initState() {
+  //   _initUser();
+  //   super.initState();
+  // }
 
-  Future<void> _initUser() async {
-    User user = await ApiEndpoints.getHomeScreen();
-    setState(() {
-      _sortMode = user.sortMode;
-      _asc = user.asc;
-      _onlyFavored = user.onlyFavored;
-    });
-  }
+  // Future<void> _initUser() async {
+  //   User user = await ApiEndpoints.getHomeScreen();
+  //   setState(() {
+  //     _sortMode = user.sortMode;
+  //     _asc = user.asc;
+  //     _onlyFavored = user.onlyFavored;
+  //   });
+  // }
 
   void _fillList(snapshot) {
     _names =
@@ -80,6 +82,19 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     throw UnimplementedError();
   }
 
+  Widget searchBar() {
+    return IconButton(
+      color: textColor,
+      // TODO: change this according to nest/nestItem
+      tooltip: "Search",
+      padding: const EdgeInsets.only(left: 12.0),
+      alignment: Alignment.centerLeft,
+      icon: _searchIcon,
+      iconSize: 30.0,
+      onPressed: _searchPressed,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     bool isNest = context.toString().contains("Home");
@@ -88,7 +103,13 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
       drawer: MagpieDrawer(),
       appBar: AppBar(
         title: Text(title),
-        actions: [editButton()],
+        actions: [
+          searchBar(),
+          Container(
+              child: SizedBox(child: searchTitle, width: 180),
+              alignment: Alignment.center),
+          editButton()
+        ],
       ),
       body: FutureBuilder<List>(
         future: getNestsOrNestItems(),
@@ -114,27 +135,29 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
           }
         },
       ),
-      bottomNavigationBar: MagpieBottomNavigationBar(
-        searchPressed: _searchPressed,
-        showFavorites: _showFavorites,
-        switchSortOrder: _switchSortOrder,
-        sortMode: _sortMode,
-        asc: _asc,
-        onlyFavored: _onlyFavored,
-        searchIcon: _searchIcon,
-        searchTitle: _searchTitle,
-      ),
+      // bottomNavigationBar: MagpieBottomNavigationBar(
+      //   searchPressed: _searchPressed,
+      //   showFavorites: _showFavorites,
+      //   switchSortOrder: _switchSortOrder,
+      //   sortMode: _sortMode,
+      //   asc: _asc,
+      //   onlyFavored: _onlyFavored,
+      //   searchIcon: _searchIcon,
+      //   searchTitle: _searchTitle,
+      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: FloatingActionButton(
         tooltip: "Create new $thing",
-        backgroundColor: constants.mainColor,
+        backgroundColor: mainColor,
         child: const Icon(Icons.add),
         onPressed: () async {
-          await Navigator.of(context).push(
-            MaterialPageRoute(
-              builder: (context) => openCreationScreen(),
-            ),
-          ).then(onChange);
+          await Navigator.of(context)
+              .push(
+                MaterialPageRoute(
+                  builder: (context) => openCreationScreen(),
+                ),
+              )
+              .then(onChange);
         },
       ),
     );
@@ -144,31 +167,31 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     setState(() {});
   }
 
-  void _switchSortOrder(SortMode result) async {
-    if (_sortMode != result) {
-      setState(() {
-        _asc = true;
-        _sortMode = result;
-      });
-    } else {
-      setState(() => _asc ^= true);
-    }
-    // TODO: call setState() ?
-    await ApiEndpoints.updateHomeScreen(_sortMode.name, _asc, _onlyFavored);
-  }
-
-  void _showFavorites() async {
-    setState(() => _onlyFavored ^= true);
-    // TODO: call setState() ?
-    await ApiEndpoints.updateHomeScreen(_sortMode.name, _asc, _onlyFavored);
-  }
-
+  // void _switchSortOrder(SortMode result) async {
+  //   if (_sortMode != result) {
+  //     setState(() {
+  //       _asc = true;
+  //       _sortMode = result;
+  //     });
+  //   } else {
+  //     setState(() => _asc ^= true);
+  //   }
+  //   // TODO: call setState() ?
+  //   await ApiEndpoints.updateHomeScreen(_sortMode.name, _asc, _onlyFavored);
+  // }
+  //
+  // void _showFavorites() async {
+  //   setState(() => _onlyFavored ^= true);
+  //   // TODO: call setState() ?
+  //   await ApiEndpoints.updateHomeScreen(_sortMode.name, _asc, _onlyFavored);
+  // }
+  //
   void _searchPressed() {
     setState(() {
       if (_searchIcon.icon == Icons.search) {
         _searchIcon = const Icon(Icons.close, color: Colors.white);
-        _searchTitle = TextField(
-          style: const TextStyle(color: constants.textColor),
+        searchTitle = TextField(
+          style: const TextStyle(color: textColor, fontSize: 20),
           controller: _filter,
           decoration: const InputDecoration(
             hintText: 'Search...',
@@ -177,7 +200,7 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
         );
       } else {
         _searchIcon = const Icon(Icons.search, color: Colors.white);
-        _searchTitle = const Text('');
+        searchTitle = const Text('');
         _filteredNames = _names;
         _filter.clear();
       }

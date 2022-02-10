@@ -10,7 +10,7 @@ abstract class NestOrNestItem extends StatefulWidget {
   late String name;
   late String description;
   late int worth;
-  late bool? favored;
+  // late bool? favored;
   late DateTime? createdAt;
   late bool? public;
 
@@ -22,7 +22,7 @@ abstract class NestOrNestItem extends StatefulWidget {
     this.name = "",
     this.description = "",
     this.worth = 0,
-    this.favored,
+    // this.favored,
     this.createdAt,
     this.public,
   }) : super(key: key);
@@ -34,7 +34,7 @@ abstract class NestOrNestItem extends StatefulWidget {
       'title': name,
       'description': description,
       'worth': worth,
-      'favored': favored,
+      // 'favored': favored,
       'is_public': public,
     };
     if (!photo!.startsWith("http")) {
@@ -49,7 +49,7 @@ abstract class NestOrNestItem extends StatefulWidget {
     photo = getPhotoPath(obj["photo"]);
     name = obj["title"];
     description = obj["description"];
-    favored = obj["favored"] == 1 ? true : false;
+    // favored = obj["favored"] == 1 ? true : false;
     createdAt = DateTime.parse(obj["created_at"]);
     public = obj["is_public"] == 1 ? true : false;
   }
@@ -67,7 +67,6 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
-    print("Id: " + widget.id.toString());
     final bool isNest = !context.toString().contains("NestItem");
 
     final Widget image = Material(
@@ -121,11 +120,12 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
           fit: BoxFit.scaleDown,
           alignment: AlignmentDirectional.topStart,
           child: IconButton(
-            tooltip: widget.favored! ? "Remove as favorite" : "Mark as favorite",
-            alignment: AlignmentDirectional.centerStart,
-            icon: Icon(widget.favored! ? Icons.favorite : Icons.favorite_border,
-                color: accentColor),
-            onPressed: toggleFavored,
+          //   tooltip: widget.favored! ? "Remove as favorite" : "Mark as favorite",
+          //   alignment: AlignmentDirectional.centerStart,
+            icon: const Icon(Icons.favorite, color: Colors.transparent),
+          //   icon: Icon(widget.favored! ? Icons.favorite : Icons.favorite_border,
+          //       color: accentColor),
+            onPressed: () => {},
           ),
         ),
       ),
@@ -139,9 +139,9 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
 
   void openNextScreen(BuildContext context) async {}
 
-  void toggleFavored() async {
-    setState(() {
-      widget.favored == null ? false : widget.favored = !widget.favored!;
-    });
-  }
+  // void toggleFavored(BuildContext context) async {
+  //   setState(() {
+  //     widget.favored == null ? false : widget.favored = !widget.favored!;
+  //   });
+  // }
 }

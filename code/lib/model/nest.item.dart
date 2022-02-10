@@ -28,19 +28,25 @@ class NestItem extends NestOrNestItem {
 }
 
 class _NestItemState extends NestOrNestItemState<NestItem> {
+  late NestItem currentNestItem;
+
   @override
-  void openNextScreen(BuildContext context) async {
-    NestItem currentNestItem = NestItem(nestId: widget.nestId);
+  void initState() {
+    currentNestItem = NestItem(nestId: widget.nestId);
     currentNestItem.id = super.widget.id;
     currentNestItem.userId = super.widget.userId;
     currentNestItem.name = super.widget.name;
     currentNestItem.photo = super.widget.photo;
     currentNestItem.description = super.widget.description;
     currentNestItem.worth = super.widget.worth;
-    currentNestItem.favored = super.widget.favored;
+    // currentNestItem.favored = super.widget.favored;
     currentNestItem.public = super.widget.public;
     currentNestItem.createdAt = super.widget.createdAt;
-    
+    super.initState();
+  }
+
+  @override
+  void openNextScreen(BuildContext context) async {
     await Navigator.push(
       context,
       MaterialPageRoute(
@@ -50,4 +56,11 @@ class _NestItemState extends NestOrNestItemState<NestItem> {
       ),
     ).then(onChange);
   }
+
+  // @override
+  // void toggleFavored(BuildContext context) async {
+  //   super.toggleFavored(context);
+  //   await ApiEndpoints.uploadNestOrNestItem(
+  //       currentNestItem, false, currentNestItem.id == null);
+  // }
 }
