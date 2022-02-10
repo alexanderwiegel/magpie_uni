@@ -12,9 +12,9 @@ class MagpieDrawer extends StatelessWidget {
       child: ListView(
         padding: EdgeInsets.zero,
         children: <Widget>[
-          DrawerHeader(
+          const DrawerHeader(
             child: Padding(
-              padding: const EdgeInsets.only(top: 43.0, left: 7.0),
+              padding: EdgeInsets.only(top: 43.0, left: 7.0),
               child: Text(
                 'Magpie',
                 textAlign: TextAlign.center,
@@ -35,25 +35,25 @@ class MagpieDrawer extends StatelessWidget {
             () => navigate(context, "/home"),
           ),
           option(
-            Icons.home,
-            "Feed",
-            () => Navigator.of(context).pop(),
-          ),
-          option(
-            Icons.chat,
-            "Chat",
-            () => Navigator.of(context).pop(),
-          ),
-          option(
             Icons.insert_chart, "Statistics",
             //() => Navigator.of(context).pop(),),
             () => navigate(context, "/statistic"),
           ),
-          // option(
-          //   Icons.settings,
-          //   "Settings",
-          //   () => Navigator.of(context).pop(),
-          // ),
+          option(
+            Icons.settings,
+            "Settings",
+            () => Navigator.of(context).pop(),
+          ),
+          option(
+            Icons.question_answer,
+            "FAQ",
+            () => Navigator.of(context).pop(),
+          ),
+          option(
+            Icons.help,
+            "Help",
+            () => Navigator.of(context).pop(),
+          ),
           option(
             Icons.exit_to_app,
             "Logout",
