@@ -67,6 +67,7 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
 
   @override
   Widget build(BuildContext context) {
+    print("Id: " + widget.id.toString());
     final bool isNest = !context.toString().contains("NestItem");
 
     final Widget image = Material(

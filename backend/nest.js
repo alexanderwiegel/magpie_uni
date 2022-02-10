@@ -29,6 +29,7 @@ router.post('/addNest', upload.array('image', 1), async function (req, res) {
     photo: photo,
     is_public: req.body.is_public === 'true'
   }
+  console.log(nest)
 
   sqlManager.addNest(nest, function (err, result) {
     if (err) {

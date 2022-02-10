@@ -108,7 +108,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
         setPublic: _setPublic,
       ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: getDeleteButton(_isNew, _isNest ,_thing),
+      floatingActionButton: getDeleteButton(_isNew, _isNest, _thing),
     );
   }
 

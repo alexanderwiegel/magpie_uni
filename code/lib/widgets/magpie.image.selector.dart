@@ -70,7 +70,7 @@ class MagpieImageSelector extends StatelessWidget {
       barrierDismissible: true,
       builder: (BuildContext context) {
         return AlertDialog(
-          shape: RoundedRectangleBorder(
+          shape: const RoundedRectangleBorder(
             borderRadius: BorderRadius.all(
               Radius.circular(10),
             ),
@@ -80,7 +80,7 @@ class MagpieImageSelector extends StatelessWidget {
             padding: const EdgeInsets.all(4),
             decoration: BoxDecoration(
               shape: BoxShape.rectangle,
-              borderRadius: BorderRadius.all(
+              borderRadius: const BorderRadius.all(
                 Radius.circular(10),
               ),
               border: Border.all(color: color, width: SizeConfig.vert / 2),
@@ -113,7 +113,7 @@ class MagpieImageSelector extends StatelessWidget {
     return Padding(
       padding: EdgeInsets.symmetric(horizontal: SizeConfig.hori),
       child:
-          Container(height: SizeConfig.vert * 20, width: 1, color: Colors.grey),
+      Container(height: SizeConfig.vert * 20, width: 1, color: Colors.grey),
     );
   }
 
@@ -152,7 +152,7 @@ class MagpieImageSelector extends StatelessWidget {
       style: TextStyle(
           fontWeight: index == 2 ? FontWeight.bold : FontWeight.normal,
           fontSize:
-              SizeConfig.isTablet ? SizeConfig.vert * 3 : SizeConfig.hori * 4),
+          SizeConfig.isTablet ? SizeConfig.vert * 3 : SizeConfig.hori * 4),
     );
   }
 
