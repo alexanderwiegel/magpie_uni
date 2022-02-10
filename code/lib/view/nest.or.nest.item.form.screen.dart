@@ -51,7 +51,7 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
     _name = widget.nestOrNestItem.name;
     _description = widget.nestOrNestItem.description;
     _worth = widget.nestOrNestItem.worth;
-    _public = widget.nestOrNestItem.public;
+    _public = widget.nestOrNestItem.public ?? false;
     _nameEditingController = TextEditingController(text: _name);
     _descriptionEditingController = TextEditingController(text: _description);
     _worthEditingController = TextEditingController(text: _worth.toString());

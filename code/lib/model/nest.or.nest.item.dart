@@ -10,9 +10,9 @@ abstract class NestOrNestItem extends StatefulWidget {
   late String name;
   late String description;
   late int worth;
-  late bool favored;
+  late bool? favored;
   late DateTime? createdAt;
-  late bool public;
+  late bool? public;
 
   NestOrNestItem({
     Key? key,
@@ -22,9 +22,9 @@ abstract class NestOrNestItem extends StatefulWidget {
     this.name = "",
     this.description = "",
     this.worth = 0,
-    this.favored = false,
+    this.favored,
     this.createdAt,
-    this.public = false,
+    this.public,
   }) : super(key: key);
 
   Map<String, dynamic> toMap() {
@@ -120,9 +120,9 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
           fit: BoxFit.scaleDown,
           alignment: AlignmentDirectional.topStart,
           child: IconButton(
-            tooltip: widget.favored ? "Remove as favorite" : "Mark as favorite",
+            tooltip: widget.favored! ? "Remove as favorite" : "Mark as favorite",
             alignment: AlignmentDirectional.centerStart,
-            icon: Icon(widget.favored ? Icons.favorite : Icons.favorite_border,
+            icon: Icon(widget.favored! ? Icons.favorite : Icons.favorite_border,
                 color: accentColor),
             onPressed: toggleFavored,
           ),
@@ -140,7 +140,7 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
 
   void toggleFavored() async {
     setState(() {
-      widget.favored ^= true;
+      widget.favored == null ? false : widget.favored = !widget.favored!;
     });
   }
 }
