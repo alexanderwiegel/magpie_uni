@@ -30,7 +30,8 @@ class Nest extends NestOrNestItem {
   }
 
   Nest.fromMap(dynamic obj, {Key? key}) : super.fromMap(obj, key: key) {
-    super.worth = obj["total_worth"].runtimeType == Null ? 0 : obj["total_worth"];
+    super.worth =
+        obj["total_worth"].runtimeType == Null ? 0 : obj["total_worth"];
     switch (obj["sort_mode"]) {
       case "SortByName":
         sortMode = SortMode.SortByName;
@@ -53,9 +54,11 @@ class Nest extends NestOrNestItem {
 }
 
 class _NestState extends NestOrNestItemState<Nest> {
+  late Nest currentNest;
+
   @override
-  void openNextScreen(BuildContext context) async {
-    Nest currentNest = Nest(
+  void initState() {
+    currentNest = Nest(
       key: widget.key,
       asc: widget.asc,
       onlyFavored: widget.onlyFavored,
@@ -67,9 +70,14 @@ class _NestState extends NestOrNestItemState<Nest> {
     currentNest.photo = super.widget.photo;
     currentNest.description = super.widget.description;
     currentNest.worth = super.widget.worth;
-    currentNest.favored = super.widget.favored;
+    // currentNest.favored = super.widget.favored;
     currentNest.public = super.widget.public;
     currentNest.createdAt = super.widget.createdAt;
+    super.initState();
+  }
+
+  @override
+  void openNextScreen(BuildContext context) async {
     // print("Old nest: " + currentNest.toMap().toString());
     // print("Created at: " + currentNest.createdAt.toString());
 
@@ -82,4 +90,11 @@ class _NestState extends NestOrNestItemState<Nest> {
           builder: (context) => NestItemsScreen(nest: currentNest)),
     ).then(onChange);
   }
+
+  // @override
+  // void toggleFavored(BuildContext context) async {
+  //   super.toggleFavored(context);
+  //   await ApiEndpoints.uploadNestOrNestItem(
+  //       currentNest, true, currentNest.id == null);
+  // }
 }

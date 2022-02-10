@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:magpie_uni/widgets/magpie.icon.button.dart';
 import 'package:magpie_uni/Constants.dart' as Constants;
 import 'package:magpie_uni/sort.mode.dart';
-import 'package:magpie_uni/size.config.dart';
+// import 'package:magpie_uni/size.config.dart';
 
 class MagpieBottomNavigationBar extends StatelessWidget {
   final Function switchSortOrder;
@@ -40,7 +40,7 @@ class MagpieBottomNavigationBar extends StatelessWidget {
       child: BottomAppBar(
         clipBehavior: Clip.antiAlias,
         color: Constants.mainColor,
-        shape: CircularNotchedRectangle(),
+        shape: const CircularNotchedRectangle(),
         notchMargin: 4.0,
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
@@ -95,9 +95,9 @@ class MagpieBottomNavigationBar extends StatelessWidget {
           sortMode == value
               ? Icon(asc ? Icons.arrow_upward : Icons.arrow_downward,
               color: Colors.teal, size: iconSize)
-              : Icon(null),
-          Padding(
-            padding: const EdgeInsets.only(left: 2.0),
+              : const Icon(null),
+          const Padding(
+            padding: EdgeInsets.only(left: 2.0),
           ),
           Text(txt)
         ],
