@@ -79,52 +79,63 @@ class Statistic extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    initEntries();
     return Scaffold(
       drawer: const MagpieDrawer(),
       appBar: AppBar(
         title: const Text("Statistic"),
       ),
-      body: Container(
-        color: textColor,
-        child: StaggeredGrid.count(
-          crossAxisCount: 8,
-          children: <Widget>[
-            StaggeredGridTile.extent(
-              crossAxisCellCount: 8,
-              mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 50 : 40),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: nestsOverTimeChart(
-                    "since the beginning", "collected items"),
+      body: FutureBuilder(
+        future: ApiEndpoints.getUserProfile(),
+        builder: (context, snapshot) {
+          if (snapshot.hasData) {
+            initEntries();
+            return Container(
+              color: textColor,
+              child: StaggeredGrid.count(
+                crossAxisCount: 8,
+                children: <Widget>[
+                  StaggeredGridTile.extent(
+                    crossAxisCellCount: 8,
+                    mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 50 : 40),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: nestsOverTimeChart(
+                          "since the beginning", "collected items"),
+                    ),
+                  ),
+                  StaggeredGridTile.extent(
+                    crossAxisCellCount: SizeConfig.isTablet ? 5 : 8,
+                    mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 40 : 30),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: nestShares("Items", "per nest"),
+                    ),
+                  ),
+                  StaggeredGridTile.extent(
+                    crossAxisCellCount: SizeConfig.isTablet ? 3 : 4,
+                    mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: total("Nests"),
+                    ),
+                  ),
+                  StaggeredGridTile.extent(
+                    crossAxisCellCount: SizeConfig.isTablet ? 3 : 4,
+                    mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
+                    child: Padding(
+                      padding: const EdgeInsets.all(8),
+                      child: total("Items"),
+                    ),
+                  ),
+                ],
               ),
-            ),
-            StaggeredGridTile.extent(
-              crossAxisCellCount: SizeConfig.isTablet ? 5 : 8,
-              mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 40 : 30),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: nestShares("Items", "per nest"),
-              ),
-            ),
-            StaggeredGridTile.extent(
-              crossAxisCellCount: SizeConfig.isTablet ? 3 : 4,
-              mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: total("Nests"),
-              ),
-            ),
-            StaggeredGridTile.extent(
-              crossAxisCellCount: SizeConfig.isTablet ? 3 : 4,
-              mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
-              child: Padding(
-                padding: const EdgeInsets.all(8),
-                child: total("Items"),
-              ),
-            ),
-          ],
-        ),
+            );
+          }
+          else {
+            return Container();
+          }
+        }
+        ,
       ),
     );
   }
