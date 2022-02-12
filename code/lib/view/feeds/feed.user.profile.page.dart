@@ -6,7 +6,7 @@ import 'package:magpie_uni/model/feed.user.profile.model.dart';
 import 'package:magpie_uni/view/chat/chat.detail.page.dart';
 import 'package:magpie_uni/widgets/nest.grid.item.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
-import 'package:magpie_uni/Constants.dart';
+import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 
 class FeedUserProfile extends StatefulWidget {

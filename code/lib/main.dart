@@ -2,9 +2,9 @@
 
 import 'package:flutter/material.dart';
 
+import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/view/auth/register/register.page.dart';
 import 'package:magpie_uni/view/auth/login/login.page.dart';
-import 'package:magpie_uni/Constants.dart';
 import 'package:magpie_uni/view/home.page.dart';
 import 'package:magpie_uni/view/statistic.dart';
 import 'package:magpie_uni/wrapper.dart';

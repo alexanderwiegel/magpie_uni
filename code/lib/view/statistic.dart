@@ -7,7 +7,7 @@ import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
 import 'package:magpie_uni/size.config.dart';
-import 'package:magpie_uni/Constants.dart';
+import 'package:magpie_uni/constants.dart';
 
 //ignore: must_be_immutable
 class Statistic extends StatelessWidget {

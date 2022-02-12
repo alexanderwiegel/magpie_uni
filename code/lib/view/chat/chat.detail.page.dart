@@ -6,7 +6,7 @@ import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:http/http.dart' as http;
-import 'package:magpie_uni/Constants.dart';
+import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 
 Future<http.Response?> updateReadBit(int loggedUserId, int sessionId) async {

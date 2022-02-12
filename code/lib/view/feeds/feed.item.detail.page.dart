@@ -6,7 +6,7 @@ import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/view/chat/chat.detail.page.dart';
 import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/model/feed.user.profile.model.dart';
-import 'package:magpie_uni/Constants.dart';
+import 'package:magpie_uni/constants.dart';
 
 class FeedItemDetail extends StatefulWidget {
   final Feed? feed;

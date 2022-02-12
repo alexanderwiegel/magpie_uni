@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/Constants.dart';
+import 'package:magpie_uni/constants.dart';
 
 class MagpieSwitch extends StatefulWidget {
   final bool public;

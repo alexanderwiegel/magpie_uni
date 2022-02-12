@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/Constants.dart';
+import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 
 //ignore: must_be_immutable
