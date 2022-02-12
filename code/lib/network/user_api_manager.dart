@@ -11,7 +11,7 @@ class UserAPIManager {
   late FeedUserProfileResponse currentUserProfile;
 
   // TODO: make sure this is set after login
-  static late int currentUserId;
+  static late int currentUserId = -1;
   static String token =
       "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjo1LCJpYXQiOjE2NDQ0MTMyOTgsImV4cCI6MTY0NDQxNjg5OH0.jYQ8cRpmCjaKwELaYTne2tFdz2V6d7yYBB2VGN27QIk";
 

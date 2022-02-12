@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/widgets/magpie.icon.button.dart';
-import 'package:magpie_uni/Constants.dart';
+import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/sort.mode.dart';
 // import 'package:magpie_uni/size.config.dart';
 
