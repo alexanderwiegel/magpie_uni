@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+
 import 'package:charts_flutter/flutter.dart' as charts;
 import 'package:flutter_circular_chart/flutter_circular_chart.dart';
 import 'package:flutter_staggered_grid_view/flutter_staggered_grid_view.dart';
 
+import 'package:magpie_uni/model/feed.user.profile.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
@@ -26,42 +28,41 @@ class Statistic extends StatelessWidget {
     Colors.orange,
   ];
 
+  late FeedUserProfileResponse user;
+
   late List<CircularSegmentEntry> entries;
   late List<Widget> descriptions;
   late List<CircularStackEntry> circularData;
 
   //#endregion
 
-  void getDict() {
-    var nests = UserAPIManager().currentUserProfile.nests!;
-    var nestItems = UserAPIManager().currentUserProfile.nestItems!;
+  void initEntries() {
+    user = UserAPIManager.currentUserProfile;
+    final nests = user.nests;
+    final nestItems = user.nestItems;
 
+    Map<String, int> dict = {};
     for (var nest in nests) {
       dict[nest.title] = 0;
-      for (var items in nestItems) {
-        if (items.nestId == nest.id) {
+      for (var item in nestItems) {
+        if (item.nestId == nest.id) {
           dict[nest.title] = dict[nest.title]! + 1;
         }
       }
     }
-  }
 
-  Map<String, int> dict = {};
-  Map<String, int> finalDict = {};
+    // TODO: sorting the dict is not working for me, I think we should just do it in the backend
 
-  void initEntries() {
-    getDict();
-    entries = [
-      // CircularSegmentEntry(20, colors[0], rankKey: "Vinyl"),
-      // CircularSegmentEntry(10, colors[1], rankKey: "Bottle caps"),
-      // CircularSegmentEntry(8, colors[2], rankKey: "Stamps"),
-      // CircularSegmentEntry(7, colors[3], rankKey: "City magnets"),
-      // CircularSegmentEntry(5, colors[4], rankKey: "Others"),
-    ];
+    entries = [];
+    int count = 0;
     for (var key in dict.keys) {
-      entries.add(
-          CircularSegmentEntry(dict[key]!.toDouble(), colors[0], rankKey: key));
+      entries.add(CircularSegmentEntry(
+        dict[key]!.toDouble(),
+        colors[count++],
+        rankKey: key,
+      ));
     }
+
     descriptions = [];
     for (int i = 0; i < entries.length; i++) {
       descriptions.add(description(i));
@@ -96,7 +97,8 @@ class Statistic extends StatelessWidget {
                 children: <Widget>[
                   StaggeredGridTile.extent(
                     crossAxisCellCount: 8,
-                    mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 50 : 40),
+                    mainAxisExtent:
+                        SizeConfig.vert * (SizeConfig.isTablet ? 50 : 40),
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: nestsOverTimeChart(
@@ -105,7 +107,8 @@ class Statistic extends StatelessWidget {
                   ),
                   StaggeredGridTile.extent(
                     crossAxisCellCount: SizeConfig.isTablet ? 5 : 8,
-                    mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 40 : 30),
+                    mainAxisExtent:
+                        SizeConfig.vert * (SizeConfig.isTablet ? 40 : 30),
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: nestShares("Items", "per nest"),
@@ -113,7 +116,8 @@ class Statistic extends StatelessWidget {
                   ),
                   StaggeredGridTile.extent(
                     crossAxisCellCount: SizeConfig.isTablet ? 3 : 4,
-                    mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
+                    mainAxisExtent:
+                        SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: total("Nests"),
@@ -121,7 +125,8 @@ class Statistic extends StatelessWidget {
                   ),
                   StaggeredGridTile.extent(
                     crossAxisCellCount: SizeConfig.isTablet ? 3 : 4,
-                    mainAxisExtent: SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
+                    mainAxisExtent:
+                        SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
                     child: Padding(
                       padding: const EdgeInsets.all(8),
                       child: total("Items"),
@@ -131,11 +136,8 @@ class Statistic extends StatelessWidget {
               ),
             );
           }
-          else {
-            return Container();
-          }
-        }
-        ,
+          return Container();
+        },
       ),
     );
   }
@@ -280,19 +282,11 @@ class Statistic extends StatelessWidget {
               title,
               style: TextStyle(fontSize: smallTitleSize, color: mainColor),
             ),
-            FutureBuilder(
-              future: ApiEndpoints.getUserProfile(),
-              builder: (context, snapshot) {
-                List counts = snapshot.data as List;
-                return Text(
-                  snapshot.hasData
-                      ? title == "Nests"
-                          ? counts[0].toString()
-                          : counts[1].toString()
-                      : "?",
-                  style: TextStyle(fontSize: bigTitleSize),
-                );
-              },
+            Text(
+              title == "Nests"
+                  ? user.profile.nestCount.toString()
+                  : user.profile.nestItemCount.toString(),
+              style: TextStyle(fontSize: bigTitleSize),
             ),
           ],
         ),

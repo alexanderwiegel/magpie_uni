@@ -28,10 +28,9 @@ class ApiEndpoints {
     String url = urlPrefix + "user/userProfile?userId=$userId";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200 ? response.body : null;
-    final profile = welcomeFromJson(result!).profile;
-    UserAPIManager().currentUserProfile = welcomeFromJson(result);
-    List counts = [profile.nestCount, profile.nestItemCount];
-    return counts;
+    UserAPIManager.currentUserProfile = welcomeFromJson(result!);
+    printInfo("Status of getting the current user profile: ${UserAPIManager.currentUserProfile.status}");
+    return result;
   }
 
   static Future<User> getHomeScreen() async {
