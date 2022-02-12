@@ -8,7 +8,7 @@ class UserAPIManager {
   }
 
   // TODO: fix error when clicking on statistics: LateInitializationError: Field 'currentUserProfile' has not been initialized.
-  late FeedUserProfileResponse currentUserProfile;
+  static late FeedUserProfileResponse currentUserProfile;
 
   // TODO: make sure this is set after login
   static late int currentUserId = -1;
