@@ -275,7 +275,7 @@ class Statistic extends StatelessWidget {
           const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
           Text(
             entries[index].rankKey,
-            style: const TextStyle(fontSize: 15),
+            style: const TextStyle(fontSize: 17),
           )
         ],
       ),
