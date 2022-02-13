@@ -28,20 +28,20 @@ async function compare(body) {
           console.log(`distance       ${diff}`);
           console.log(`diff.percent   ${diff}\n`);
 
-                    if (distance <= 0.15 && diff <= 0.40) {
-                        console.log(similarItems.length);
-                        similarItems.push(nestItem);
-                    }
-                }
-            }));
-            console.log("sending comaprision call back");
-            resolve (similarItems);    
-        });
+          if (distance <= 0.50 && diff <= 0.50) {
+            similarItems.push(nestItem);
+          }
+        }
+      }));
+      console.log("Amount of similar items: " + similarItems.length);
+      console.log("sending comparison call back");
+      resolve(similarItems);
     });
+  });
 }
 
 
 
 module.exports = {
-    compare: compare
+  compare: compare
 }
