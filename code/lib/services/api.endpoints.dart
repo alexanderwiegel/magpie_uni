@@ -96,8 +96,9 @@ class ApiEndpoints {
     return list;
   }
 
-  static Future<bool> uploadNestOrNestItem(
-      NestOrNestItem nestOrNestItem, bool isNest, bool isNew) async {
+  static Future<Map<String, dynamic>> uploadNestOrNestItem(
+      NestOrNestItem nestOrNestItem, bool isNest, bool isNew,
+      {bool compare = true}) async {
     String url = urlPrefix + "nest/";
     url += isNew ? "add" : "edit";
     url += isNest ? "Nest" : "NestItem";
@@ -116,10 +117,8 @@ class ApiEndpoints {
     nestOrNestItemAsMap.forEach((key, value) {
       req.fields[key] = value.toString();
     });
-    // var filename = nestOrNestItem.photo.toString().split("/").last;
-    // // remove the last single quote
-    // filename = filename.substring(0, filename.length-1);
-    // print("Filename: $filename");
+    req.fields["compare"] = compare.toString();
+
     if (!nestOrNestItem.photo!.startsWith("http")) {
       req.files.add(await http.MultipartFile.fromPath(
         'image',

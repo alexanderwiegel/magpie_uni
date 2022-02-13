@@ -89,8 +89,15 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _photo != null
-                    ? await uploadNestOrNestItem().then(onChange)
-                    : MagpiePhotoAlert.displayPhotoAlert(context);
+                    ? await uploadNestOrNestItem()
+                    //.then(onChange)
+                    : MagpiePhotoAlert.displayPhotoAlert(
+                        context,
+                        "No image provided",
+                        "You must use your own image.",
+                        ["OK"],
+                        [() => Navigator.of(context).pop()],
+                      );
               }
             },
             tooltip: "Save",
