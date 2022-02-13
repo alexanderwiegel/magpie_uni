@@ -8,6 +8,7 @@ import 'package:magpie_uni/model/chat.message.dart';
 import 'package:magpie_uni/model/notification.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/view/chat/chat.list.dart';
 import 'package:magpie_uni/view/feeds/feed.list.dart';
 import 'package:magpie_uni/view/home.dart';

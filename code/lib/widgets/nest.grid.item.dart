@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/model/feed.user.profile.model.dart';
 import 'package:magpie_uni/view/feeds/feed.item.detail.page.dart';
 import 'package:magpie_uni/view/feeds/feed.nest.detail.dart';
