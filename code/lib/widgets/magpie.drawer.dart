@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/size.config.dart';
+import 'package:magpie_uni/wrapper.dart';
 
 class MagpieDrawer extends StatelessWidget {
   final Color iconColor = mainColor;
@@ -37,7 +38,8 @@ class MagpieDrawer extends StatelessWidget {
             () => navigate(context, "/home"),
           ),
           option(
-            Icons.insert_chart, "Statistics",
+            Icons.insert_chart,
+            "Statistics",
             () => navigate(context, "/statistic"),
           ),
           option(
@@ -58,11 +60,13 @@ class MagpieDrawer extends StatelessWidget {
           option(
             Icons.exit_to_app,
             "Logout",
-            () async {
-              Navigator.of(context).pop();
-              // navigate(context, "/");
-              // TODO: call sign-out function from auth
-              // await _auth.signOut();
+            () {
+              Navigator.of(context).pushAndRemoveUntil(
+                MaterialPageRoute(
+                  builder: (BuildContext context) => const Wrapper(),
+                ),
+                (route) => false,
+              );
             },
           ),
         ],
@@ -119,7 +123,6 @@ class MagpieDrawer extends StatelessWidget {
     );
 
     if (!isNewRouteSameAsCurrent) {
-      // TODO: pass userId
       Navigator.pushReplacementNamed(context, routeName);
     }
   }

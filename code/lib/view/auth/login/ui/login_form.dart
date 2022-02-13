@@ -6,7 +6,7 @@ import 'package:magpie_uni/services/http_service.dart';
 import 'package:magpie_uni/services/validators.dart';
 import 'package:magpie_uni/view/home.page.dart';
 import 'package:magpie_uni/widgets/atoms/buttons/magpie_button.dart';
-import 'package:magpie_uni/widgets/atoms/buttons/magpie_text_button.dart';
+// import 'package:magpie_uni/widgets/atoms/buttons/magpie_text_button.dart';
 import 'package:magpie_uni/widgets/magpie.text.form.field.dart';
 import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
@@ -90,7 +90,7 @@ class _LoginFormState extends State<LoginForm> {
         UserAPIManager.currentUserId = user["id"];
         //print(user);
         //print(UserAPIManager.token);
-        //print(UserAPIManager.currentUserId);
+        printSuccess("Successfully set currentUserId to ${UserAPIManager.currentUserId}");
 
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
@@ -108,7 +108,6 @@ class _LoginFormState extends State<LoginForm> {
 
     }
   }
-
 
   void _showDialog(BuildContext context, String errMessage) {
     showDialog(

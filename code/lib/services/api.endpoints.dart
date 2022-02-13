@@ -20,16 +20,14 @@ import '../model/feed.user.nestitems.model.dart';
 
 class ApiEndpoints {
   static String urlPrefix = "http://10.0.2.2:3000/";
-  static int userId = UserAPIManager.currentUserId;
-  static String token = UserAPIManager.token;
   static Map<String, String> headers = {
     "Accept": "application/json",
     "Content-type": "application/json",
-    "Authorization": "Bearer $token"
+    "Authorization": "Bearer ${UserAPIManager.token}"
   };
 
   static Future<dynamic> getUserProfile() async {
-    String url = urlPrefix + "user/userProfile?userId=$userId";
+    String url = urlPrefix + "user/userProfile?userId=${UserAPIManager.currentUserId}";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200 ? response.body : null;
     // print(result);
@@ -40,7 +38,7 @@ class ApiEndpoints {
   }
 
   static Future<User> getHomeScreen() async {
-    String url = urlPrefix + "user/getUser?id=$userId";
+    String url = urlPrefix + "user/getUser?id=${UserAPIManager.currentUserId}";
 
     final response = await http.get(Uri.parse(url), headers: headers);
     final result =
@@ -55,7 +53,7 @@ class ApiEndpoints {
     String url = urlPrefix + "user/editUser";
 
     final body = {
-      "id": userId.toString(),
+      "id": UserAPIManager.currentUserId.toString(),
       "sort_mode": sortMode,
       "is_asc": isAsc ? "1" : "0",
       "only_favored": onlyFavored ? "1" : "0",
@@ -67,7 +65,7 @@ class ApiEndpoints {
     final customHeader = {
       "Accept": "application/json",
       "Content-type": "application/x-www-form-urlencoded",
-      "Authorization": "Bearer $token"
+      "Authorization": "Bearer ${UserAPIManager.token}"
     };
     customHeader.forEach((key, value) => req.headers[key] = value);
     req.bodyFields = body;
@@ -77,7 +75,7 @@ class ApiEndpoints {
   }
 
   static Future<List> getNests() async {
-    String url = urlPrefix + "nest/userNests?user_id=$userId";
+    String url = urlPrefix + "nest/userNests?user_id=${UserAPIManager.currentUserId}";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200
         ? await json.decode(response.body)["result"]
@@ -148,7 +146,7 @@ class ApiEndpoints {
     final customHeader = {
       "Accept": "application/json",
       "Content-type": "application/x-www-form-urlencoded",
-      "Authorization": "Bearer $token"
+      "Authorization": "Bearer ${UserAPIManager.token}"
     };
     customHeader.forEach((key, value) => req.headers[key] = value);
     req.bodyFields = body;
