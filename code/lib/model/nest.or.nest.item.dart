@@ -99,7 +99,10 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
               child: Text(
                 isNest
                     ? "0 nest items"
-                    : widget.createdAt.toString().substring(0, 10),
+                    : widget.description.isEmpty || widget.description.length > 20
+                        ? widget.createdAt.toString().substring(0, 10)
+                        : widget.description,
+                // : widget.createdAt.toString().substring(0, 10),
               ),
             ),
             trailing: FittedBox(
