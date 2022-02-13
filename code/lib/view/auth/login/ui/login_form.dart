@@ -64,7 +64,7 @@ class _LoginFormState extends State<LoginForm> {
               label: "Login",
               color: formFieldColor,
               textColor: textColor,
-              onPressed: _onLoginPressed(context),
+              onPressed: () => _onLoginPressed(context),
             ),
           ),
         ],

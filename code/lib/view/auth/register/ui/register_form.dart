@@ -77,7 +77,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   label: "Create",
                   color: formFieldColor,
                   textColor: textColor,
-                  onPressed: _onCreatePressed(context),
+                  onPressed: () => _onCreatePressed(context),
                 ),
               ),
             ],

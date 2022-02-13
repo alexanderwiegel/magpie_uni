@@ -30,23 +30,9 @@ class _FeedListState extends State<FeedList> {
       backgroundColor: Colors.grey.shade100,
       drawer: const MagpieDrawer(),
       appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        flexibleSpace: SafeArea(
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const <Widget>[
-                Text(
-                  "Feeds",
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
+        title: const Text(
+          "Feeds",
+          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(
