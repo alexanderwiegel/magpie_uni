@@ -33,7 +33,6 @@ class Statistic extends StatelessWidget {
   late List<CircularSegmentEntry> entries;
   late List<Widget> descriptions;
   late List<CircularStackEntry> circularData;
-
   //#endregion
 
   void initEntries() {

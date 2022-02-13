@@ -3,6 +3,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
+import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/model/nest.dart';
 import 'package:magpie_uni/model/nest.item.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
@@ -31,8 +32,10 @@ class ApiEndpoints {
     String url = urlPrefix + "user/userProfile?userId=$userId";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200 ? response.body : null;
+    // print(result);
     UserAPIManager.currentUserProfile = welcomeFromJson(result!);
-    printInfo("Status of getting the current user profile: ${UserAPIManager.currentUserProfile.status}");
+    printInfo(
+        "Status of getting the current user profile: ${UserAPIManager.currentUserProfile.status}");
     return result;
   }
 
@@ -98,7 +101,7 @@ class ApiEndpoints {
     String url = urlPrefix + "nest/";
     url += isNew ? "add" : "edit";
     url += isNest ? "Nest" : "NestItem";
-    //print("Url: $url");
+    printInfo("Url: $url");
 
     // TODO: use PATCH here and in the backend instead
     String method = isNew ? "POST" : "PUT";
@@ -108,7 +111,7 @@ class ApiEndpoints {
 
     Map nestOrNestItemAsMap = nestOrNestItem.toMap();
 
-    //print("NestOrNestItem: $nestOrNestItemAsMap");
+    printInfo("NestOrNestItem: $nestOrNestItemAsMap");
 
     nestOrNestItemAsMap.forEach((key, value) {
       req.fields[key] = value.toString();
@@ -122,14 +125,14 @@ class ApiEndpoints {
         'image',
         nestOrNestItem.photo!,
         contentType: MediaType('image', 'jpg'),
-        // filename: filename
       ));
     }
 
-    //print("Path before sending request" + nestOrNestItem.photo!);
-    //print("Send request");
-    var response = await req.send();
-    return (response.statusCode == 200) ? true : false;
+    // printInfo("Path before sending request" + nestOrNestItem.photo!);
+    final streamedResponse = await req.send();
+    final response = await http.Response.fromStream(streamedResponse);
+    printInfo("Response from server: ${response.body}");
+    return json.decode(response.body);
   }
 
   static Future<void> deleteNestOrNestItem(
