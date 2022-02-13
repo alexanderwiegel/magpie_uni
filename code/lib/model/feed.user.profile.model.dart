@@ -93,25 +93,40 @@ class FeedNestItem {
 }
 
 class Profile {
+  String username;
+  String? photo;
+  String email;
+  int nestCount = 0;
+  int nestItemCount = 0;
+  List<Stats>? stats;
+
   Profile({
     required this.username,
     required this.photo,
     required this.email,
     required this.nestCount,
     required this.nestItemCount,
+    this.stats,
   });
 
-  String username;
-  String? photo;
-  String email;
-  int nestCount;
-  int nestItemCount;
-
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
-        username: json["username"],
-        photo: json["photo"],
-        email: json["email"],
-        nestCount: json["nestCount"],
-        nestItemCount: json["nestItemCount"],
+      username: json["username"],
+      photo: json["photo"],
+      email: json["email"],
+      nestCount: json["nestCount"],
+      nestItemCount: json["nestItemCount"],
+      stats:
+          List<Stats>.from(json["stats"].map((stat) => Stats.fromJson(stat))));
+}
+
+class Stats {
+  int count;
+  DateTime date;
+
+  Stats({required this.count, required this.date});
+
+  factory Stats.fromJson(Map<String, dynamic> json) => Stats(
+        count: json["count"],
+        date: DateTime.parse(json["date"]),
       );
 }

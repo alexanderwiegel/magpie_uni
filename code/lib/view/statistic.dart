@@ -29,7 +29,7 @@ class Statistic extends StatelessWidget {
   ];
 
   late FeedUserProfileResponse user;
-
+  late List<TimeSeriesData> timeSeries;
   late List<CircularSegmentEntry> entries;
   late List<Widget> descriptions;
   late List<CircularStackEntry> circularData;
@@ -37,6 +37,18 @@ class Statistic extends StatelessWidget {
 
   void initEntries() {
     user = UserAPIManager.currentUserProfile;
+
+    //#region Time series chart
+    timeSeries = [];
+    List<Stats>? stats = user.profile.stats!;
+    double sum = 0;
+    for (int i = stats.length-1; i >= 0; i--) {
+      sum += stats[i].count;
+      timeSeries.add(TimeSeriesData(sum, stats[i].date));
+    }
+    //#endregion
+
+    //#region Nest shares
     final nests = user.nests;
     final nestItems = user.nestItems;
 
@@ -66,6 +78,9 @@ class Statistic extends StatelessWidget {
     for (int i = 0; i < entries.length; i++) {
       descriptions.add(description(i));
     }
+    //#endregion
+
+    //#region Size config
     if (SizeConfig.isTablet) {
       smallTitleSize = SizeConfig.hori * 2;
       bigTitleSize = SizeConfig.hori * 3;
@@ -75,6 +90,7 @@ class Statistic extends StatelessWidget {
       bigTitleSize = SizeConfig.hori * 5;
       radius = SizeConfig.hori * 30;
     }
+    //#endregion
   }
 
   @override
@@ -169,28 +185,7 @@ class Statistic extends StatelessWidget {
                   [
                     charts.Series<TimeSeriesData, DateTime>(
                       id: "",
-                      data: [
-                        TimeSeriesData(
-                          count: 5,
-                          date: DateTime(2022, 1, 15),
-                        ),
-                        TimeSeriesData(
-                          count: 12,
-                          date: DateTime(2022, 1, 20),
-                        ),
-                        TimeSeriesData(
-                          count: 20,
-                          date: DateTime(2022, 1, 25),
-                        ),
-                        TimeSeriesData(
-                          count: 30,
-                          date: DateTime(2022, 1, 29),
-                        ),
-                        TimeSeriesData(
-                          count: 50,
-                          date: DateTime(2022, 2, 3),
-                        ),
-                      ],
+                      data: timeSeries,
                       domainFn: (TimeSeriesData tsd, _) => tsd.date!,
                       measureFn: (TimeSeriesData tsd, _) => tsd.count,
                     ),
@@ -298,5 +293,5 @@ class TimeSeriesData {
   final double? count;
   final DateTime? date;
 
-  TimeSeriesData({this.count, this.date});
+  TimeSeriesData(this.count, this.date);
 }
