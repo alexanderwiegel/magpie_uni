@@ -30,10 +30,7 @@ class _FeedListState extends State<FeedList> {
       backgroundColor: Colors.grey.shade100,
       drawer: const MagpieDrawer(),
       appBar: AppBar(
-        title: const Text(
-          "Feeds",
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-        ),
+        title: const Text("Feeds"),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),

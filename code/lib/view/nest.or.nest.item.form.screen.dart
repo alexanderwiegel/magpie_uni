@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 
+import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/widgets/magpie.button.dart';
 import 'package:magpie_uni/widgets/magpie.photo.alert.dart';
@@ -88,8 +89,15 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
             onPressed: () async {
               if (_formKey.currentState!.validate()) {
                 _photo != null
-                    ? await uploadNestOrNestItem().then(onChange)
-                    : MagpiePhotoAlert.displayPhotoAlert(context);
+                    ? await uploadNestOrNestItem()
+                    //.then(onChange)
+                    : MagpiePhotoAlert.displayPhotoAlert(
+                        context,
+                        "No image provided",
+                        "You must use your own image.",
+                        ["OK"],
+                        [() => Navigator.of(context).pop()],
+                      );
               }
             },
             tooltip: "Save",
@@ -140,6 +148,6 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
         ? 0
         : int.parse(_worthEditingController.text);
     widget.nestOrNestItem.public = _public;
-    //print("Successfully set attributes");
+    printSuccess("Successfully set attributes");
   }
 }

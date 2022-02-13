@@ -48,8 +48,8 @@ class _NestUserProfileState extends State<FeedUserProfile> {
     FeedUserProfileResponse result =
         await ApiEndpoints.fetchFeedUserProfile(widget.userId);
     setState(() {
-      nestItems = result.nestItems!;
-      nests = result.nests!;
+      nestItems = result.nestItems;
+      nests = result.nests;
       profile = result.profile;
     });
   }
@@ -59,6 +59,7 @@ class _NestUserProfileState extends State<FeedUserProfile> {
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
+      appBar: AppBar(title: const Text("Profile")),
       body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
@@ -79,6 +80,7 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                           fit: BoxFit.fitWidth,
                         ),
                       ),
+                      const SizedBox(width: 20),
                       Column(
                         children: [
                           const SizedBox(height: 20),

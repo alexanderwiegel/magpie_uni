@@ -36,7 +36,7 @@ router.post('/addNest', upload.array('image', 1), async function (req, res) {
       res.status(500).json({ status: 'Failed', message: err.message });
       return
     }
-    res.status(200).json({ status: 'Success', message: 'Nest Added Succesfully' });
+    res.status(200).json({ status: 'Success', message: 'Nest added succesfully' });
   });
 })
 
@@ -62,7 +62,7 @@ router.put('/editNest', upload.array('image', 1), async function (req, res) {
       res.status(500).json({ status: 'Failed', message: err.message });
       return
     }
-    res.status(200).json({ status: 'Success', message: 'Nest Edited Succesfully' });
+    res.status(200).json({ status: 'Success', message: 'Nest edited succesfully' });
   });
 })
 
@@ -85,7 +85,7 @@ router.delete('/deleteNest', async function (req, res) {
 //get Nests for user
 router.get('/userNests', async function (req, res) {
   let userID = req.query.user_id;
-  console.log(userID);
+  console.log("UserId: " + userID);
 
   sqlManager.getUserNests(userID, async function (err, result) {
     if (err) {
@@ -156,11 +156,11 @@ router.post('/addNestItem', upload.array('image', 1), async function (req, res) 
     .then(result => {
       console.log("Inside then");
       if (result.length != 0) {
-        console.log("Image comaprision callback length is greater than 0");
+        console.log("Image comparison callback length is greater than 0");
         res.status(200).json({ status: 'Similar items found in your collections.', items: result });
       }
       else {
-        console.log("Image comaprision callback length is 0");
+        console.log("Image comparison callback length is 0");
         nestItem = {
           title: req.body.title,
           description: req.body.description,
@@ -179,14 +179,14 @@ router.post('/addNestItem', upload.array('image', 1), async function (req, res) 
             console.log(err)
             return
           }
-          res.status(200).json({ status: 'Success', message: 'Nest Item Added Succesfully' });
+          res.status(200).json({ status: 'Success', message: 'Nest item added succesfully' });
         });
       }
     })
     .catch(e => {
       res.status(500).json({ status: 'Failed', message: e.message });
     });
-  // console.log("COntinuing with add flow");
+  // console.log("Continuing with add flow");
 
 
 
@@ -207,7 +207,7 @@ router.post('/addNestItem', upload.array('image', 1), async function (req, res) 
   //         res.status(500).json({status:'Failed', message: err.message});
   //         return
   //     }
-  //     res.status(200).json({status:'Success', message:'Nest Item Added Succesfully'});
+  //     res.status(200).json({status:'Success', message:'Nest item added succesfully'});
   // });
 })
 
@@ -236,7 +236,7 @@ router.put('/editNestItem', upload.array('image', 1), async function (req, res) 
       res.status(500).json({ status: 'Failed', message: err.message });
       return
     }
-    res.status(200).json({ status: 'Success', message: 'Nest Item Edited Succesfully' });
+    res.status(200).json({ status: 'Success', message: 'Nest item edited succesfully' });
   });
 })
 
@@ -251,7 +251,7 @@ router.get('/nestItem', async function (req, res) {
       return
     }
     if (result.length == 0) {
-      res.status(200).json({ status: 'Failed', message: 'Nest item doesnot exists.' });
+      res.status(200).json({ status: 'Failed', message: 'Nest item does not exist.' });
     }
     else {
       res.status(200).json({ result: result[0] });

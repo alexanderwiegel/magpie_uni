@@ -1,15 +1,17 @@
 import 'dart:convert';
 import 'package:flutter/material.dart';
 
+import 'package:http/http.dart';
+import 'package:socket_io_client/socket_io_client.dart';
+
 import 'package:magpie_uni/model/chat.message.dart';
 import 'package:magpie_uni/model/notification.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/view/chat/chat.list.dart';
 import 'package:magpie_uni/view/feeds/feed.list.dart';
 import 'package:magpie_uni/view/home.dart';
-import 'package:socket_io_client/socket_io_client.dart';
-import 'package:http/http.dart';
 import 'package:magpie_uni/constants.dart';
 
 class HomePage extends StatefulWidget {
@@ -20,23 +22,6 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  Future fetchChatNotificationCount(int loggedUserId) async {
-    var headers = UserAPIManager().getAPIHeader();
-    final response = await get(
-        Uri.parse(ApiEndpoints.urlPrefix +
-            'chat/getNotification?userId=$loggedUserId'),
-        headers: headers);
-
-    if (response.statusCode == 200) {
-      //print(response.body);
-      NotificationResponse n =
-          NotificationResponse.fromJson(jsonDecode(response.body));
-      badgeCount = n.notificationCount;
-    } else {
-      throw Exception('Failed to load chat');
-    }
-  }
-
   int badgeCount = 0;
   int selectedIndex = 0;
   List<Widget> tabBarPages = <Widget>[];
@@ -45,6 +30,7 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
+    printInfo(SizeConfig.isTablet ? "On tablet" : "On phone");
     super.initState();
     tabBarPages = [
       // TODO: maybe using HomePage() here will solve the issue of updated/deleted nests not showing up
@@ -63,6 +49,28 @@ class _HomePageState extends State<HomePage> {
     initSocket();
   }
 
+  void getNotifications() async {
+    await fetchChatNotificationCount(UserAPIManager.currentUserId);
+    setState(() {});
+  }
+
+  Future fetchChatNotificationCount(int loggedUserId) async {
+    var headers = UserAPIManager().getAPIHeader();
+    final response = await get(
+        Uri.parse(ApiEndpoints.urlPrefix +
+            'chat/getNotification?userId=$loggedUserId'),
+        headers: headers);
+
+    if (response.statusCode == 200) {
+      NotificationResponse n =
+      NotificationResponse.fromJson(jsonDecode(response.body));
+      badgeCount = n.notificationCount;
+      printInfo("Successfully fetched the number of unread messages: $badgeCount");
+    } else {
+      throw Exception('Failed to load chat');
+    }
+  }
+
   void initSocket() {
     socket = io(ApiEndpoints.urlPrefix, <String, dynamic>{
       'transports': ['websocket'],
@@ -71,10 +79,8 @@ class _HomePageState extends State<HomePage> {
     socket.connect();
 
     socket.on("receive_message", (message) {
-      //print("Received Message: ");
-      //print(message);
+      printInfo("Received Message: $message");
       ChatMessage newMessage = ChatMessage.fromJson(message);
-      //print(newMessage.message);
       if (newMessage.senderId == UserAPIManager.currentUserId ||
           newMessage.receiverId == UserAPIManager.currentUserId) {
         getNotifications();
@@ -86,11 +92,6 @@ class _HomePageState extends State<HomePage> {
   void dispose() {
     // socket.disconnect();
     super.dispose();
-  }
-
-  void getNotifications() async {
-    await fetchChatNotificationCount(UserAPIManager.currentUserId);
-    setState(() {});
   }
 
   @override

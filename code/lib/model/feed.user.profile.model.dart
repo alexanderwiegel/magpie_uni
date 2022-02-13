@@ -6,17 +6,17 @@ FeedUserProfileResponse welcomeFromJson(String str) =>
     FeedUserProfileResponse.fromJson(json.decode(str));
 
 class FeedUserProfileResponse {
+  String status;
+  Profile profile;
+  List<FeedNest> nests;
+  List<FeedNestItem> nestItems;
+
   FeedUserProfileResponse({
     required this.status,
     required this.profile,
     required this.nests,
     required this.nestItems,
   });
-
-  String status;
-  Profile profile;
-  List<FeedNest>? nests;
-  List<FeedNestItem>? nestItems;
 
   factory FeedUserProfileResponse.fromJson(Map<String, dynamic> json) =>
       FeedUserProfileResponse(
@@ -30,6 +30,12 @@ class FeedUserProfileResponse {
 }
 
 class FeedNest {
+  int id;
+  int userId;
+  String title;
+  String description;
+  String photo;
+
   FeedNest({
     required this.id,
     required this.userId,
@@ -37,12 +43,6 @@ class FeedNest {
     required this.description,
     required this.photo,
   });
-
-  int id;
-  int userId;
-  String title;
-  String description;
-  String photo;
 
   factory FeedNest.fromJson(Map<String, dynamic> json) => FeedNest(
         id: json["id"],
@@ -54,12 +54,19 @@ class FeedNest {
       );
 
   String getImage() => photo ==
-      "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png"
+          "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png"
       ? photo
       : ApiEndpoints.urlPrefix + photo;
 }
 
 class FeedNestItem {
+  int id;
+  int nestId;
+  int userId;
+  String title;
+  String description;
+  String photo;
+
   FeedNestItem({
     required this.id,
     required this.nestId,
@@ -68,13 +75,6 @@ class FeedNestItem {
     required this.photo,
     required this.userId,
   });
-
-  int id;
-  int nestId;
-  int userId;
-  String title;
-  String description;
-  String photo;
 
   factory FeedNestItem.fromJson(Map<String, dynamic> json) => FeedNestItem(
         id: json["id"],
@@ -87,31 +87,46 @@ class FeedNestItem {
       );
 
   String getImage() => photo ==
-      "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png"
+          "https://www.froben11.de/wp-content/uploads/2016/10/orionthemes-placeholder-image.png"
       ? photo
       : ApiEndpoints.urlPrefix + photo;
 }
 
 class Profile {
+  String username;
+  String? photo;
+  String email;
+  int nestCount = 0;
+  int nestItemCount = 0;
+  List<Stats>? stats;
+
   Profile({
     required this.username,
     required this.photo,
     required this.email,
     required this.nestCount,
     required this.nestItemCount,
+    this.stats,
   });
 
-  String username;
-  String? photo;
-  String email;
-  int nestCount;
-  int nestItemCount;
-
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
-        username: json["username"],
-        photo: json["photo"],
-        email: json["email"],
-        nestCount: json["nestCount"],
-        nestItemCount: json["nestItemCount"],
+      username: json["username"],
+      photo: json["photo"],
+      email: json["email"],
+      nestCount: json["nestCount"],
+      nestItemCount: json["nestItemCount"],
+      stats:
+          List<Stats>.from(json["stats"].map((stat) => Stats.fromJson(stat))));
+}
+
+class Stats {
+  int count;
+  DateTime date;
+
+  Stats({required this.count, required this.date});
+
+  factory Stats.fromJson(Map<String, dynamic> json) => Stats(
+        count: json["count"],
+        date: DateTime.parse(json["date"]),
       );
 }

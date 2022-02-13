@@ -19,7 +19,6 @@ abstract class NestOrNestItem extends StatefulWidget {
   NestOrNestItem({
     Key? key,
     this.id,
-    // TODO: remove this for chat, add respective userId for CRUD
     this.userId,
     this.photo,
     this.name = "",
