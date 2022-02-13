@@ -48,8 +48,8 @@ class _NestUserProfileState extends State<FeedUserProfile> {
     FeedUserProfileResponse result =
         await ApiEndpoints.fetchFeedUserProfile(widget.userId);
     setState(() {
-      nestItems = result.nestItems;
-      nests = result.nests;
+      nestItems = result.nestItems!;
+      nests = result.nests!;
       profile = result.profile;
     });
   }

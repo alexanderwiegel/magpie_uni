@@ -5,6 +5,7 @@ import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/widgets/chat.session.list.item.dart';
 import 'package:magpie_uni/model/chat.message.dart';
+import 'package:magpie_uni/widgets/magpie.drawer.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
 
@@ -64,6 +65,7 @@ class _ChatPageState extends State<ChatList> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
+      drawer: const MagpieDrawer(),
       appBar: AppBar(
         elevation: 0,
         automaticallyImplyLeading: false,

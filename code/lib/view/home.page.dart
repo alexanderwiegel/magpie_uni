@@ -146,6 +146,7 @@ class _HomePageState extends State<HomePage> {
         ],
         onTap: (index) => setState(() {
           getNotifications();
+          badgeCount = index == 2 ? 0 : badgeCount;
           selectedIndex = index;
         }),
       ),
