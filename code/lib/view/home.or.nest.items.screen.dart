@@ -29,7 +29,7 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
   List<NestOrNestItem> _filteredNames = [];
   final TextEditingController _filter = TextEditingController();
   Icon _searchIcon = const Icon(Icons.search, color: Colors.white);
-  Widget searchTitle = const Text("");
+  Widget searchText = const Text("");
   String _searchText = "";
 
   HomeOrNestItemsScreenState() {
@@ -94,12 +94,18 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
       appBar: AppBar(
         title: Text(title),
         actions: [
+          _searchIcon.icon == Icons.search
+              ? editButton()
+              : Expanded(
+                  child: Align(
+                    alignment: Alignment.center,
+                    child: Padding(
+                      padding: const EdgeInsets.only(left: 60.0),
+                      child: searchText,
+                    ),
+                  ),
+                ),
           searchBar(),
-          Container(
-            child: SizedBox(child: searchTitle, width: 180),
-            alignment: Alignment.center,
-          ),
-          editButton()
         ],
       ),
       body: FutureBuilder<List>(
@@ -137,13 +143,17 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
       //   searchTitle: _searchTitle,
       // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-      floatingActionButton: FloatingActionButton(
-        tooltip: "Create new $thing",
-        backgroundColor: mainColor,
-        child: const Icon(Icons.add),
-        onPressed: () async => await Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => openCreationScreen()))
-            .then(onChange),
+      floatingActionButton: Padding(
+        padding: const EdgeInsets.only(bottom: 8.0),
+        child: FloatingActionButton(
+          tooltip: "Create new $thing",
+          backgroundColor: mainColor,
+          child: const Icon(Icons.add),
+          onPressed: () async => await Navigator.of(context)
+              .push(
+                  MaterialPageRoute(builder: (context) => openCreationScreen()))
+              .then(onChange),
+        ),
       ),
     );
   }
@@ -173,17 +183,19 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     setState(() {
       if (_searchIcon.icon == Icons.search) {
         _searchIcon = const Icon(Icons.close, color: Colors.white);
-        searchTitle = TextField(
+        searchText = TextField(
           style: const TextStyle(color: textColor, fontSize: 20),
           controller: _filter,
+          textAlignVertical: TextAlignVertical.center,
           decoration: const InputDecoration(
             hintText: 'Search...',
             hintStyle: TextStyle(color: Colors.white),
+            border: InputBorder.none,
           ),
         );
       } else {
         _searchIcon = const Icon(Icons.search, color: Colors.white);
-        searchTitle = const Text('');
+        searchText = const Text('');
         _filteredNames = _names;
         _filter.clear();
       }
