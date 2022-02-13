@@ -56,28 +56,10 @@ class _NestUserProfileState extends State<FeedUserProfile> {
 
   @override
   Widget build(BuildContext context) {
-    double width = MediaQuery.of(context).size.width;
-    double height = MediaQuery.of(context).size.height;
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
-      body: Stack(
-        fit: StackFit.expand,
-        children: [
-          Container(
-            decoration: BoxDecoration(
-              gradient: LinearGradient(
-                colors: [
-                  mainColor.shade900,
-                  mainColor.shade200,
-                  // Colors.blue,
-                ],
-                begin: FractionalOffset.bottomCenter,
-                end: FractionalOffset.topCenter,
-              ),
-            ),
-          ),
-          SingleChildScrollView(
+      body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
             child: Column(
@@ -90,7 +72,6 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                     children: [
                       const SizedBox(height: 100),
                       SizedBox(
-                        height: height * 0.40,
                         child: LayoutBuilder(
                           builder: (context, constraints) {
                             double innerHeight = constraints.maxHeight;
@@ -223,13 +204,7 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                           },
                         ),
                       ),
-                      ConstrainedBox(
-                        constraints: BoxConstraints(
-                          minHeight: height * 0.30,
-                          minWidth: width,
-                        ),
-                        child: Container(
-                          width: width,
+                      Container(
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(30),
                             color: Colors.white,
@@ -281,36 +256,12 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                             ),
                           ),
                         ),
-                      ),
                     ],
                   ),
                 ),
               ],
             ),
           ),
-          Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10, vertical: 45),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    IconButton(
-                      onPressed: () => Navigator.pop(context),
-                      icon: const Icon(
-                        Icons.arrow_back,
-                        color: Colors.black,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ],
-      ),
       floatingActionButton: Padding(
         padding: const EdgeInsets.fromLTRB(0, 0, 10, 10),
         child: FloatingActionButton(
