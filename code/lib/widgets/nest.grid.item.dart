@@ -34,67 +34,70 @@ class _NestGridItemState extends State<NestGridItem> {
 
   @override
   Widget build(BuildContext context) {
-    return Card(
-      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(10.0)),
-      elevation: 2.0,
-      child: Stack(
-        fit: StackFit.expand,
-        children: [
-          GestureDetector(
-            onTap: () {
-              //print("Item Tapped");
-              // TODO: ask Huzaifa what this is supposed to do
-              if (widget.nest != null) {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FeedNestDetail(
-                      nest: widget.nest!,
-                    ),
-                  ),
-                );
-              } else {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => FeedItemDetail(
-                      feed: null,
-                      nestItem: widget.nestItem!,
-                    ),
-                  ),
-                );
-              }
-            },
-            child: Container(
-              width: MediaQuery.of(context).size.width,
-              height: MediaQuery.of(context).size.width,
-              decoration: BoxDecoration(
-                color: Colors.grey.shade100,
-                borderRadius: BorderRadius.circular(10.0),
-                image: DecorationImage(
-                  fit: BoxFit.fitHeight,
-                  image: NetworkImage(photo),
-                ),
+    final Widget image = Material(
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+      clipBehavior: Clip.antiAlias,
+      child: Image.network(photo, fit: BoxFit.cover),
+    );
+
+    return GestureDetector(
+      // #region onTap
+      onTap: () {
+        //print("Item Tapped");
+        if (widget.nest != null) {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FeedNestDetail(
+                nest: widget.nest!,
+              ),
+            ),
+          );
+        } else {
+          Navigator.push(
+            context,
+            MaterialPageRoute(
+              builder: (context) => FeedItemDetail(
+                feed: null,
+                nestItem: widget.nestItem!,
+              ),
+            ),
+          );
+        }
+      },
+      //#endregion
+      child: GridTile(
+        footer: Material(
+          color: Colors.transparent,
+          shape: const RoundedRectangleBorder(
+            borderRadius: BorderRadius.vertical(bottom: Radius.circular(4)),
+          ),
+          clipBehavior: Clip.antiAlias,
+          child: GridTileBar(
+            backgroundColor: Colors.black45,
+            title: FittedBox(
+              fit: BoxFit.scaleDown,
+              alignment: AlignmentDirectional.centerStart,
+              child: Text(
+                widget.nest != null ? widget.nest!.title : widget.nestItem!.title,
+                style: const TextStyle(color: accentColor),
               ),
             ),
           ),
-          //
-          Padding(
-            padding: const EdgeInsets.fromLTRB(2, 0, 2, 5),
-            child: Align(
-              alignment: Alignment.bottomCenter,
-              child: Text(
-                widget.nest != null
-                    ? widget.nest!.title
-                    : widget.nestItem!.title,
-                style: const TextStyle(
-                  fontSize: 15,
-                  fontWeight: FontWeight.w600,
-                ),
-              ),
-            ),
-          )
-        ],
+        ),
+        child: image,
+        header: FittedBox(
+          fit: BoxFit.scaleDown,
+          alignment: AlignmentDirectional.topStart,
+          child: IconButton(
+            //   tooltip: widget.favored! ? "Remove as favorite" : "Mark as favorite",
+            //   alignment: AlignmentDirectional.centerStart,
+            icon: const Icon(Icons.favorite, color: Colors.transparent),
+            //   icon: Icon(widget.favored! ? Icons.favorite : Icons.favorite_border,
+            //       color: accentColor),
+            onPressed: () => {},
+          ),
+        ),
       ),
     );
   }
