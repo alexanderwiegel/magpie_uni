@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 // import 'package:magpie_uni/services/api.endpoints.dart';
 // import 'package:magpie_uni/sort.mode.dart';
 // import 'package:magpie_uni/widgets/magpie.bottom.navigation.bar.dart';
+import 'package:magpie_uni/main.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
@@ -18,7 +19,7 @@ abstract class HomeOrNestItemsScreen extends StatefulWidget {
 }
 
 class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
-    extends State<T> {
+    extends State<T> with RouteAware {
   String title = "";
 
   // SortMode _sortMode = SortMode.sortById;
@@ -45,11 +46,21 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     });
   }
 
-  // @override
-  // void initState() {
-  //   _initUser();
-  //   super.initState();
-  // }
+  @override
+  void initState() {
+    WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
+      routeObserver.subscribe(this, ModalRoute.of(context)!);
+    });
+    // _initUser();
+    super.initState();
+  }
+
+  @override
+  void didPopNext() {
+    printSuccess("In didPopNext()");
+    setState(() {});
+    super.didPopNext();
+  }
 
   // Future<void> _initUser() async {
   //   User user = await ApiEndpoints.getHomeScreen();

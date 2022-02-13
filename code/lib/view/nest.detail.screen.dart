@@ -34,6 +34,7 @@ class _NestDetailScreenState
       super.widget.nestOrNestItem,
       true,
       false,
-    ).then(onChange);
+    );
+    Navigator.of(context).popUntil((route) => route.isFirst);
   }
 }

@@ -79,11 +79,10 @@ class _NestState extends NestOrNestItemState<Nest> {
 
     //print("Context: " + context.toString());
 
-    await Navigator.push(
+    await Navigator.pushNamed(
       context,
-      // TODO: see if it is somehow possible to pass "widget.this"
-      MaterialPageRoute(
-          builder: (context) => NestItemsScreen(nest: currentNest)),
+      "/nestItems",
+      arguments: currentNest,
     ).then(onChange);
   }
 
