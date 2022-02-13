@@ -80,6 +80,7 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                           fit: BoxFit.fitWidth,
                         ),
                       ),
+                      const SizedBox(width: 20),
                       Column(
                         children: [
                           const SizedBox(height: 20),
