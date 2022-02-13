@@ -58,7 +58,9 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
   @override
   void didPopNext() {
     printSuccess("In didPopNext()");
-    setState(() {});
+    if (mounted) {
+      setState(() {});
+    }
     super.didPopNext();
   }
 
