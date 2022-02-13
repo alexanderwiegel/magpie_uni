@@ -114,8 +114,15 @@ router.get('/userProfile', async function (req, res) {
         res.status(500).json({ status: 'Failed', message: err.message });
         return
       }
-      res.status(200).json({ status: "Success", profile: profileResult[0], nests: result, nestItems: nestItemsResult });
-    })
+      sqlManager.getStatistics(userID, async function (err, statsResult) {
+        if (err) {
+          res.status(500).json({ status: 'Failed', message: err.message });
+          return
+        }
+        profileResult[0]["stats"] = statsResult
+        res.status(200).json({ status: "Success", profile: profileResult[0], nests: result, nestItems: nestItemsResult, });
+      });
+    });
   });
 });
 

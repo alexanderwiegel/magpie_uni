@@ -32,18 +32,21 @@ class FeedUserProfileResponse {
 class FeedNest {
   FeedNest({
     required this.id,
+    required this.userId,
     required this.title,
     required this.description,
     required this.photo,
   });
 
   int id;
+  int userId;
   String title;
   String description;
   String photo;
 
   factory FeedNest.fromJson(Map<String, dynamic> json) => FeedNest(
         id: json["id"],
+        userId: json["user_id"],
         title: json["title"],
         description: json["description"],
         photo: json["photo"] ??

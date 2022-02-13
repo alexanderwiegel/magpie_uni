@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:magpie_uni/services/http_service.dart';
 import 'package:magpie_uni/services/validators.dart';
@@ -75,7 +77,7 @@ class _RegisterFormState extends State<RegisterForm> {
                   label: "Create",
                   color: formFieldColor,
                   textColor: textColor,
-                  onPressed: _onCreatePressed,
+                  onPressed: () => _onCreatePressed(context),
                 ),
               ),
             ],
@@ -83,7 +85,7 @@ class _RegisterFormState extends State<RegisterForm> {
     );
   }
 
-  _onCreatePressed() async {
+  _onCreatePressed(BuildContext context) async {
     _formKey.currentState!.save();
     if (_formKey.currentState!.validate()) {
       Map data = {
@@ -92,15 +94,41 @@ class _RegisterFormState extends State<RegisterForm> {
         'username': _userName.trim(),
       };
       setState(() => isLoading = true);
-      final statusCode = await httpService.signUp(data);
-      if (statusCode == 200) {
+      final response = await httpService.signUp(data);
+      if (response.statusCode == 200) {
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (BuildContext context) => const LoginScreen(),
             ),
             (route) => false);
       }
-      setState(() => isLoading = false);
+      else {
+        setState(() => isLoading = false);
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        String errMessage = jsonResponse["message"].toString();
+        //show alert message
+        _showDialog(context, errMessage);
+      }
     }
+  }
+
+  void _showDialog(BuildContext context, String errMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Alert!"),
+          content: Text(errMessage),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

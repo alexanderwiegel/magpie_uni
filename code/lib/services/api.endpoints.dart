@@ -14,6 +14,9 @@ import 'package:magpie_uni/model/feeds.model.dart';
 import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/model/chat.message.dart';
 
+import '../constants.dart';
+import '../model/feed.user.nestitems.model.dart';
+
 class ApiEndpoints {
   static String urlPrefix = "http://10.0.2.2:3000/";
   static int userId = UserAPIManager.currentUserId;
@@ -186,6 +189,22 @@ class ApiEndpoints {
       throw Exception('Failed to load Feeds');
     }
   }
+
+  //Get Feed User Specific Nest Items
+  static Future<FeedUserNestItemsResponse> fetchFeedUserNestItems(
+      int nestId) async {
+    var headers = UserAPIManager().getAPIHeader();
+    final response = await http.get(
+        Uri.parse(urlPrefix + 'feed/nestItems?nest_id=$nestId'),
+        headers: headers);
+    if (response.statusCode == 200) {
+      //print(response.body);
+      return FeedUserNestItemsResponse.fromJson(jsonDecode(response.body));
+    } else {
+      throw Exception('Failed to load Feeds');
+    }
+  }
+
 
   // Get Chat Sessions
   static Future<ChatSessionResponse> fetchChatSessions(int loggedUserId) async {

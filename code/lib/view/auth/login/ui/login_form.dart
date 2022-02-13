@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/services/http_service.dart';
@@ -7,6 +9,7 @@ import 'package:magpie_uni/widgets/atoms/buttons/magpie_button.dart';
 import 'package:magpie_uni/widgets/atoms/buttons/magpie_text_button.dart';
 import 'package:magpie_uni/widgets/magpie.text.form.field.dart';
 import 'package:magpie_uni/constants.dart';
+import 'package:magpie_uni/network/user_api_manager.dart';
 
 class LoginForm extends StatefulWidget {
   const LoginForm({Key? key}) : super(key: key);
@@ -45,14 +48,15 @@ class _LoginFormState extends State<LoginForm> {
             hintText: 'Password',
           ),
           const SizedBox(height: 10.0),
-          Align(
-            alignment: Alignment.bottomRight,
-            child: MagpieTextButton.primary(
-              color: Colors.black,
-              onPressed: () {},
-              label: "Forgot password?",
-            ),
-          ),
+          //Align(
+          //  alignment: Alignment.bottomRight,
+          //  child: MagpieTextButton.primary(
+
+      //   color: Colors.black,
+      //        onPressed: () {},
+        //      label: "Forgot password?",
+         //   ),
+         // ),
           SizedBox(
             width: double.infinity,
             child: MagpieButton.primary(
@@ -60,7 +64,7 @@ class _LoginFormState extends State<LoginForm> {
               label: "Login",
               color: formFieldColor,
               textColor: textColor,
-              onPressed: _onLoginPressed,
+              onPressed: () => _onLoginPressed(context),
             ),
           ),
         ],
@@ -68,7 +72,7 @@ class _LoginFormState extends State<LoginForm> {
     );
   }
 
-  _onLoginPressed() async {
+  _onLoginPressed(BuildContext context) async {
     _formKey.currentState!.save();
     if (_formKey.currentState!.validate()) {
       Map data = {
@@ -76,15 +80,53 @@ class _LoginFormState extends State<LoginForm> {
         'password': _password.trim(),
       };
       setState(() => isLoading = true);
-      final statusCode = await httpService.signIn(data);
-      if (statusCode == 200) {
+      final response = await httpService.signIn(data);
+      if (response.statusCode == 200) {
+
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        //print(jsonResponse);
+        Map<String, dynamic> user = jsonResponse["user"];
+        UserAPIManager.token = jsonResponse["token"].toString();
+        UserAPIManager.currentUserId = user["id"];
+        //print(user);
+        //print(UserAPIManager.token);
+        //print(UserAPIManager.currentUserId);
+
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
               builder: (BuildContext context) => const HomePage(),
             ),
             (route) => false);
       }
-      setState(() => isLoading = false);
+      else {
+        setState(() => isLoading = false);
+        Map<String, dynamic> jsonResponse = jsonDecode(response.body);
+        String errMessage = jsonResponse["message"].toString();
+        //show alert message
+        _showDialog(context, errMessage);
+      }
+
     }
+  }
+
+
+  void _showDialog(BuildContext context, String errMessage) {
+    showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          title: const Text("Alert!"),
+          content: Text(errMessage),
+          actions: <Widget>[
+            TextButton(
+              child: const Text("OK"),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
   }
 }

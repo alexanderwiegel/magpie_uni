@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/model/feed.user.profile.model.dart';
 import 'package:magpie_uni/view/feeds/feed.item.detail.page.dart';
+import 'package:magpie_uni/view/feeds/feed.nest.detail.dart';
 
 class NestGridItem extends StatefulWidget {
   final FeedNest? nest;
@@ -43,7 +44,14 @@ class _NestGridItemState extends State<NestGridItem> {
               //print("Item Tapped");
               // TODO: ask Huzaifa what this is supposed to do
               if (widget.nest != null) {
-
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => FeedNestDetail(
+                      nest: widget.nest!,
+                    ),
+                  ),
+                );
               } else {
                 Navigator.push(
                   context,

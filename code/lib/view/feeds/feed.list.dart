@@ -6,6 +6,8 @@ import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/widgets/feed.list.item.dart';
 
+import '../../widgets/magpie.drawer.dart';
+
 class FeedList extends StatefulWidget {
   const FeedList({Key? key}) : super(key: key);
 
@@ -26,24 +28,11 @@ class _FeedListState extends State<FeedList> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.grey.shade100,
+      drawer: const MagpieDrawer(),
       appBar: AppBar(
-        elevation: 0,
-        automaticallyImplyLeading: false,
-        backgroundColor: Colors.white,
-        flexibleSpace: SafeArea(
-          child: Padding(
-            padding:
-                const EdgeInsets.only(left: 16, right: 16, top: 10, bottom: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: const <Widget>[
-                Text(
-                  "Feeds",
-                  style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
-                ),
-              ],
-            ),
-          ),
+        title: const Text(
+          "Feeds",
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(

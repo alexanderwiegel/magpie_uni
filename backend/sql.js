@@ -27,10 +27,10 @@ function registerUser(user, cb) {
 
 function loginUser(email, cb) {
   connection.query("SELECT id,username,password,email,created_at,sort_mode,only_favored,is_asc,photo,phone_number FROM user u WHERE u.email = '" + email + "'",
-      function (err, rows) {
-          if (err) cb(err);
-          else cb(undefined, rows);
-      });
+    function (err, rows) {
+      if (err) cb(err);
+      else cb(undefined, rows);
+    });
 }
 
 function getUser(id, cb) {
@@ -138,6 +138,15 @@ function getAllNestItems(userId, cb) {
     });
 }
 
+function getStatistics(userId, cb) {
+  var query = "SELECT COUNT(*) as count, created_at as date FROM nestItem ni WHERE ni.user_id = " + userId + " GROUP BY ni.created_at ORDER BY ni.created_at DESC;";
+  connection.query(query,
+    function (err, rows) {
+      if (err) cb(err);
+      else cb(undefined, rows);
+    });
+}
+
 function getNestItems(id, cb) {
   connection.query("SELECT * FROM nestItem n WHERE n.nest_id = " + id,
     function (err, rows) {
@@ -210,7 +219,7 @@ function getFeedUserProfile(id, cb) {
                         (select count(*) as nestCount from nest where user_id = `+ id + ` AND is_public = true) as nestCount,
                         (select count(*) as nestItemCount from nestItem where user_id = `+ id + ` AND is_public = true) as nestItemCount
                         FROM user u WHERE u.id = `+ id + `;`;
-  connection.query("SELECT n.id, n.title, n.description, n.photo FROM nest n WHERE n.user_id = " + id + " AND n.is_public = true ORDER BY n.created_at desc",
+  connection.query("SELECT n.id, n.title, n.description, n.photo, n.user_id FROM nest n WHERE n.user_id = " + id + " AND n.is_public = true ORDER BY n.created_at desc",
     function (err, rows) {
       if (err) cb(err);
       else {
@@ -389,11 +398,12 @@ function insertChat(body, cb) {
 module.exports = {
   connectDB: connectDB,
   registerUser: registerUser,
-  loginUser:loginUser,
+  loginUser: loginUser,
   getUser: getUser,
   editUser: editUser,
   getUserofId: getUserofId,
   getUserProfile: getUserProfile,
+  getStatistics: getStatistics,
   getAllNestItems: getAllNestItems,
   addNest: addNest,
   editNest: editNest,
