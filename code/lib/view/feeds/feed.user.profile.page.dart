@@ -174,59 +174,29 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                           ),
                         ],
                       ),
-                      Container(
-                          decoration: BoxDecoration(
-                            borderRadius: BorderRadius.circular(30),
-                            color: Colors.white,
-                          ),
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                                horizontal: 15, vertical: 20),
-                            child: Column(
-                              children: [
-                                Text(
-                                  isNestSelected ? "Nests" : "Items",
-                                  style: TextStyle(
-                                    color: mainColor[900],
-                                    fontSize: 25,
-                                  ),
-                                ),
-                                const Divider(thickness: 1.5),
-                                Container(
-                                  padding:
-                                      const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                                  child: GridView.builder(
-                                    physics:
-                                        const NeverScrollableScrollPhysics(),
-                                    shrinkWrap: true,
-                                    gridDelegate:
-                                        const SliverGridDelegateWithFixedCrossAxisCount(
-                                      crossAxisCount: 2,
-                                      childAspectRatio: 1.0,
-                                      mainAxisSpacing: 5.0,
-                                      crossAxisSpacing: 5.0,
-                                    ),
-                                    itemCount: isNestSelected
-                                        ? nests.length
-                                        : nestItems.length,
-                                    itemBuilder: (context, index) {
-                                      var nest =
-                                          isNestSelected ? nests[index] : null;
-                                      var nestItem = isNestSelected
-                                          ? null
-                                          : nestItems[index];
-                                      return NestGridItem(
-                                        nest: nest,
-                                        nestItem: nestItem,
-                                      );
-                                    },
-                                  ),
-                                ),
-                              ],
-                            ),
+                    ],
+                  ),
+                ),
+                Container(
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(30),
+                    color: Colors.white,
+                  ),
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(
+                        horizontal: 15, vertical: 20),
+                    child: Column(
+                      children: [
+                        Text(
+                          isNestSelected ? "Nests" : "Items",
+                          style: TextStyle(
+                            color: mainColor[900],
+                            fontSize: 25,
                           ),
                         ),
-                    ],
+                        const Divider(thickness: 1.5),
+                      ],
+                    ),
                   ),
                 ),
               ],
