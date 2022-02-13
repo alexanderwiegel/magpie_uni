@@ -83,7 +83,7 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
           ),
           clipBehavior: Clip.antiAlias,
           child: GridTileBar(
-            backgroundColor: Colors.black45,
+            backgroundColor: Colors.black.withOpacity(0.65),
             title: FittedBox(
               fit: BoxFit.scaleDown,
               alignment: AlignmentDirectional.centerStart,
@@ -133,8 +133,8 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
 
   void openNextScreen(BuildContext context) async => throw UnimplementedError();
 
-  // void toggleFavored(BuildContext context) async {
-  //   setState(() =>
-  //       widget.favored == null ? false : widget.favored = !widget.favored!);
-  // }
+// void toggleFavored(BuildContext context) async {
+//   setState(() =>
+//       widget.favored == null ? false : widget.favored = !widget.favored!);
+// }
 }
