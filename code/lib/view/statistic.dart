@@ -140,15 +140,16 @@ class Statistic extends StatelessWidget {
                           "since the beginning", "collected items"),
                     ),
                   ),
-                  StaggeredGridTile.extent(
-                    crossAxisCellCount: SizeConfig.isTablet ? 5 : 8,
-                    mainAxisExtent:
-                        SizeConfig.vert * (SizeConfig.isTablet ? 40 : 30),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: nestShares("Items", "per nest"),
+                  if (user.profile.nestItemCount > 0)
+                    StaggeredGridTile.extent(
+                      crossAxisCellCount: SizeConfig.isTablet ? 5 : 8,
+                      mainAxisExtent:
+                          SizeConfig.vert * (SizeConfig.isTablet ? 40 : 30),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: nestShares("Items", "per nest"),
+                      ),
                     ),
-                  ),
                   StaggeredGridTile.extent(
                     crossAxisCellCount: SizeConfig.isTablet ? 3 : 4,
                     mainAxisExtent:
