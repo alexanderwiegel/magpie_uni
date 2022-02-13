@@ -138,6 +138,15 @@ function getAllNestItems(userId, cb) {
     });
 }
 
+function getStatistics(userId, cb) {
+  var query = "SELECT COUNT(*) as count, created_at as date FROM nestItem ni WHERE ni.user_id = " + userId + " GROUP BY ni.created_at ORDER BY ni.created_at DESC;";
+  connection.query(query,
+    function (err, rows) {
+      if (err) cb(err);
+      else cb(undefined, rows);
+    });
+}
+
 function getNestItems(id, cb) {
   connection.query("SELECT * FROM nestItem n WHERE n.nest_id = " + id,
     function (err, rows) {
@@ -394,6 +403,7 @@ module.exports = {
   editUser: editUser,
   getUserofId: getUserofId,
   getUserProfile: getUserProfile,
+  getStatistics: getStatistics,
   getAllNestItems: getAllNestItems,
   addNest: addNest,
   editNest: editNest,
