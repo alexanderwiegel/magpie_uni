@@ -59,6 +59,7 @@ class _NestUserProfileState extends State<FeedUserProfile> {
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
+      appBar: AppBar(title: const Text("Profile")),
       body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),

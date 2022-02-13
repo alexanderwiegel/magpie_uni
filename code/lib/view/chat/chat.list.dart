@@ -67,10 +67,7 @@ class _ChatPageState extends State<ChatList> {
       backgroundColor: Colors.white,
       drawer: const MagpieDrawer(),
       appBar: AppBar(
-        title: const Text(
-          "Chats",
-          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
-        ),
+        title: const Text("Chats"),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
