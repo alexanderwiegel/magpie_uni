@@ -59,6 +59,39 @@ class _NestUserProfileState extends State<FeedUserProfile> {
 
     return Scaffold(
       backgroundColor: Colors.grey[300],
+      appBar: AppBar(
+      elevation: 0,
+      automaticallyImplyLeading: false,
+      backgroundColor: Colors.white,
+      flexibleSpace: SafeArea(
+        child: Padding(
+          padding:
+          const EdgeInsets.only(left: 5, right: 16, top: 10, bottom: 10),
+          child: Row(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: <Widget>[
+              IconButton(
+                onPressed: () => Navigator.pop(context),
+                icon: const Icon(
+                  Icons.arrow_back,
+                  color: Colors.black,
+                ),
+              ),
+              const Center(
+                child: Text(
+                  "Profile Detail",
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 22,
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+              ),
+            ],
+          ),
+        ),
+      ),
+    ),
       body: SingleChildScrollView(
             physics: const BouncingScrollPhysics(),
             padding: const EdgeInsets.fromLTRB(5, 0, 5, 30),
@@ -74,19 +107,19 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                       Center(
                         child: Image.asset(
                           "pics/profile.png",
-                          width:  150.0,
-                          height: 150.0,
+                          width:  100.0,
+                          height: 100.0,
                           fit: BoxFit.fitWidth,
                         ),
                       ),
                       Column(
                         children: [
-                          const SizedBox(height: 80),
+                          const SizedBox(height: 20),
                           Text(
                             widget.userName,
                             style: TextStyle(
                               color: mainColor[900],
-                              fontSize: 30,
+                              fontSize: 25,
                             ),
                           ),
                           Text(
@@ -177,9 +210,10 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                     ],
                   ),
                 ),
+                const SizedBox(height: 80),
                 Container(
                   decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(30),
+                    borderRadius: BorderRadius.circular(20),
                     color: Colors.white,
                   ),
                   child: Padding(
@@ -188,13 +222,44 @@ class _NestUserProfileState extends State<FeedUserProfile> {
                     child: Column(
                       children: [
                         Text(
-                          isNestSelected ? "Nests" : "Items",
+                          isNestSelected ? "Nests" : "Nest Items",
                           style: TextStyle(
                             color: mainColor[900],
                             fontSize: 25,
                           ),
                         ),
+
                         const Divider(thickness: 1.5),
+                        Container(
+                          padding:
+                          const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                          child: GridView.builder(
+                            physics:
+                            const NeverScrollableScrollPhysics(),
+                            shrinkWrap: true,
+                            gridDelegate:
+                            const SliverGridDelegateWithFixedCrossAxisCount(
+                              crossAxisCount: 2,
+                              childAspectRatio: 1.0,
+                              mainAxisSpacing: 5.0,
+                              crossAxisSpacing: 5.0,
+                            ),
+                            itemCount: isNestSelected
+                                ? nests.length
+                                : nestItems.length,
+                            itemBuilder: (context, index) {
+                              var nest =
+                              isNestSelected ? nests[index] : null;
+                              var nestItem = isNestSelected
+                                  ? null
+                                  : nestItems[index];
+                              return NestGridItem(
+                                nest: nest,
+                                nestItem: nestItem,
+                              );
+                            },
+                          ),
+                        ),
                       ],
                     ),
                   ),

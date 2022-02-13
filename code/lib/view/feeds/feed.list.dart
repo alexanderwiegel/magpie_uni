@@ -32,7 +32,7 @@ class _FeedListState extends State<FeedList> {
       appBar: AppBar(
         title: const Text(
           "Feeds",
-          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(

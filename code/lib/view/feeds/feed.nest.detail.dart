@@ -132,12 +132,12 @@ class _FeedNestDetailState extends State<FeedNestDetail> {
                     const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
               ),
             ),
+            const SizedBox(height: 80),
             Padding(
-
               padding: const EdgeInsets.all(15.0),
               child: Container(
                 decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(30),
+                  borderRadius: BorderRadius.circular(20),
                   color: Colors.white,
                 ),
                 child: Padding(

@@ -69,7 +69,7 @@ class _ChatPageState extends State<ChatList> {
       appBar: AppBar(
         title: const Text(
           "Chats",
-          style: TextStyle(fontSize: 32, fontWeight: FontWeight.bold),
+          style: TextStyle(fontSize: 28, fontWeight: FontWeight.bold),
         ),
       ),
       body: SingleChildScrollView(
