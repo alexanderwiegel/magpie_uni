@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/model/nest.item.dart';
+import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 import 'package:magpie_uni/widgets/magpie.photo.alert.dart';
@@ -24,7 +25,8 @@ class _NestItemCreationState
     printInfo("Specify that it is a nest item");
     // TODO: see if I can use widget.nestItem
     super.widget.nestOrNestItem = NestItem(nestId: widget.nestId);
-    //print("Call super method to set attributes");
+    super.widget.nestOrNestItem.userId = UserAPIManager.currentUserId;
+    printInfo("Call super method to set attributes");
     super.uploadNestOrNestItem();
     printInfo("Call api endpoint to create a new nest item");
     // TODO: see if I can use widget.nestItem
