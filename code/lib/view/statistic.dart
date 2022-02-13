@@ -165,7 +165,7 @@ class Statistic extends StatelessWidget {
                         SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
                     child: Padding(
                       padding: const EdgeInsets.all(8),
-                      child: total("Items"),
+                      child: total("Nest items"),
                     ),
                   ),
                 ],
