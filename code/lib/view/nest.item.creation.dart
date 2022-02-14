@@ -36,13 +36,20 @@ class _NestItemCreationState
       true,
     );
     printInfo("Similar items: ${response["items"]}");
+
     if (response.containsKey("items")) {
+      List<String> similarPhotoPaths = [];
+      for (var item in response["items"]) {
+        similarPhotoPaths.add(NestItem.fromMap(item).photo!);
+      }
+      printInfo("Similar items' photos' paths: $similarPhotoPaths");
       MagpiePhotoAlert.displayPhotoAlert(
         context,
         "Similar item(s) found",
         "It seems like you could already have this item in one of your nests.",
-        ["Cancel", "View similar", "Add anyways"],
-        [cancel(), showSimilarItems(), callAddAnyways()],
+        ["Cancel", "Add anyways"],
+        [cancel(), callAddAnyways()],
+        similarPhotoPaths: similarPhotoPaths,
       );
     } else {
       onChange("");
@@ -50,10 +57,6 @@ class _NestItemCreationState
   }
 
   VoidCallback cancel() => () => Navigator.of(context).pop();
-
-  VoidCallback showSimilarItems() {
-    return () => Navigator.of(context).pop();
-  }
 
   VoidCallback callAddAnyways() {
     return () async => await _addAnyways().then(onChange);
