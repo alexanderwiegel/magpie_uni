@@ -90,6 +90,8 @@ router.get('/userNests', async function (req, res) {
   let asc = req.query.is_asc;
   let onlyFavored = req.query.only_favored;
 
+  console.log(req.query);
+
   sqlManager.getUserNests(userID, sortMode, asc, onlyFavored, async function (err, result) {
     if (err) {
       res.status(500).json({ status: 'Failed', message: err.message });

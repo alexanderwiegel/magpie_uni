@@ -121,7 +121,7 @@ function updateNestWorth(id) {
 }
 
 function getColumnToSortBy(sortMode, isNest) {
-  var worthType = isNest ? " total_worth" : " worth";
+  var worthType = isNest ? "total_worth" : "worth";
   switch (sortMode) {
     case "SortMode.sortByName":
       return "title";
@@ -142,10 +142,11 @@ function getUserNests(id, sortMode, asc, onlyFavored, cb) {
   console.log("onlyFavored: " + onlyFavored)
   if (onlyFavored == "true") query += " AND n.favored = 1";
   var sort = getColumnToSortBy(sortMode, true);
-  console.log("Sort by: " + sort);
+  console.log("Sort by: n." + sort);
   query += " ORDER BY n." + sort;
-  var asc = asc ? " ASC;" : " DESC;";
-  query += asc;
+  var is_asc = asc === 'true' ? " ASC;" : " DESC;";
+  console.log("asc inside query : "+ asc);
+  query += is_asc;
   console.log("Query " + query);
 
   connection.query(query,
@@ -162,8 +163,9 @@ function getAllNestItems(nestId, sortMode, asc, onlyFavored, cb) {
   var sort = getColumnToSortBy(sortMode, false);
   console.log("Sort by: " + sort);
   query += " ORDER BY n." + sort;
-  var asc = asc ? " ASC;" : " DESC;";
-  query += asc;
+  var is_asc = asc === 'true' ? " ASC;" : " DESC;";
+  console.log("asc inside query : "+ asc);
+  query += is_asc;
   console.log("Query " + query);
 
   connection.query(query,
