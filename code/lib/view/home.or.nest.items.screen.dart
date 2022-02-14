@@ -108,7 +108,7 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
       appBar: AppBar(
         title: Text(title),
         actions: [
-          PopupMenuButton<SortMode>(
+          if (_searchIcon.icon == Icons.search) PopupMenuButton<SortMode>(
             icon: const Icon(
               Icons.sort_by_alpha,
               color: textColor,
@@ -124,7 +124,7 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
               menuItem(SortMode.sortByFavored, "Sort by favorites"),
             ],
           ),
-          MagpieIconButton(
+            if (_searchIcon.icon == Icons.search) MagpieIconButton(
             tooltip: onlyFavored ? "Show all" : "Show favorites only",
             icon: onlyFavored ? Icons.favorite : Icons.favorite_border,
             onPressed: _showFavorites,
