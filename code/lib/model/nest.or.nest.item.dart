@@ -95,10 +95,9 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
             subtitle: FittedBox(
               fit: BoxFit.scaleDown,
               alignment: AlignmentDirectional.centerStart,
-              // TODO: display number of nestItems or date or...nothing for now? (description might be too long)
               child: Text(
                 isNest
-                    ? "0 nest items"
+                    ? getItemCount() + " nest items"
                     : widget.description.isEmpty || widget.description.length > 20
                         ? widget.createdAt.toString().substring(0, 10)
                         : widget.description,
@@ -131,7 +130,8 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
     );
   }
 
-  // TODO: check if this does anything
+  String getItemCount() => "";
+
   onChange(dynamic value) => setState(() {});
 
   void openNextScreen(BuildContext context) async => throw UnimplementedError();

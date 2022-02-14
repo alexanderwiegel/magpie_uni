@@ -121,7 +121,7 @@ function updateNestWorth(id) {
 }
 
 function getUserNests(id, cb) {
-  var query = "SELECT * FROM nest n WHERE n.user_id = " + id;
+  var query = `SELECT n.*, (SELECT COUNT(*) FROM nestItem ni WHERE n.id = ni.nest_id) as nestItemCount FROM nest n WHERE n.user_id = ` + id;
   connection.query(query,
     function (err, rows) {
       if (err) cb(err);

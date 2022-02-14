@@ -8,6 +8,7 @@ class Nest extends NestOrNestItem {
   // late final SortMode sortMode;
   // late final bool asc;
   // late final bool onlyFavored;
+  late final int itemCount;
 
   Nest({
     Key? key,
@@ -28,6 +29,7 @@ class Nest extends NestOrNestItem {
   Nest.fromMap(dynamic obj, {Key? key}) : super.fromMap(obj, key: key) {
     super.worth =
         obj["total_worth"].runtimeType == Null ? 0 : obj["total_worth"];
+    itemCount = obj["nestItemCount"];
     // switch (obj["sort_mode"]) {
     //   case "sortByName":
     //     sortMode = SortMode.sortByName;
@@ -71,6 +73,9 @@ class _NestState extends NestOrNestItemState<Nest> {
     currentNest.createdAt = super.widget.createdAt;
     super.initState();
   }
+
+  @override
+  String getItemCount() => widget.itemCount.toString();
 
   @override
   void openNextScreen(BuildContext context) async {
