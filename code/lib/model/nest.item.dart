@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
+import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/view/nest.item.detail.screen.dart';
 
 //ignore: must_be_immutable
@@ -38,7 +40,7 @@ class _NestItemState extends NestOrNestItemState<NestItem> {
     currentNestItem.photo = super.widget.photo;
     currentNestItem.description = super.widget.description;
     currentNestItem.worth = super.widget.worth;
-    // currentNestItem.favored = super.widget.favored;
+    currentNestItem.favored = super.widget.favored;
     currentNestItem.public = super.widget.public;
     currentNestItem.createdAt = super.widget.createdAt;
     super.initState();
@@ -56,10 +58,16 @@ class _NestItemState extends NestOrNestItemState<NestItem> {
     ).then(onChange);
   }
 
-// @override
-// void toggleFavored(BuildContext context) async {
-//   super.toggleFavored(context);
-//   await ApiEndpoints.uploadNestOrNestItem(
-//       currentNestItem, false, currentNestItem.id == null);
-// }
+  @override
+  void toggleFavored(BuildContext context) async {
+    super.toggleFavored(context);
+    printWarning("super.widget.favored before setting it once more in nestItem.dart: ${super.widget.favored}");
+    printError("currentNestItem.favored before setting it once more in nestItem.dart: ${currentNestItem.favored}");
+    printWarning("Set currentNestItem.favored to super.widget.favored once more");
+    currentNestItem.favored = super.widget.favored;
+    printWarning("super.widget.favored when sending it to ApiEndpoints: ${super.widget.favored}");
+    printError("currentNestItem.favored when sending it to ApiEndpoints: ${currentNestItem.favored}");
+    await ApiEndpoints.uploadNestOrNestItem(
+        currentNestItem, false, currentNestItem.id == null);
+  }
 }

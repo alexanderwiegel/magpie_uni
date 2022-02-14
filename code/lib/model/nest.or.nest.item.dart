@@ -40,6 +40,7 @@ abstract class NestOrNestItem extends StatefulWidget {
   }
 
   Map<String, dynamic> toMap() {
+    printWarning("Favored before mapping: $favored");
     Map<String, dynamic> nestOrNestItem = {
       'id': id,
       'user_id': userId,
@@ -49,6 +50,7 @@ abstract class NestOrNestItem extends StatefulWidget {
       'favored': favored,
       'is_public': public,
     };
+    printWarning("Favored in map: $favored");
     if (!photo!.startsWith("http")) nestOrNestItem.addAll({'photo': photo});
     return nestOrNestItem;
   }
@@ -138,6 +140,9 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
   void openNextScreen(BuildContext context) async => throw UnimplementedError();
 
   void toggleFavored(BuildContext context) async {
+    printWarning("Favored before setting it: ${widget.favored}");
     setState(() => widget.favored = !widget.favored!);
+    printWarning("Favored after setting it: ${widget.favored}");
+    printWarning("From here on it should have the same value until it reaches the backend! If not, something's wrong!");
   }
 }
