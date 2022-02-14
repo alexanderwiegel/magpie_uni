@@ -127,7 +127,6 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
     //print("Upload finished. Now pop screen.");
     setState(() {});
     Navigator.of(context).pop();
-    setState(() {});
   }
 
   void _changeImage(dynamic image) {

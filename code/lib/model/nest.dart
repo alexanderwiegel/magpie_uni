@@ -2,13 +2,13 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/sort.mode.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
-import 'package:magpie_uni/view/nest.items.screen.dart';
 
 //ignore: must_be_immutable
 class Nest extends NestOrNestItem {
   // late final SortMode sortMode;
   // late final bool asc;
   // late final bool onlyFavored;
+  late final int itemCount;
 
   Nest({
     Key? key,
@@ -20,7 +20,6 @@ class Nest extends NestOrNestItem {
   @override
   Map<String, dynamic> toMap() {
     Map<String, dynamic> nest = super.toMap();
-    // TODO: check if total_worth needs to be set to worth as well
     // nest.addAll(
     //   {'sort_mode': sortMode, 'is_asc': asc, 'only_favored': onlyFavored},
     // );
@@ -30,6 +29,7 @@ class Nest extends NestOrNestItem {
   Nest.fromMap(dynamic obj, {Key? key}) : super.fromMap(obj, key: key) {
     super.worth =
         obj["total_worth"].runtimeType == Null ? 0 : obj["total_worth"];
+    itemCount = obj["nestItemCount"];
     // switch (obj["sort_mode"]) {
     //   case "sortByName":
     //     sortMode = SortMode.sortByName;
@@ -75,17 +75,19 @@ class _NestState extends NestOrNestItemState<Nest> {
   }
 
   @override
+  String getItemCount() => widget.itemCount.toString();
+
+  @override
   void openNextScreen(BuildContext context) async {
     // print("Old nest: " + currentNest.toMap().toString());
     // print("Created at: " + currentNest.createdAt.toString());
 
     //print("Context: " + context.toString());
 
-    await Navigator.push(
+    await Navigator.pushNamed(
       context,
-      // TODO: see if it is somehow possible to pass "widget.this"
-      MaterialPageRoute(
-          builder: (context) => NestItemsScreen(nest: currentNest)),
+      "/nestItems",
+      arguments: currentNest,
     ).then(onChange);
   }
 

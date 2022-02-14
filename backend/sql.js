@@ -80,7 +80,7 @@ function getUserProfile(id, cb) {
 
 //Add new Nest
 function addNest(nest, cb) {
-  connection.query("INSERT INTO nest (title,description,favored,is_public,user_id,photo,created_at) VALUES('" + nest.title + "','" + nest.description + "',0," + nest.is_public + "," + nest.user_id + ",'" + nest.photo + "',NOW())", function (err, rows) {
+  connection.query(`INSERT INTO nest (title,description,favored,is_public,user_id,photo,created_at) VALUES("` + nest.title + `","` + nest.description + `",0,` + nest.is_public + `,` + nest.user_id + `,'` + nest.photo + `',NOW())`, function (err, rows) {
     if (err) cb(err);
     else cb(undefined, rows);
   });
@@ -88,11 +88,11 @@ function addNest(nest, cb) {
 
 //Edit Nest
 function editNest(nest, cb) {
-  var query = "UPDATE nest SET title = '" + nest.title + "', description = '" + nest.description + "', favored = " + nest.favored + ", is_public = " + nest.is_public;
+  var query = `UPDATE nest SET title = "` + nest.title + `", description = "` + nest.description + `", favored = ` + nest.favored + `, is_public = ` + nest.is_public;
   if (nest.photo !== undefined) {
-    query += ", photo ='" + nest.photo + "'";
+    query += `, photo ='` + nest.photo + `'`;
   }
-  query += " where id = " + nest.id;
+  query += ` where id = ` + nest.id;
   console.log(query);
 
   connection.query(query, function (err, rows) {
@@ -121,7 +121,7 @@ function updateNestWorth(id) {
 }
 
 function getUserNests(id, cb) {
-  var query = "SELECT * FROM nest n WHERE n.user_id = " + id;
+  var query = `SELECT n.*, (SELECT COUNT(*) FROM nestItem ni WHERE n.id = ni.nest_id) as nestItemCount FROM nest n WHERE n.user_id = ` + id;
   connection.query(query,
     function (err, rows) {
       if (err) cb(err);
@@ -166,7 +166,7 @@ function getNestItem(id, cb) {
 
 //Add NestItem
 function addNestItem(nestItem, cb) {
-  connection.query("INSERT INTO nestItem (title,description,favored,is_public,worth,user_id,nest_id,photo,created_at) VALUES('" + nestItem.title + "','" + nestItem.description + "',0," + nestItem.is_public + "," + nestItem.worth + "," + nestItem.user_id + "," + nestItem.nest_id + ",'" + nestItem.photo + "',NOW())", function (err, rows) {
+  connection.query(`INSERT INTO nestItem (title,description,favored,is_public,worth,user_id,nest_id,photo,created_at) VALUES("` + nestItem.title + `","` + nestItem.description + `",0,` + nestItem.is_public + `,` + nestItem.worth + `,` + nestItem.user_id + `,` + nestItem.nest_id + `,'` + nestItem.photo + `',NOW())`, function (err, rows) {
     if (err) cb(err);
     else {
       updateNestWorth(nestItem.nest_id)
@@ -177,11 +177,11 @@ function addNestItem(nestItem, cb) {
 
 //Edit nest item
 function editNestItem(nestItem, cb) {
-  var query = "UPDATE nestItem SET title = '" + nestItem.title + "', description = '" + nestItem.description + "',favored = " + nestItem.favored + ",worth = " + nestItem.worth + ", is_public = " + nestItem.is_public;
+  var query = `UPDATE nestItem SET title = "` + nestItem.title + `", description = "` + nestItem.description + `",favored = ` + nestItem.favored + `,worth = ` + nestItem.worth + `, is_public = ` + nestItem.is_public;
   if (nestItem.photo !== undefined) {
-    query += ", photo = '" + nestItem.photo + "'";
+    query += `, photo = '` + nestItem.photo + `'`;
   }
-  query += " where id = " + nestItem.id;
+  query += ` where id = ` + nestItem.id;
   console.log(query);
 
   connection.query(query, function (err, rows) {

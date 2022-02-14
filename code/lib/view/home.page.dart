@@ -33,7 +33,6 @@ class _HomePageState extends State<HomePage> {
     printInfo(SizeConfig.isTablet ? "On tablet" : "On phone");
     super.initState();
     tabBarPages = [
-      // TODO: maybe using HomePage() here will solve the issue of updated/deleted nests not showing up
       const Home(),
       const FeedList(),
       ChatList(
@@ -88,11 +87,11 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  @override
-  void dispose() {
-    // socket.disconnect();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   // socket.disconnect();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {

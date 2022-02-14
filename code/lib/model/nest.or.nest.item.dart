@@ -83,7 +83,7 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
           ),
           clipBehavior: Clip.antiAlias,
           child: GridTileBar(
-            backgroundColor: Colors.black45,
+            backgroundColor: Colors.black.withOpacity(0.65),
             title: FittedBox(
               fit: BoxFit.scaleDown,
               alignment: AlignmentDirectional.centerStart,
@@ -95,11 +95,13 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
             subtitle: FittedBox(
               fit: BoxFit.scaleDown,
               alignment: AlignmentDirectional.centerStart,
-              // TODO: display number of nestItems or date or...nothing for now? (description might be too long)
               child: Text(
                 isNest
-                    ? "0 nest items"
-                    : widget.createdAt.toString().substring(0, 10),
+                    ? getItemCount() + " nest items"
+                    : widget.description.isEmpty || widget.description.length > 20
+                        ? widget.createdAt.toString().substring(0, 10)
+                        : widget.description,
+                // : widget.createdAt.toString().substring(0, 10),
               ),
             ),
             trailing: FittedBox(
@@ -128,13 +130,14 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
     );
   }
 
-  // TODO: check if this does anything
+  String getItemCount() => "";
+
   onChange(dynamic value) => setState(() {});
 
   void openNextScreen(BuildContext context) async => throw UnimplementedError();
 
-  // void toggleFavored(BuildContext context) async {
-  //   setState(() =>
-  //       widget.favored == null ? false : widget.favored = !widget.favored!);
-  // }
+// void toggleFavored(BuildContext context) async {
+//   setState(() =>
+//       widget.favored == null ? false : widget.favored = !widget.favored!);
+// }
 }

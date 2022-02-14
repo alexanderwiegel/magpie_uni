@@ -7,7 +7,6 @@ class UserAPIManager {
     return _shared;
   }
 
-  // TODO: fix error when clicking on statistics: LateInitializationError: Field 'currentUserProfile' has not been initialized.
   static late FeedUserProfileResponse currentUserProfile;
 
   // TODO: make sure this is set after login

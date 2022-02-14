@@ -33,6 +33,7 @@ class Statistic extends StatelessWidget {
   late List<CircularSegmentEntry> entries;
   late List<Widget> descriptions;
   late List<CircularStackEntry> circularData;
+
   //#endregion
 
   void initEntries() {
@@ -42,7 +43,7 @@ class Statistic extends StatelessWidget {
     timeSeries = [];
     List<Stats>? stats = user.profile.stats!;
     double sum = 0;
-    for (int i = stats.length-1; i >= 0; i--) {
+    for (int i = stats.length - 1; i >= 0; i--) {
       sum += stats[i].count;
       timeSeries.add(TimeSeriesData(sum, stats[i].date));
     }
@@ -52,6 +53,7 @@ class Statistic extends StatelessWidget {
     final nests = user.nests;
     final nestItems = user.nestItems;
 
+    // Fill the dictionary with the nests and the amount of nest items
     Map<String, int> dict = {};
     for (var nest in nests) {
       dict[nest.title] = 0;
@@ -62,21 +64,39 @@ class Statistic extends StatelessWidget {
       }
     }
 
-    // TODO: sorting the dict is not working for me, I think we should just do it in the backend
+    // Sort the dictionary from biggest to smallest nests
+    var sortedKeys = dict.keys.toList(growable: false)
+      ..sort((k1, k2) => dict[k2]!.compareTo(dict[k1]!));
+
+    Map<String, int> sortedDict = {};
+    int othersCount = 0;
+    for (var key in sortedKeys) {
+      if (sortedDict.keys.length < 4) {
+        sortedDict[key] = dict[key]!;
+      } else {
+        othersCount += dict[key]!;
+      }
+    }
+    if (sortedKeys.length > 4) {
+      sortedDict["Others"] = othersCount;
+    }
 
     entries = [];
     int count = 0;
-    for (var key in dict.keys) {
-      entries.add(CircularSegmentEntry(
-        dict[key]!.toDouble(),
-        colors[count++],
-        rankKey: key,
-      ));
+    for (var key in sortedDict.keys) {
+      if (sortedDict[key]! > 0) {
+        entries.add(CircularSegmentEntry(
+          sortedDict[key]!.toDouble(),
+          colors[count++],
+          rankKey: key,
+        ));
+      }
     }
 
     descriptions = [];
     for (int i = 0; i < entries.length; i++) {
-      descriptions.add(description(i));
+      // TODO: remove the "%5" after summing up the rest in "Others"
+      descriptions.add(description(i % 5));
     }
     //#endregion
 
@@ -120,15 +140,16 @@ class Statistic extends StatelessWidget {
                           "since the beginning", "collected items"),
                     ),
                   ),
-                  StaggeredGridTile.extent(
-                    crossAxisCellCount: SizeConfig.isTablet ? 5 : 8,
-                    mainAxisExtent:
-                        SizeConfig.vert * (SizeConfig.isTablet ? 40 : 30),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: nestShares("Items", "per nest"),
+                  if (user.profile.nestItemCount > 0)
+                    StaggeredGridTile.extent(
+                      crossAxisCellCount: SizeConfig.isTablet ? 5 : 8,
+                      mainAxisExtent:
+                          SizeConfig.vert * (SizeConfig.isTablet ? 40 : 30),
+                      child: Padding(
+                        padding: const EdgeInsets.all(8),
+                        child: nestShares("Items", "per nest"),
+                      ),
                     ),
-                  ),
                   StaggeredGridTile.extent(
                     crossAxisCellCount: SizeConfig.isTablet ? 3 : 4,
                     mainAxisExtent:
@@ -144,7 +165,7 @@ class Statistic extends StatelessWidget {
                         SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
                     child: Padding(
                       padding: const EdgeInsets.all(8),
-                      child: total("Items"),
+                      child: total("Nest items"),
                     ),
                   ),
                 ],
@@ -254,7 +275,7 @@ class Statistic extends StatelessWidget {
           const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
           Text(
             entries[index].rankKey,
-            style: const TextStyle(fontSize: 15),
+            style: const TextStyle(fontSize: 17),
           )
         ],
       ),

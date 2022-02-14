@@ -115,8 +115,9 @@ class Profile {
       email: json["email"],
       nestCount: json["nestCount"],
       nestItemCount: json["nestItemCount"],
-      stats:
-          List<Stats>.from(json["stats"].map((stat) => Stats.fromJson(stat))));
+      stats: json["stats"] != null
+          ? List<Stats>.from(json["stats"].map((stat) => Stats.fromJson(stat)))
+          : null);
 }
 
 class Stats {

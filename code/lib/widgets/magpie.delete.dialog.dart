@@ -5,7 +5,8 @@ import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/constants.dart';
 
 class MagpieDeleteDialog {
-  void displayDeleteDialog(BuildContext context, bool isNest, int id) async =>
+  Future<void> displayDeleteDialog(
+          BuildContext context, bool isNest, int id) async =>
       await _deleteDialogBox(context, isNest, id);
 
   void _delete(BuildContext context, bool isNest, int id) async =>
@@ -13,10 +14,14 @@ class MagpieDeleteDialog {
 
   Future<void> _actuallyDelete(
       BuildContext context, bool isNest, int id) async {
-    //print("Is nest: $isNest");
     await ApiEndpoints.deleteNestOrNestItem(isNest, id);
-    Navigator.of(context).popUntil((route) => route.isFirst);
-    // TODO: setState in HomeOrNestItemsScreen somehow afterwards
+    isNest
+        ? Navigator.of(context).popUntil((route) => route.isFirst)
+        : Navigator.of(context)
+            .popUntil((route) {
+            printInfo(route.settings.name);
+            return route.settings.name == "/nestItems";
+          });
   }
 
   Future<void> _deleteDialogBox(BuildContext context, bool isNest, int id) {

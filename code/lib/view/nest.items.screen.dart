@@ -7,10 +7,11 @@ import 'package:magpie_uni/view/nest.detail.screen.dart';
 import 'package:magpie_uni/view/nest.item.creation.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 
+//ignore: must_be_immutable
 class NestItemsScreen extends HomeOrNestItemsScreen {
-  final Nest nest;
+  Nest nest;
 
-  const NestItemsScreen({Key? key, required this.nest}) : super(key: key);
+  NestItemsScreen({Key? key, required this.nest}) : super(key: key);
 
   @override
   _NestItemsScreenState createState() => _NestItemsScreenState();
@@ -18,6 +19,13 @@ class NestItemsScreen extends HomeOrNestItemsScreen {
 
 class _NestItemsScreenState
     extends HomeOrNestItemsScreenState<NestItemsScreen> {
+  @override
+  Widget build(BuildContext context) {
+    widget.nest = ModalRoute.of(context)!.settings.arguments as Nest;
+    setTitle(widget.nest.name);
+    return super.build(context);
+  }
+
   @override
   void setTitle(String title) => super.setTitle(title);
 
@@ -36,12 +44,6 @@ class _NestItemsScreenState
           ),
         ).then(onChange),
       );
-
-  @override
-  void initState() {
-    setTitle(widget.nest.name);
-    super.initState();
-  }
 
   @override
   NestOrNestItemFormScreen openCreationScreen() =>
