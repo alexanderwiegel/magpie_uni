@@ -1,9 +1,9 @@
 import 'package:magpie_uni/sort.mode.dart';
 
 class User {
-  late SortMode sortMode;
-  late bool asc;
-  late bool onlyFavored;
+  SortMode sortMode = SortMode.sortById;
+  bool asc = true;
+  bool onlyFavored = false;
 
   User({required this.sortMode, required this.asc, required this.onlyFavored});
 

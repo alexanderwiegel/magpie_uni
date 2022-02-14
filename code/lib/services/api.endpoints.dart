@@ -79,7 +79,7 @@ class ApiEndpoints {
   static Future<List> getNests(
       SortMode sortMode, bool asc, bool onlyFavored) async {
     String url = urlPrefix +
-        "nest/userNests?user_id=${UserAPIManager.currentUserId}&sort_mode=$sortMode&asc=$asc&only_favored=$onlyFavored";
+        "nest/userNests?user_id=${UserAPIManager.currentUserId}&sort_mode=$sortMode&is_asc=$asc&only_favored=$onlyFavored";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200
         ? await json.decode(response.body)["result"]
@@ -91,7 +91,7 @@ class ApiEndpoints {
   static Future<List> getNestItems(
       int nestId, SortMode sortMode, bool asc, bool onlyFavored) async {
     String url = urlPrefix +
-        "nest/nestItems?nest_id=$nestId&sort_mode=$sortMode&asc=$asc&only_favored=$onlyFavored";
+        "nest/nestItems?nest_id=$nestId&sort_mode=$sortMode&is_asc=$asc&only_favored=$onlyFavored";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200
         ? await json.decode(response.body)["result"]

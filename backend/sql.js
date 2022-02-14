@@ -135,12 +135,14 @@ function getColumnToSortBy(sortMode, isNest) {
       return "id";
   }
 }
+
 // TODO: apply EXACTLY the same for nest items
 function getUserNests(id, sortMode, asc, onlyFavored, cb) {
   var query = `SELECT n.*, (SELECT COUNT(*) FROM nestItem ni WHERE n.id = ni.nest_id) as nestItemCount FROM nest n WHERE n.user_id = ` + id;
-  if (onlyFavored == true) query += " AND n.favored = 1";
+  console.log("onlyFavored: " + onlyFavored)
+  if (onlyFavored == "true") query += " AND n.favored = 1";
   var sort = getColumnToSortBy(sortMode, true);
-  console.log(sort);
+  console.log("Sort by: " + sort);
   query += " ORDER BY n." + sort;
   var asc = asc ? " ASC;" : " DESC;";
   query += asc;
@@ -155,15 +157,14 @@ function getUserNests(id, sortMode, asc, onlyFavored, cb) {
 
 //Nest-Items for nest
 function getAllNestItems(nestId, sortMode, asc, onlyFavored, cb) {
-  getColumnToSortBy(sortMode, true)
   var query = "SELECT * FROM nestItem n WHERE n.nest_id = " + nestId;
-  if (onlyFavored == true) query += " AND n.favored = 1";
-  var sort = getColumnToSortBy();
-  console.log(sort);
+  if (onlyFavored == "true") query += " AND n.favored = 1";
+  var sort = getColumnToSortBy(sortMode, false);
+  console.log("Sort by: " + sort);
   query += " ORDER BY n." + sort;
-  var asc = asc ? " ASC" : " DESC";
+  var asc = asc ? " ASC;" : " DESC;";
   query += asc;
-  console.log(query);
+  console.log("Query " + query);
 
   connection.query(query,
     function (err, rows) {

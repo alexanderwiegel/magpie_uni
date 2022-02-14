@@ -6,9 +6,9 @@ import 'package:magpie_uni/model/nest.or.nest.item.dart';
 
 //ignore: must_be_immutable
 class Nest extends NestOrNestItem {
-  late final SortMode sortMode;
-  late final bool asc;
-  late final bool onlyFavored;
+  SortMode sortMode = SortMode.sortById;
+  bool asc = true;
+  bool onlyFavored = false;
   late final int itemCount;
 
   Nest({
@@ -42,6 +42,9 @@ class Nest extends NestOrNestItem {
         sortMode = SortMode.sortByFavored;
         break;
       case "sortById":
+        sortMode = SortMode.sortById;
+        break;
+      default:
         sortMode = SortMode.sortById;
     }
     asc = obj["is_asc"] == 1 ? true : false;
@@ -92,10 +95,10 @@ class _NestState extends NestOrNestItemState<Nest> {
     ).then(onChange);
   }
 
-@override
-void toggleFavored(BuildContext context) async {
-  super.toggleFavored(context);
-  await ApiEndpoints.uploadNestOrNestItem(
-      currentNest, true, currentNest.id == null);
-}
+  @override
+  void toggleFavored(BuildContext context) async {
+    super.toggleFavored(context);
+    await ApiEndpoints.uploadNestOrNestItem(
+        currentNest, true, currentNest.id == null);
+  }
 }

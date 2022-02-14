@@ -11,7 +11,6 @@ abstract class NestOrNestItem extends StatefulWidget {
   late String name;
   late String description;
   late int worth;
-
   late bool? favored;
   late DateTime? createdAt;
   late bool? public;
@@ -139,7 +138,6 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
   void openNextScreen(BuildContext context) async => throw UnimplementedError();
 
   void toggleFavored(BuildContext context) async {
-    setState(() =>
-        widget.favored == null ? false : widget.favored = !widget.favored!);
+    setState(() => widget.favored = !widget.favored!);
   }
 }
