@@ -7,9 +7,10 @@ class NotificationResponse {
   String status;
   int notificationCount;
 
-  factory NotificationResponse.fromJson(Map<String, dynamic> json) =>
-      NotificationResponse(
-        status: json["status"],
-        notificationCount: json["notificationCount"],
-      );
+  factory NotificationResponse.fromJson(Map<String, dynamic> json) {
+    return NotificationResponse(
+      status: json["status"],
+      notificationCount: json["notificationCount"],
+    );
+  }
 }

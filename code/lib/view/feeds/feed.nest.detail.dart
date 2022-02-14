@@ -5,7 +5,7 @@ import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/constants.dart';
 
-import '../../model/feed.user.nestitems.model.dart';
+import '../../model/feed.user.nest.items.model.dart';
 import '../../model/feed.user.profile.model.dart';
 import '../../widgets/nest.grid.item.dart';
 

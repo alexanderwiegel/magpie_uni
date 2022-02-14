@@ -3,7 +3,8 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 import 'package:http_parser/http_parser.dart';
 
-import 'package:magpie_uni/constants.dart';
+// import 'package:magpie_uni/constants.dart';
+import 'package:magpie_uni/model/feed.user.nest.items.model.dart';
 import 'package:magpie_uni/model/nest.dart';
 import 'package:magpie_uni/model/nest.item.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
@@ -15,9 +16,6 @@ import 'package:magpie_uni/model/feeds.model.dart';
 import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/model/chat.message.dart';
 import 'package:magpie_uni/sort.mode.dart';
-
-import '../constants.dart';
-import '../model/feed.user.nestitems.model.dart';
 
 class ApiEndpoints {
   static String urlPrefix = "http://10.0.2.2:3000/";
@@ -32,10 +30,7 @@ class ApiEndpoints {
         urlPrefix + "user/userProfile?userId=${UserAPIManager.currentUserId}";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200 ? response.body : null;
-    // print(result);
     UserAPIManager.currentUserProfile = welcomeFromJson(result!);
-    printInfo(
-        "Status of getting the current user profile: ${UserAPIManager.currentUserProfile.status}");
     return result;
   }
 
@@ -45,7 +40,6 @@ class ApiEndpoints {
     final response = await http.get(Uri.parse(url), headers: headers);
     final result =
         response.statusCode == 200 ? jsonDecode(response.body)["user"] : null;
-    //print(result);
 
     return User.fromMap(result);
   }
@@ -60,7 +54,6 @@ class ApiEndpoints {
       "is_asc": isAsc ? "1" : "0",
       "only_favored": onlyFavored ? "1" : "0",
     };
-    //print("Body: $body");
 
     final req = http.Request("PUT", Uri.parse(url));
 
@@ -71,7 +64,6 @@ class ApiEndpoints {
     };
     customHeader.forEach((key, value) => req.headers[key] = value);
     req.bodyFields = body;
-    //print(req.bodyFields);
 
     await req.send();
   }
@@ -106,7 +98,6 @@ class ApiEndpoints {
     String url = urlPrefix + "nest/";
     url += isNew ? "add" : "edit";
     url += isNest ? "Nest" : "NestItem";
-    printInfo("Url: $url");
 
     // TODO: use PATCH here and in the backend instead
     String method = isNew ? "POST" : "PUT";
@@ -115,8 +106,6 @@ class ApiEndpoints {
     headers.forEach((key, value) => req.headers[key] = value);
 
     Map nestOrNestItemAsMap = nestOrNestItem.toMap();
-
-    printInfo("NestOrNestItem: $nestOrNestItemAsMap");
 
     nestOrNestItemAsMap.forEach((key, value) {
       req.fields[key] = value.toString();
@@ -131,10 +120,8 @@ class ApiEndpoints {
       ));
     }
 
-    // printInfo("Path before sending request" + nestOrNestItem.photo!);
     final streamedResponse = await req.send();
     final response = await http.Response.fromStream(streamedResponse);
-    printInfo("Response from server: ${response.body}");
     return json.decode(response.body);
   }
 
@@ -142,10 +129,8 @@ class ApiEndpoints {
       bool isNest, int nestOrNestItemId) async {
     String url = urlPrefix + "nest/deleteNest";
     if (!isNest) url += "Item";
-    //print("Url: $url");
     final reqKey = isNest ? "nest_id" : "nest_item_id";
     final body = {reqKey: nestOrNestItemId.toString()};
-    //print("Body: $body");
 
     final req = http.Request("DELETE", Uri.parse(url));
 
@@ -156,7 +141,6 @@ class ApiEndpoints {
     };
     customHeader.forEach((key, value) => req.headers[key] = value);
     req.bodyFields = body;
-    //print(req.bodyFields);
 
     await req.send();
   }
@@ -164,19 +148,15 @@ class ApiEndpoints {
   // Get Feeds
   static Future<FeedResponse> fetchFeeds(int loggedUserId) async {
     var headers = UserAPIManager().getAPIHeader();
-    // print(Uri.parse(urlPrefix + 'feed/getFeeds?userId=$loggedUserId'));
     final response = await http.get(
         Uri.parse(urlPrefix + 'feed/getFeeds?userId=$loggedUserId'),
         headers: headers);
 
     if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      //print(response.body);
+      // If the server returned a 200 OK response then parse the JSON.
       return FeedResponse.fromJson(jsonDecode(response.body));
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
+      // If the server did not return a 200 OK response throw an exception.
       throw Exception('Failed to load Feeds');
     }
   }
@@ -189,7 +169,6 @@ class ApiEndpoints {
         Uri.parse(urlPrefix + 'feed/userProfile?userId=$feedUserId'),
         headers: headers);
     if (response.statusCode == 200) {
-      //print(response.body);
       return FeedUserProfileResponse.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load Feeds');
@@ -204,7 +183,6 @@ class ApiEndpoints {
         Uri.parse(urlPrefix + 'feed/nestItems?nest_id=$nestId'),
         headers: headers);
     if (response.statusCode == 200) {
-      //print(response.body);
       return FeedUserNestItemsResponse.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load Feeds');
@@ -219,7 +197,6 @@ class ApiEndpoints {
         headers: headers);
 
     if (response.statusCode == 200) {
-      //print(response.body);
       return ChatSessionResponse.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load chat');
@@ -237,13 +214,10 @@ class ApiEndpoints {
         headers: headers);
 
     if (response.statusCode == 200) {
-      // If the server did return a 200 OK response,
-      // then parse the JSON.
-      //print(response.body);
+      // If the server returned a 200 OK response then parse the JSON.
       return ChatMessageResponse.fromJson(jsonDecode(response.body));
     } else {
-      // If the server did not return a 200 OK response,
-      // then throw an exception.
+      // If the server did not return a 200 OK response throw an exception.
       throw Exception('Failed to load chat');
     }
   }
@@ -257,7 +231,6 @@ class ApiEndpoints {
             'chat/checkAndInsertChatSession?currentUserId=$currentUserId&opponentUserId=$opponentId'),
         headers: headers);
     if (response.statusCode == 200) {
-      //print(response.body);
       return NewChatSessionResponse.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load Feeds');
@@ -273,7 +246,6 @@ class ApiEndpoints {
         headers: headers);
 
     if (response.statusCode == 200) {
-      //print(response.body);
       return NotificationResponse.fromJson(jsonDecode(response.body));
     } else {
       throw Exception('Failed to load chat');

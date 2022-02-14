@@ -95,8 +95,7 @@ class Statistic extends StatelessWidget {
 
     descriptions = [];
     for (int i = 0; i < entries.length; i++) {
-      // TODO: remove the "%5" after summing up the rest in "Others"
-      descriptions.add(description(i % 5));
+      descriptions.add(description(i));
     }
     //#endregion
 

@@ -154,16 +154,6 @@ class MagpieImageSelector extends StatelessWidget {
     );
   }
 
-  Future<File?> compressFile(File file, String targetPath) async {
-    return await FlutterImageCompress.compressAndGetFile(
-      file.path,
-      targetPath,
-      minWidth: 400,
-      minHeight: 250,
-      quality: 100,
-    );
-  }
-
   void _imageSelectorCamera() async => _imageSelector(ImageSource.camera);
 
   void _imageSelectorGallery() async => _imageSelector(ImageSource.gallery);
@@ -182,8 +172,17 @@ class MagpieImageSelector extends StatelessWidget {
               DateTime.now().toString() +
               ".jpg";
       file = await compressFile(file, targetPath);
-      // TODO: check if this works
       changeImage(file?.path);
     }
+  }
+
+  Future<File?> compressFile(File file, String targetPath) async {
+    return await FlutterImageCompress.compressAndGetFile(
+      file.path,
+      targetPath,
+      minWidth: 400,
+      minHeight: 250,
+      quality: 100,
+    );
   }
 }

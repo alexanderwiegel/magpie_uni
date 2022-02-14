@@ -18,10 +18,7 @@ class MagpieDeleteDialog {
     isNest
         ? Navigator.of(context).popUntil((route) => route.isFirst)
         : Navigator.of(context)
-            .popUntil((route) {
-            printInfo(route.settings.name);
-            return route.settings.name == "/nestItems";
-          });
+            .popUntil((route) => route.settings.name == "/nestItems");
   }
 
   Future<void> _deleteDialogBox(BuildContext context, bool isNest, int id) {
@@ -43,11 +40,17 @@ class MagpieDeleteDialog {
                   ),
                 ),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
-                option(() => _delete(context, isNest, id), Icons.delete_forever,
-                    "Yes, I'm sure."),
+                option(
+                  () => _delete(context, isNest, id),
+                  Icons.delete_forever,
+                  "Yes, I'm sure.",
+                ),
                 const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
-                option(() => Navigator.of(context).pop(), Icons.cancel,
-                    "No, I've changed my mind.")
+                option(
+                  () => Navigator.of(context).pop(),
+                  Icons.cancel,
+                  "No, I've changed my mind.",
+                )
               ],
             ),
           ),

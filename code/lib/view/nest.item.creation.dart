@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/constants.dart';
+// import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/model/nest.item.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
@@ -22,27 +22,22 @@ class _NestItemCreationState
     extends NestOrNestItemFormScreenState<NestItemCreation> {
   @override
   Future<void> uploadNestOrNestItem() async {
-    printInfo("Specify that it is a nest item");
-    // TODO: see if I can use widget.nestItem
     super.widget.nestOrNestItem = NestItem(nestId: widget.nestId);
     super.widget.nestOrNestItem.userId = UserAPIManager.currentUserId;
-    printInfo("Call super method to set attributes");
     super.uploadNestOrNestItem();
-    printInfo("Call api endpoint to create a new nest item");
-    // TODO: see if I can use widget.nestItem
     Map<String, dynamic> response = await ApiEndpoints.uploadNestOrNestItem(
       super.widget.nestOrNestItem,
       false,
       true,
     );
-    printInfo("Similar items: ${response["items"]}");
+    //printInfo("Similar items: ${response["items"]}");
 
     if (response.containsKey("items")) {
       List<String> similarPhotoPaths = [];
       for (var item in response["items"]) {
         similarPhotoPaths.add(NestItem.fromMap(item).photo!);
       }
-      printInfo("Similar items' photos' paths: $similarPhotoPaths");
+      //printInfo("Similar items' photos' paths: $similarPhotoPaths");
       MagpiePhotoAlert.displayPhotoAlert(
         context,
         "Similar item(s) found",
@@ -64,9 +59,11 @@ class _NestItemCreationState
 
   Future<VoidCallback> _addAnyways() async {
     await ApiEndpoints.uploadNestOrNestItem(
-            super.widget.nestOrNestItem, false, true,
-            compare: false)
-        .then(onChange);
+      super.widget.nestOrNestItem,
+      false,
+      true,
+      compare: false,
+    ).then(onChange);
     return () {};
   }
 }
