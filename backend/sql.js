@@ -144,8 +144,8 @@ function getUserNests(id, sortMode, asc, onlyFavored, cb) {
   var sort = getColumnToSortBy(sortMode, true);
   console.log("Sort by: n." + sort);
   query += " ORDER BY n." + sort;
-  var is_asc = asc === 'true' ? " ASC;" : " DESC;";
-  console.log("asc inside query : "+ asc);
+  var is_asc = asc == 'true' ? " ASC;" : " DESC;";
+  console.log("asc inside query : " + asc);
   query += is_asc;
   console.log("Query " + query);
 
@@ -163,8 +163,8 @@ function getAllNestItems(nestId, sortMode, asc, onlyFavored, cb) {
   var sort = getColumnToSortBy(sortMode, false);
   console.log("Sort by: " + sort);
   query += " ORDER BY n." + sort;
-  var is_asc = asc === 'true' ? " ASC;" : " DESC;";
-  console.log("asc inside query : "+ asc);
+  var is_asc = asc == 'true' ? " ASC;" : " DESC;";
+  console.log("asc inside query : " + asc);
   query += is_asc;
   console.log("Query " + query);
 
