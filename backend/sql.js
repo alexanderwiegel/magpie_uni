@@ -157,7 +157,7 @@ function getUserNests(id, sortMode, asc, onlyFavored, cb) {
 }
 
 //Nest-Items for nest
-function getAllNestItems(nestId, sortMode, asc, onlyFavored, cb) {
+function getNestItems(nestId, sortMode, asc, onlyFavored, cb) {
   var query = "SELECT * FROM nestItem n WHERE n.nest_id = " + nestId;
   if (onlyFavored == "true") query += " AND n.favored = 1";
   var sort = getColumnToSortBy(sortMode, false);
@@ -184,8 +184,9 @@ function getStatistics(userId, cb) {
     });
 }
 
-function getNestItems(id, cb) {
-  connection.query("SELECT * FROM nestItem n WHERE n.nest_id = " + id,
+//getting all items from every nest of that user
+function getAllNestItems(id, cb) {
+  connection.query("SELECT * FROM nestItem n WHERE n.user_id = " + id,
     function (err, rows) {
       if (err) cb(err);
       else cb(undefined, rows);

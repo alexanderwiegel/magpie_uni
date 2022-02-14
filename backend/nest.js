@@ -109,7 +109,7 @@ router.get('/nestItems', async function (req, res) {
   let asc = req.query.is_asc;
   let onlyFavored = req.query.only_favored;
 
-  sqlManager.getAllNestItems(nestID, sortMode, asc, onlyFavored, async function (err, result) {
+  sqlManager.getNestItems(nestID, sortMode, asc, onlyFavored, async function (err, result) {
     if (err) {
       res.status(500).json({ status: 'Failed', message: err.message });
       return
