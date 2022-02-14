@@ -17,7 +17,11 @@ class _HomeState extends HomeOrNestItemsScreenState<Home> {
   void setTitle(String title) => super.setTitle(title);
 
   @override
-  Future<List> getNestsOrNestItems() async => await ApiEndpoints.getNests();
+  Future<List> getNestsOrNestItems() async => await ApiEndpoints.getNests(
+        super.sortMode,
+        super.asc,
+        super.onlyFavored,
+      );
 
   @override
   void initState() {

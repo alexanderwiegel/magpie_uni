@@ -12,7 +12,7 @@ abstract class NestOrNestItem extends StatefulWidget {
   late String description;
   late int worth;
 
-  // late bool? favored;
+  late bool? favored;
   late DateTime? createdAt;
   late bool? public;
 
@@ -24,7 +24,7 @@ abstract class NestOrNestItem extends StatefulWidget {
     this.name = "",
     this.description = "",
     this.worth = 0,
-    // this.favored,
+    this.favored,
     this.createdAt,
     this.public,
   }) : super(key: key);
@@ -35,7 +35,7 @@ abstract class NestOrNestItem extends StatefulWidget {
     photo = getPhotoPath(obj["photo"]);
     name = obj["title"];
     description = obj["description"];
-    // favored = obj["favored"] == 1 ? true : false;
+    favored = obj["favored"] == 1 ? true : false;
     createdAt = DateTime.parse(obj["created_at"]);
     public = obj["is_public"] == 1 ? true : false;
   }
@@ -47,7 +47,7 @@ abstract class NestOrNestItem extends StatefulWidget {
       'title': name,
       'description': description,
       'worth': worth,
-      // 'favored': favored,
+      'favored': favored,
       'is_public': public,
     };
     if (!photo!.startsWith("http")) nestOrNestItem.addAll({'photo': photo});
@@ -98,10 +98,10 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
               child: Text(
                 isNest
                     ? getItemCount() + " nest items"
-                    : widget.description.isEmpty || widget.description.length > 20
+                    : widget.description.isEmpty ||
+                            widget.description.length > 20
                         ? widget.createdAt.toString().substring(0, 10)
                         : widget.description,
-                // : widget.createdAt.toString().substring(0, 10),
               ),
             ),
             trailing: FittedBox(
@@ -118,12 +118,14 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
           fit: BoxFit.scaleDown,
           alignment: AlignmentDirectional.topStart,
           child: IconButton(
-            //   tooltip: widget.favored! ? "Remove as favorite" : "Mark as favorite",
-            //   alignment: AlignmentDirectional.centerStart,
-            icon: const Icon(Icons.favorite, color: Colors.transparent),
-            //   icon: Icon(widget.favored! ? Icons.favorite : Icons.favorite_border,
-            //       color: accentColor),
-            onPressed: () => {},
+            tooltip:
+                widget.favored! ? "Remove as favorite" : "Mark as favorite",
+            alignment: AlignmentDirectional.centerStart,
+            icon: Icon(
+              widget.favored! ? Icons.favorite : Icons.favorite_border,
+              color: accentColor,
+            ),
+            onPressed: () => toggleFavored(context),
           ),
         ),
       ),
@@ -136,8 +138,8 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
 
   void openNextScreen(BuildContext context) async => throw UnimplementedError();
 
-// void toggleFavored(BuildContext context) async {
-//   setState(() =>
-//       widget.favored == null ? false : widget.favored = !widget.favored!);
-// }
+  void toggleFavored(BuildContext context) async {
+    setState(() =>
+        widget.favored == null ? false : widget.favored = !widget.favored!);
+  }
 }

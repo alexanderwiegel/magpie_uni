@@ -86,8 +86,11 @@ router.delete('/deleteNest', async function (req, res) {
 router.get('/userNests', async function (req, res) {
   let userID = req.query.user_id;
   console.log("UserId: " + userID);
+  let sortMode = req.query.sort_mode;
+  let asc = req.query.is_asc;
+  let onlyFavored = req.query.only_favored;
 
-  sqlManager.getUserNests(userID, async function (err, result) {
+  sqlManager.getUserNests(userID, sortMode, asc, onlyFavored, async function (err, result) {
     if (err) {
       res.status(500).json({ status: 'Failed', message: err.message });
       return
@@ -100,9 +103,11 @@ router.get('/userNests', async function (req, res) {
 // get items for specific nest
 router.get('/nestItems', async function (req, res) {
   let nestID = req.query.nest_id;
-  console.log(nestID);
+  let sortMode = req.query.sort_mode;
+  let asc = req.query.is_asc;
+  let onlyFavored = req.query.only_favored;
 
-  sqlManager.getNestItems(nestID, async function (err, result) {
+  sqlManager.getAllNestItems(nestID, sortMode, asc, onlyFavored, async function (err, result) {
     if (err) {
       res.status(500).json({ status: 'Failed', message: err.message });
       return

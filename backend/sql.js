@@ -120,8 +120,32 @@ function updateNestWorth(id) {
   });
 }
 
-function getUserNests(id, cb) {
+function getColumnToSortBy(sortMode, isNest) {
+  var worthType = isNest ? " total_worth" : " worth";
+  switch (sortMode) {
+    case "SortMode.sortByName":
+      return "title";
+    case "SortMode.sortByWorth":
+      return worthType;
+    case "SortMode.sortByFavored":
+      return "favored";
+    case "SortMode.sortById":
+      return "id";
+    default:
+      return "id";
+  }
+}
+// TODO: apply EXACTLY the same for nest items
+function getUserNests(id, sortMode, asc, onlyFavored, cb) {
   var query = `SELECT n.*, (SELECT COUNT(*) FROM nestItem ni WHERE n.id = ni.nest_id) as nestItemCount FROM nest n WHERE n.user_id = ` + id;
+  if (onlyFavored == true) query += " AND n.favored = 1";
+  var sort = getColumnToSortBy(sortMode, true);
+  console.log(sort);
+  query += " ORDER BY n." + sort;
+  var asc = asc ? " ASC;" : " DESC;";
+  query += asc;
+  console.log("Query " + query);
+
   connection.query(query,
     function (err, rows) {
       if (err) cb(err);
@@ -130,8 +154,18 @@ function getUserNests(id, cb) {
 }
 
 //Nest-Items for nest
-function getAllNestItems(userId, cb) {
-  connection.query("SELECT * FROM nestItem n WHERE n.user_id = " + userId,
+function getAllNestItems(nestId, sortMode, asc, onlyFavored, cb) {
+  getColumnToSortBy(sortMode, true)
+  var query = "SELECT * FROM nestItem n WHERE n.nest_id = " + nestId;
+  if (onlyFavored == true) query += " AND n.favored = 1";
+  var sort = getColumnToSortBy();
+  console.log(sort);
+  query += " ORDER BY n." + sort;
+  var asc = asc ? " ASC" : " DESC";
+  query += asc;
+  console.log(query);
+
+  connection.query(query,
     function (err, rows) {
       if (err) cb(err);
       else cb(undefined, rows);
@@ -155,7 +189,7 @@ function getNestItems(id, cb) {
     });
 }
 
-//Specific Nest
+//Specific Nest Item
 function getNestItem(id, cb) {
   connection.query("SELECT * FROM nestItem n WHERE n.id = " + id,
     function (err, rows) {
