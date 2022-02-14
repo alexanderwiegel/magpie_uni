@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 
-import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/widgets/magpie.button.dart';
 import 'package:magpie_uni/widgets/magpie.photo.alert.dart';
@@ -59,24 +58,25 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
     _worthEditingController = TextEditingController(text: _worth.toString());
   }
 
-  Widget getDeleteButton(bool isNew, bool isNest, String thing) => isNew
-      ? Container()
-      : MagpieButton(
-          onPressed: () => _magpieDeleteDialog.displayDeleteDialog(
-            context,
-            isNest,
-            getIdOfNestOrNestItem(),
-          ),
-          title: "Delete $thing",
-          icon: Icons.delete,
-        );
+  Widget getDeleteButton(bool isNew, bool isNest, String thing) {
+    return isNew
+        ? Container()
+        : MagpieButton(
+      onPressed: () => _magpieDeleteDialog.displayDeleteDialog(
+        context,
+        isNest,
+        getIdOfNestOrNestItem(),
+      ),
+      title: "Delete $thing",
+      icon: Icons.delete,
+    );
+  }
 
   int getIdOfNestOrNestItem() => throw UnimplementedError();
 
   @override
   Widget build(BuildContext context) {
     String ctx = context.toString();
-    //print("Context $ctx");
     bool _isNest = !ctx.contains("NestItem");
     bool _isNew = ctx.contains("Creation");
     String _thing = _isNest ? "nest" : "nest item";
@@ -90,7 +90,6 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
               if (_formKey.currentState!.validate()) {
                 _photo != null
                     ? await uploadNestOrNestItem()
-                    //.then(onChange)
                     : MagpiePhotoAlert.displayPhotoAlert(
                         context,
                         "No image provided",
@@ -123,8 +122,6 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
   }
 
   onChange(dynamic value) {
-    // TODO: check if setState needs to be called before or after and if it even does anything
-    //print("Upload finished. Now pop screen.");
     setState(() {});
     Navigator.of(context).pop();
   }
@@ -147,6 +144,5 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
         ? 0
         : int.parse(_worthEditingController.text);
     widget.nestOrNestItem.public = _public;
-    printSuccess("Successfully set attributes");
   }
 }

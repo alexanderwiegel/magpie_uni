@@ -43,7 +43,6 @@ class _NestGridItemState extends State<NestGridItem> {
     return GestureDetector(
       // #region onTap
       onTap: () {
-        //print("Item Tapped");
         if (widget.nest != null) {
           Navigator.push(
             context,

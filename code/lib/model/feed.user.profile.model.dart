@@ -22,10 +22,12 @@ class FeedUserProfileResponse {
       FeedUserProfileResponse(
         status: json["status"],
         profile: Profile.fromJson(json["profile"]),
-        nests:
-            List<FeedNest>.from(json["nests"].map((x) => FeedNest.fromJson(x))),
+        nests: List<FeedNest>.from(
+          json["nests"].map((x) => FeedNest.fromJson(x)),
+        ),
         nestItems: List<FeedNestItem>.from(
-            json["nestItems"].map((x) => FeedNestItem.fromJson(x))),
+          json["nestItems"].map((x) => FeedNestItem.fromJson(x)),
+        ),
       );
 }
 
@@ -110,14 +112,16 @@ class Profile {
   });
 
   factory Profile.fromJson(Map<String, dynamic> json) => Profile(
-      username: json["username"],
-      photo: json["photo"],
-      email: json["email"],
-      nestCount: json["nestCount"],
-      nestItemCount: json["nestItemCount"],
-      stats: json["stats"] != null
-          ? List<Stats>.from(json["stats"].map((stat) => Stats.fromJson(stat)))
-          : null);
+        username: json["username"],
+        photo: json["photo"],
+        email: json["email"],
+        nestCount: json["nestCount"],
+        nestItemCount: json["nestItemCount"],
+        stats: json["stats"] != null
+            ? List<Stats>.from(
+                json["stats"].map((stat) => Stats.fromJson(stat)))
+            : null,
+      );
 }
 
 class Stats {

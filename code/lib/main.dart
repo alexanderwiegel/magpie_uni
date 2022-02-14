@@ -4,7 +4,6 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/model/nest.dart';
-import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/view/auth/register/register.page.dart';
 import 'package:magpie_uni/view/auth/login/login.page.dart';
 import 'package:magpie_uni/view/home.page.dart';
@@ -20,8 +19,6 @@ class Magpie extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    printInfo("Current userId: ${UserAPIManager.currentUserId}");
-
     precacheImage(const AssetImage("pics/placeholder.jpg"), context);
     return MaterialApp(
       title: 'Magpie',

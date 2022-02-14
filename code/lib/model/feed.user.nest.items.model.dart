@@ -1,7 +1,8 @@
 import 'dart:convert';
-import 'feed.user.profile.model.dart';
 
-FeedUserNestItemsResponse FeedUserNestItemFromJson(String str) =>
+import 'package:magpie_uni/model/feed.user.profile.model.dart';
+
+FeedUserNestItemsResponse feedUserNestItemFromJson(String str) =>
     FeedUserNestItemsResponse.fromJson(json.decode(str));
 
 class FeedUserNestItemsResponse {
@@ -17,6 +18,7 @@ class FeedUserNestItemsResponse {
       FeedUserNestItemsResponse(
         status: json["status"],
         nestItems: List<FeedNestItem>.from(
-            json["result"].map((x) => FeedNestItem.fromJson(x))),
+          json["result"].map((x) => FeedNestItem.fromJson(x)),
+        ),
       );
 }

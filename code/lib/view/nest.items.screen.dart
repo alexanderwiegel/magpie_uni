@@ -30,22 +30,31 @@ class _NestItemsScreenState
   void setTitle(String title) => super.setTitle(title);
 
   @override
-  Future<List> getNestsOrNestItems() async =>
-      await ApiEndpoints.getNestItems(widget.nest.id!, super.sortMode, super.asc, super.onlyFavored);
+  Future<List> getNestsOrNestItems() async {
+    return await ApiEndpoints.getNestItems(
+      widget.nest.id!,
+      super.sortMode,
+      super.asc,
+      super.onlyFavored,
+    );
+  }
 
   @override
-  Widget editButton() => IconButton(
-        icon: const Icon(Icons.edit),
-        tooltip: "Edit nest",
-        onPressed: () async => await Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => NestDetailScreen(nest: widget.nest),
-          ),
-        ).then(onChange),
-      );
+  Widget editButton() {
+    return IconButton(
+      icon: const Icon(Icons.edit),
+      tooltip: "Edit nest",
+      onPressed: () async => await Navigator.push(
+        context,
+        MaterialPageRoute(
+          builder: (context) => NestDetailScreen(nest: widget.nest),
+        ),
+      ).then(onChange),
+    );
+  }
 
   @override
-  NestOrNestItemFormScreen openCreationScreen() =>
-      NestItemCreation(nestId: widget.nest.id);
+  NestOrNestItemFormScreen openCreationScreen() {
+    return NestItemCreation(nestId: widget.nest.id);
+  }
 }

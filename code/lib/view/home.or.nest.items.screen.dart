@@ -57,7 +57,6 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
 
   @override
   void didPopNext() {
-    printSuccess("In didPopNext()");
     if (mounted) {
       setState(() {});
     }
@@ -66,7 +65,6 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
 
   Future<void> _initUser() async {
     User user = await ApiEndpoints.getHomeScreen();
-    // TODO: maybe put assignments outside of setState and then call it
     setState(() {
       sortMode = user.sortMode;
       asc = user.asc;
@@ -88,16 +86,17 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
 
   NestOrNestItemFormScreen openCreationScreen() => throw UnimplementedError();
 
-  Widget searchBar() => IconButton(
-        color: textColor,
-        // TODO: change this according to nest/nestItem
-        tooltip: "Search",
-        padding: const EdgeInsets.only(left: 12.0),
-        alignment: Alignment.centerLeft,
-        icon: _searchIcon,
-        iconSize: 30.0,
-        onPressed: _searchPressed,
-      );
+  Widget searchBar() {
+    return IconButton(
+      color: textColor,
+      tooltip: "Search",
+      padding: const EdgeInsets.only(left: 12.0),
+      alignment: Alignment.centerLeft,
+      icon: _searchIcon,
+      iconSize: 30.0,
+      onPressed: _searchPressed,
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -108,27 +107,29 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
       appBar: AppBar(
         title: Text(title),
         actions: [
-          if (_searchIcon.icon == Icons.search) PopupMenuButton<SortMode>(
-            icon: const Icon(
-              Icons.sort_by_alpha,
-              color: textColor,
-              // size: iconSize,
+          if (_searchIcon.icon == Icons.search)
+            PopupMenuButton<SortMode>(
+              icon: const Icon(
+                Icons.sort_by_alpha,
+                color: textColor,
+                // size: iconSize,
+              ),
+              tooltip: "Select sort mode",
+              onSelected: (SortMode result) => _switchSortOrder(result),
+              initialValue: sortMode,
+              itemBuilder: (BuildContext context) => <PopupMenuEntry<SortMode>>[
+                menuItem(SortMode.sortById, "Sort by date"),
+                menuItem(SortMode.sortByName, "Sort by name"),
+                menuItem(SortMode.sortByWorth, "Sort by worth"),
+                menuItem(SortMode.sortByFavored, "Sort by favorites"),
+              ],
             ),
-            tooltip: "Select sort mode",
-            onSelected: (SortMode result) => _switchSortOrder(result),
-            initialValue: sortMode,
-            itemBuilder: (BuildContext context) => <PopupMenuEntry<SortMode>>[
-              menuItem(SortMode.sortById, "Sort by date"),
-              menuItem(SortMode.sortByName, "Sort by name"),
-              menuItem(SortMode.sortByWorth, "Sort by worth"),
-              menuItem(SortMode.sortByFavored, "Sort by favorites"),
-            ],
-          ),
-            if (_searchIcon.icon == Icons.search) MagpieIconButton(
-            tooltip: onlyFavored ? "Show all" : "Show favorites only",
-            icon: onlyFavored ? Icons.favorite : Icons.favorite_border,
-            onPressed: _showFavorites,
-          ),
+          if (_searchIcon.icon == Icons.search)
+            MagpieIconButton(
+              tooltip: onlyFavored ? "Show all" : "Show favorites only",
+              icon: onlyFavored ? Icons.favorite : Icons.favorite_border,
+              onPressed: _showFavorites,
+            ),
           _searchIcon.icon == Icons.search
               ? editButton()
               : Expanded(
@@ -194,13 +195,11 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     } else {
       setState(() => asc ^= true);
     }
-    // TODO: call setState() ?
     await ApiEndpoints.updateHomeScreen(sortMode.name, asc, onlyFavored);
   }
 
   void _showFavorites() async {
     setState(() => onlyFavored ^= true);
-    // TODO: call setState() ?
     await ApiEndpoints.updateHomeScreen(sortMode.name, asc, onlyFavored);
   }
 
@@ -234,10 +233,10 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
         children: <Widget>[
           sortMode == value
               ? Icon(
-            asc ? Icons.arrow_upward : Icons.arrow_downward,
-            color: Colors.teal,
-            // size: iconSize,
-          )
+                  asc ? Icons.arrow_upward : Icons.arrow_downward,
+                  color: Colors.teal,
+                  // size: iconSize,
+                )
               : const Icon(null),
           const Padding(padding: EdgeInsets.only(left: 2.0)),
           Text(txt)

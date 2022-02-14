@@ -6,7 +6,6 @@ import 'package:magpie_uni/services/http_service.dart';
 import 'package:magpie_uni/services/validators.dart';
 import 'package:magpie_uni/view/home.page.dart';
 import 'package:magpie_uni/widgets/atoms/buttons/magpie_button.dart';
-// import 'package:magpie_uni/widgets/atoms/buttons/magpie_text_button.dart';
 import 'package:magpie_uni/widgets/magpie.text.form.field.dart';
 import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
@@ -48,15 +47,6 @@ class _LoginFormState extends State<LoginForm> {
             hintText: 'Password',
           ),
           const SizedBox(height: 10.0),
-          //Align(
-          //  alignment: Alignment.bottomRight,
-          //  child: MagpieTextButton.primary(
-
-      //   color: Colors.black,
-      //        onPressed: () {},
-        //      label: "Forgot password?",
-         //   ),
-         // ),
           SizedBox(
             width: double.infinity,
             child: MagpieButton.primary(
@@ -84,13 +74,9 @@ class _LoginFormState extends State<LoginForm> {
       if (response.statusCode == 200) {
 
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);
-        //print(jsonResponse);
         Map<String, dynamic> user = jsonResponse["user"];
         UserAPIManager.token = jsonResponse["token"].toString();
         UserAPIManager.currentUserId = user["id"];
-        //print(user);
-        //print(UserAPIManager.token);
-        printSuccess("Successfully set currentUserId to ${UserAPIManager.currentUserId}");
 
         Navigator.of(context).pushAndRemoveUntil(
             MaterialPageRoute(
@@ -102,7 +88,6 @@ class _LoginFormState extends State<LoginForm> {
         setState(() => isLoading = false);
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);
         String errMessage = jsonResponse["message"].toString();
-        //show alert message
         _showDialog(context, errMessage);
       }
 

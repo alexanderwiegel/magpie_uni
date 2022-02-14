@@ -8,7 +8,6 @@ import 'package:magpie_uni/model/chat.message.dart';
 import 'package:magpie_uni/model/notification.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
-import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/view/chat/chat.list.dart';
 import 'package:magpie_uni/view/feeds/feed.list.dart';
 import 'package:magpie_uni/view/home.dart';
@@ -30,15 +29,12 @@ class _HomePageState extends State<HomePage> {
 
   @override
   void initState() {
-    printInfo(SizeConfig.isTablet ? "On tablet" : "On phone");
     super.initState();
     tabBarPages = [
       const Home(),
       const FeedList(),
       ChatList(
         onBackPressed: (value) {
-          //print(value);
-          //print("home on back called");
           getNotifications();
         },
       ),
@@ -56,15 +52,17 @@ class _HomePageState extends State<HomePage> {
   Future fetchChatNotificationCount(int loggedUserId) async {
     var headers = UserAPIManager().getAPIHeader();
     final response = await get(
-        Uri.parse(ApiEndpoints.urlPrefix +
-            'chat/getNotification?userId=$loggedUserId'),
-        headers: headers);
+      Uri.parse(
+        ApiEndpoints.urlPrefix + 'chat/getNotification?userId=$loggedUserId',
+      ),
+      headers: headers,
+    );
 
     if (response.statusCode == 200) {
-      NotificationResponse n =
-      NotificationResponse.fromJson(jsonDecode(response.body));
+      NotificationResponse n = NotificationResponse.fromJson(
+        jsonDecode(response.body),
+      );
       badgeCount = n.notificationCount;
-      printInfo("Successfully fetched the number of unread messages: $badgeCount");
     } else {
       throw Exception('Failed to load chat');
     }
@@ -78,7 +76,6 @@ class _HomePageState extends State<HomePage> {
     socket.connect();
 
     socket.on("receive_message", (message) {
-      printInfo("Received Message: $message");
       ChatMessage newMessage = ChatMessage.fromJson(message);
       if (newMessage.senderId == UserAPIManager.currentUserId ||
           newMessage.receiverId == UserAPIManager.currentUserId) {
@@ -86,12 +83,6 @@ class _HomePageState extends State<HomePage> {
       }
     });
   }
-
-  // @override
-  // void dispose() {
-  //   // socket.disconnect();
-  //   super.dispose();
-  // }
 
   @override
   Widget build(BuildContext context) {

@@ -22,14 +22,9 @@ class _NestDetailScreenState
 
   @override
   Future<void> uploadNestOrNestItem() async {
-    //print("Specify that it is a nest");
-    // TODO: see if I can use widget.nest
     super.widget.nestOrNestItem = Nest();
     super.widget.nestOrNestItem.id = widget.nest.id;
-    //print("Call super method to set attributes");
     super.uploadNestOrNestItem();
-    //print("Call api endpoint to edit a nest");
-    // TODO: see if I can use widget.nest
     await ApiEndpoints.uploadNestOrNestItem(
       super.widget.nestOrNestItem,
       true,

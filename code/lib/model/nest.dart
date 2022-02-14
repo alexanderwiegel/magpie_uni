@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:magpie_uni/constants.dart';
 
+// import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/sort.mode.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
@@ -73,9 +73,9 @@ class _NestState extends NestOrNestItemState<Nest> {
     currentNest.photo = super.widget.photo;
     currentNest.description = super.widget.description;
     currentNest.worth = super.widget.worth;
-    printWarning("Favored of currentNest before setting: ${currentNest.favored}");
+    //printWarning("Favored of currentNest before setting: ${currentNest.favored}");
     currentNest.favored = super.widget.favored;
-    printWarning("Favored of currentNest after setting: ${currentNest.favored}");
+    //printWarning("Favored of currentNest after setting: ${currentNest.favored}");
     currentNest.public = super.widget.public;
     currentNest.createdAt = super.widget.createdAt;
     super.initState();
@@ -86,11 +86,6 @@ class _NestState extends NestOrNestItemState<Nest> {
 
   @override
   void openNextScreen(BuildContext context) async {
-    // print("Old nest: " + currentNest.toMap().toString());
-    // print("Created at: " + currentNest.createdAt.toString());
-
-    //print("Context: " + context.toString());
-
     await Navigator.pushNamed(
       context,
       "/nestItems",
@@ -101,13 +96,16 @@ class _NestState extends NestOrNestItemState<Nest> {
   @override
   void toggleFavored(BuildContext context) async {
     super.toggleFavored(context);
-    printWarning("super.widget.favored before setting it once more in nest.dart: ${super.widget.favored}");
-    printError("currentNest.favored before setting it once more in nest.dart: ${currentNest.favored}");
-    printWarning("Set currentNest.favored to super.widget.favored once more");
+    //printWarning("super.widget.favored before setting it once more in nest.dart: ${super.widget.favored}");
+    //printError("currentNest.favored before setting it once more in nest.dart: ${currentNest.favored}");
+    //printWarning("Set currentNest.favored to super.widget.favored once more");
     currentNest.favored = super.widget.favored;
-    printWarning("super.widget.favored when sending it to ApiEndpoints: ${super.widget.favored}");
-    printError("currentNest.favored when sending it to ApiEndpoints: ${currentNest.favored}");
+    //printWarning("super.widget.favored when sending it to ApiEndpoints: ${super.widget.favored}");
+    //printError("currentNest.favored when sending it to ApiEndpoints: ${currentNest.favored}");
     await ApiEndpoints.uploadNestOrNestItem(
-        currentNest, true, currentNest.id == null);
+      currentNest,
+      true,
+      currentNest.id == null,
+    );
   }
 }

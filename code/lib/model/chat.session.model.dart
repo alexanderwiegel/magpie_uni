@@ -16,7 +16,8 @@ class ChatSessionResponse {
       ChatSessionResponse(
         status: json["status"],
         chat: List<ChatSession>.from(
-            json["chat"].map((x) => ChatSession.fromJson(x))),
+          json["chat"].map((x) => ChatSession.fromJson(x)),
+        ),
       );
 }
 
