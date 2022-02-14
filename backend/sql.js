@@ -120,8 +120,35 @@ function updateNestWorth(id) {
   });
 }
 
-function getUserNests(id, cb) {
+function getColumnToSortBy(sortMode, isNest) {
+  var worthType = isNest ? "total_worth" : "worth";
+  switch (sortMode) {
+    case "SortMode.sortByName":
+      return "title";
+    case "SortMode.sortByWorth":
+      return worthType;
+    case "SortMode.sortByFavored":
+      return "favored";
+    case "SortMode.sortById":
+      return "id";
+    default:
+      return "id";
+  }
+}
+
+// TODO: apply EXACTLY the same for nest items
+function getUserNests(id, sortMode, asc, onlyFavored, cb) {
   var query = `SELECT n.*, (SELECT COUNT(*) FROM nestItem ni WHERE n.id = ni.nest_id) as nestItemCount FROM nest n WHERE n.user_id = ` + id;
+  console.log("onlyFavored: " + onlyFavored)
+  if (onlyFavored == "true") query += " AND n.favored = 1";
+  var sort = getColumnToSortBy(sortMode, true);
+  console.log("Sort by: n." + sort);
+  query += " ORDER BY n." + sort;
+  var is_asc = asc == 'true' ? " ASC;" : " DESC;";
+  console.log("asc inside query : " + asc);
+  query += is_asc;
+  console.log("Query " + query);
+
   connection.query(query,
     function (err, rows) {
       if (err) cb(err);
@@ -130,8 +157,18 @@ function getUserNests(id, cb) {
 }
 
 //Nest-Items for nest
-function getAllNestItems(userId, cb) {
-  connection.query("SELECT * FROM nestItem n WHERE n.user_id = " + userId,
+function getNestItems(nestId, sortMode, asc, onlyFavored, cb) {
+  var query = "SELECT * FROM nestItem n WHERE n.nest_id = " + nestId;
+  if (onlyFavored == "true") query += " AND n.favored = 1";
+  var sort = getColumnToSortBy(sortMode, false);
+  console.log("Sort by: " + sort);
+  query += " ORDER BY n." + sort;
+  var is_asc = asc == 'true' ? " ASC;" : " DESC;";
+  console.log("asc inside query : " + asc);
+  query += is_asc;
+  console.log("Query " + query);
+
+  connection.query(query,
     function (err, rows) {
       if (err) cb(err);
       else cb(undefined, rows);
@@ -147,15 +184,16 @@ function getStatistics(userId, cb) {
     });
 }
 
-function getNestItems(id, cb) {
-  connection.query("SELECT * FROM nestItem n WHERE n.nest_id = " + id,
+//getting all items from every nest of that user
+function getAllNestItems(id, cb) {
+  connection.query("SELECT * FROM nestItem n WHERE n.user_id = " + id,
     function (err, rows) {
       if (err) cb(err);
       else cb(undefined, rows);
     });
 }
 
-//Specific Nest
+//Specific Nest Item
 function getNestItem(id, cb) {
   connection.query("SELECT * FROM nestItem n WHERE n.id = " + id,
     function (err, rows) {
@@ -380,12 +418,12 @@ function getNotification(userId, cb) {
 
 
 function insertChat(body, cb) {
-  console.log(body);
+  console.log("Chat body: " + body);
 
   //body.message = body.message.replaceAll("'", "\'");  
   var queryString = `INSERT INTO chat (message, date, sender_id, receiver_id, chat_session_id, is_read)
                         VALUES ('`+ body.message + `', now(), ` + body.sender_id + `, ` + body.receiver_id + `, ` + body.chat_session_id + `, false);`;
-  console.log(queryString);
+  console.log("Insert chat: " + queryString);
   connection.query(queryString,
     function (err, rows) {
       if (err) cb(err);

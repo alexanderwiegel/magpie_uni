@@ -14,6 +14,7 @@ import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/model/feeds.model.dart';
 import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/model/chat.message.dart';
+import 'package:magpie_uni/sort.mode.dart';
 
 import '../constants.dart';
 import '../model/feed.user.nestitems.model.dart';
@@ -27,7 +28,8 @@ class ApiEndpoints {
   };
 
   static Future<dynamic> getUserProfile() async {
-    String url = urlPrefix + "user/userProfile?userId=${UserAPIManager.currentUserId}";
+    String url =
+        urlPrefix + "user/userProfile?userId=${UserAPIManager.currentUserId}";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200 ? response.body : null;
     // print(result);
@@ -74,8 +76,10 @@ class ApiEndpoints {
     await req.send();
   }
 
-  static Future<List> getNests() async {
-    String url = urlPrefix + "nest/userNests?user_id=${UserAPIManager.currentUserId}";
+  static Future<List> getNests(
+      SortMode sortMode, bool asc, bool onlyFavored) async {
+    String url = urlPrefix +
+        "nest/userNests?user_id=${UserAPIManager.currentUserId}&sort_mode=$sortMode&is_asc=$asc&only_favored=$onlyFavored";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200
         ? await json.decode(response.body)["result"]
@@ -84,8 +88,10 @@ class ApiEndpoints {
     return list;
   }
 
-  static Future<List> getNestItems(int nestId) async {
-    String url = urlPrefix + "nest/nestItems?nest_id=$nestId";
+  static Future<List> getNestItems(
+      int nestId, SortMode sortMode, bool asc, bool onlyFavored) async {
+    String url = urlPrefix +
+        "nest/nestItems?nest_id=$nestId&sort_mode=$sortMode&is_asc=$asc&only_favored=$onlyFavored";
     final response = await http.get(Uri.parse(url), headers: headers);
     final result = response.statusCode == 200
         ? await json.decode(response.body)["result"]
@@ -204,7 +210,6 @@ class ApiEndpoints {
       throw Exception('Failed to load Feeds');
     }
   }
-
 
   // Get Chat Sessions
   static Future<ChatSessionResponse> fetchChatSessions(int loggedUserId) async {

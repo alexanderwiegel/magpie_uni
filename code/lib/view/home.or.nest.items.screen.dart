@@ -1,15 +1,15 @@
 import 'package:flutter/material.dart';
 
-// import 'package:magpie_uni/model/user.dart';
-// import 'package:magpie_uni/services/api.endpoints.dart';
-// import 'package:magpie_uni/sort.mode.dart';
-// import 'package:magpie_uni/widgets/magpie.bottom.navigation.bar.dart';
+import 'package:magpie_uni/model/user.dart';
+import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/sort.mode.dart';
 import 'package:magpie_uni/main.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
 import 'package:magpie_uni/view/nest.or.nest.item.form.screen.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
 import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/widgets/magpie.grid.view.dart';
+import 'package:magpie_uni/widgets/magpie.icon.button.dart';
 
 abstract class HomeOrNestItemsScreen extends StatefulWidget {
   const HomeOrNestItemsScreen({Key? key}) : super(key: key);
@@ -22,9 +22,9 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     extends State<T> with RouteAware {
   String title = "";
 
-  // SortMode _sortMode = SortMode.sortById;
-  // bool _asc = true;
-  // bool _onlyFavored = false;
+  SortMode sortMode = SortMode.sortById;
+  bool asc = true;
+  bool onlyFavored = false;
 
   List<NestOrNestItem> _names = [];
   List<NestOrNestItem> _filteredNames = [];
@@ -51,7 +51,7 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     WidgetsBinding.instance!.addPostFrameCallback((timeStamp) {
       routeObserver.subscribe(this, ModalRoute.of(context)!);
     });
-    // _initUser();
+    _initUser();
     super.initState();
   }
 
@@ -64,14 +64,15 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     super.didPopNext();
   }
 
-  // Future<void> _initUser() async {
-  //   User user = await ApiEndpoints.getHomeScreen();
-  //   setState(() {
-  //     _sortMode = user.sortMode;
-  //     _asc = user.asc;
-  //     _onlyFavored = user.onlyFavored;
-  //   });
-  // }
+  Future<void> _initUser() async {
+    User user = await ApiEndpoints.getHomeScreen();
+    // TODO: maybe put assignments outside of setState and then call it
+    setState(() {
+      sortMode = user.sortMode;
+      asc = user.asc;
+      onlyFavored = user.onlyFavored;
+    });
+  }
 
   void _fillList(snapshot) {
     _names =
@@ -107,6 +108,27 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
       appBar: AppBar(
         title: Text(title),
         actions: [
+          if (_searchIcon.icon == Icons.search) PopupMenuButton<SortMode>(
+            icon: const Icon(
+              Icons.sort_by_alpha,
+              color: textColor,
+              // size: iconSize,
+            ),
+            tooltip: "Select sort mode",
+            onSelected: (SortMode result) => _switchSortOrder(result),
+            initialValue: sortMode,
+            itemBuilder: (BuildContext context) => <PopupMenuEntry<SortMode>>[
+              menuItem(SortMode.sortById, "Sort by date"),
+              menuItem(SortMode.sortByName, "Sort by name"),
+              menuItem(SortMode.sortByWorth, "Sort by worth"),
+              menuItem(SortMode.sortByFavored, "Sort by favorites"),
+            ],
+          ),
+            if (_searchIcon.icon == Icons.search) MagpieIconButton(
+            tooltip: onlyFavored ? "Show all" : "Show favorites only",
+            icon: onlyFavored ? Icons.favorite : Icons.favorite_border,
+            onPressed: _showFavorites,
+          ),
           _searchIcon.icon == Icons.search
               ? editButton()
               : Expanded(
@@ -145,16 +167,6 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
           }
         },
       ),
-      // bottomNavigationBar: MagpieBottomNavigationBar(
-      //   searchPressed: _searchPressed,
-      //   showFavorites: _showFavorites,
-      //   switchSortOrder: _switchSortOrder,
-      //   sortMode: _sortMode,
-      //   asc: _asc,
-      //   onlyFavored: _onlyFavored,
-      //   searchIcon: _searchIcon,
-      //   searchTitle: _searchTitle,
-      // ),
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
@@ -173,25 +185,25 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
 
   onChange(dynamic value) => setState(() {});
 
-  // void _switchSortOrder(SortMode result) async {
-  //   if (_sortMode != result) {
-  //     setState(() {
-  //       _asc = true;
-  //       _sortMode = result;
-  //     });
-  //   } else {
-  //     setState(() => _asc ^= true);
-  //   }
-  //   // TODO: call setState() ?
-  //   await ApiEndpoints.updateHomeScreen(_sortMode.name, _asc, _onlyFavored);
-  // }
-  //
-  // void _showFavorites() async {
-  //   setState(() => _onlyFavored ^= true);
-  //   // TODO: call setState() ?
-  //   await ApiEndpoints.updateHomeScreen(_sortMode.name, _asc, _onlyFavored);
-  // }
-  //
+  void _switchSortOrder(SortMode result) async {
+    if (sortMode != result) {
+      setState(() {
+        asc = true;
+        sortMode = result;
+      });
+    } else {
+      setState(() => asc ^= true);
+    }
+    // TODO: call setState() ?
+    await ApiEndpoints.updateHomeScreen(sortMode.name, asc, onlyFavored);
+  }
+
+  void _showFavorites() async {
+    setState(() => onlyFavored ^= true);
+    // TODO: call setState() ?
+    await ApiEndpoints.updateHomeScreen(sortMode.name, asc, onlyFavored);
+  }
+
   void _searchPressed() {
     setState(() {
       if (_searchIcon.icon == Icons.search) {
@@ -213,5 +225,24 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
         _filter.clear();
       }
     });
+  }
+
+  PopupMenuEntry<SortMode> menuItem(SortMode value, String txt) {
+    return PopupMenuItem<SortMode>(
+      value: value,
+      child: Row(
+        children: <Widget>[
+          sortMode == value
+              ? Icon(
+            asc ? Icons.arrow_upward : Icons.arrow_downward,
+            color: Colors.teal,
+            // size: iconSize,
+          )
+              : const Icon(null),
+          const Padding(padding: EdgeInsets.only(left: 2.0)),
+          Text(txt)
+        ],
+      ),
+    );
   }
 }
