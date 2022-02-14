@@ -71,6 +71,7 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
           newMessage.senderId != widget.currentUserId) {
         setState(() {
           messages.insert(0, newMessage);
+          updateReadBit(widget.currentUserId, widget.chatSession.id);
           scrollController.animateTo(
             scrollController.position.minScrollExtent,
             duration: const Duration(milliseconds: 600),

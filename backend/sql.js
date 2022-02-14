@@ -418,12 +418,12 @@ function getNotification(userId, cb) {
 
 
 function insertChat(body, cb) {
-  console.log(body);
+  console.log("Chat body: " + body);
 
   //body.message = body.message.replaceAll("'", "\'");  
   var queryString = `INSERT INTO chat (message, date, sender_id, receiver_id, chat_session_id, is_read)
                         VALUES ('`+ body.message + `', now(), ` + body.sender_id + `, ` + body.receiver_id + `, ` + body.chat_session_id + `, false);`;
-  console.log(queryString);
+  console.log("Insert chat: " + queryString);
   connection.query(queryString,
     function (err, rows) {
       if (err) cb(err);
