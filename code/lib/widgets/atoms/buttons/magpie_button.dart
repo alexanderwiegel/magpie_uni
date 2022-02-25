@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 
+import 'package:magpie_uni/size.config.dart';
+
 class MagpieButton extends StatelessWidget {
   final String label;
   final TextStyle? textStyle;
@@ -53,12 +55,10 @@ class MagpieButton extends StatelessWidget {
       //secondary button
       return OutlinedButton(
         style: OutlinedButton.styleFrom(
-          side: BorderSide(
-            color: (enabled && !loading) ? color : disabledColor,
-          ),
-          shape: RoundedRectangleBorder(
-            borderRadius: BorderRadius.circular(15),
-          ),
+          side:
+              BorderSide(color: (enabled && !loading) ? color : disabledColor),
+          shape:
+              RoundedRectangleBorder(borderRadius: BorderRadius.circular(15)),
         ),
         onPressed: enabled ? onPressed : null,
         child: Padding(
@@ -68,7 +68,9 @@ class MagpieButton extends StatelessWidget {
               Text(
                 loading ? '' : label,
                 style: textStyle.copyWith(
-                    color: enabled ? textColor : disabledColor),
+                  color: enabled ? textColor : disabledColor,
+                  fontSize: SizeConfig.iconSize / 1.75,
+                ),
               ),
               if (loading)
                 SizedBox(
@@ -87,8 +89,7 @@ class MagpieButton extends StatelessWidget {
       //primary button
       return MaterialButton(
         padding: const EdgeInsets.all(10.0),
-        shape:
-        RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
+        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
         color: color,
         disabledColor: disabledColor,
         onPressed: (enabled && !loading) ? onPressed : null,
@@ -96,7 +97,10 @@ class MagpieButton extends StatelessWidget {
           children: [
             Text(
               loading ? '' : label,
-              style: textStyle.copyWith(color: textColor),
+              style: textStyle.copyWith(
+                color: textColor,
+                fontSize: SizeConfig.iconSize / 1.75,
+              ),
             ),
             if (loading)
               SizedBox(

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/widgets/magpie.button.dart';
 import 'package:magpie_uni/widgets/magpie.photo.alert.dart';
 import 'package:magpie_uni/widgets/magpie.form.dart';
@@ -58,18 +59,19 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
     _worthEditingController = TextEditingController(text: _worth.toString());
   }
 
+  // TODO: make this responsive
   Widget getDeleteButton(bool isNew, bool isNest, String thing) {
     return isNew
         ? Container()
         : MagpieButton(
-      onPressed: () => _magpieDeleteDialog.displayDeleteDialog(
-        context,
-        isNest,
-        getIdOfNestOrNestItem(),
-      ),
-      title: "Delete $thing",
-      icon: Icons.delete,
-    );
+            onPressed: () => _magpieDeleteDialog.displayDeleteDialog(
+              context,
+              isNest,
+              getIdOfNestOrNestItem(),
+            ),
+            title: "Delete $thing",
+            icon: Icons.delete,
+          );
   }
 
   int getIdOfNestOrNestItem() => throw UnimplementedError();
@@ -82,7 +84,10 @@ class NestOrNestItemFormScreenState<T extends NestOrNestItemFormScreen>
     String _thing = _isNest ? "nest" : "nest item";
     return Scaffold(
       appBar: AppBar(
-        title: Text(_isNew ? "New " + _thing : _name),
+        title: Text(
+          _isNew ? "New " + _thing : _name,
+          style: TextStyle(fontSize: SizeConfig.iconSize / 1.75),
+        ),
         actions: [
           MagpieIconButton(
             icon: Icons.save,

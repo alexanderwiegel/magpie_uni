@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/constants.dart';
+import 'package:magpie_uni/size.config.dart';
 
 class MagpieSwitch extends StatefulWidget {
   final bool public;
@@ -18,13 +19,14 @@ class _MagpieSwitchState extends State<MagpieSwitch> {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        const Padding(padding: EdgeInsets.only(left: 16)),
-        const Icon(Icons.public, color: mainColor),
-        const Padding(padding: EdgeInsets.only(left: 16)),
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 16),
+          child: Icon(Icons.public, color: mainColor, size: SizeConfig.iconSize),
+        ),
         Text(
           "Private",
           style: TextStyle(
-            fontSize: 16,
+            fontSize: SizeConfig.iconSize / 1.8,
             color: widget.public ? Colors.black54 : mainColor,
           ),
         ),
@@ -35,7 +37,7 @@ class _MagpieSwitchState extends State<MagpieSwitch> {
         Text(
           "Public",
           style: TextStyle(
-            fontSize: 16,
+            fontSize: SizeConfig.iconSize / 1.8,
             color: widget.public ? accentColor : Colors.black54,
           ),
         ),

@@ -5,9 +5,9 @@ import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/wrapper.dart';
 
 class MagpieDrawer extends StatelessWidget {
-  final Color iconColor = mainColor;
-
   const MagpieDrawer({Key? key}) : super(key: key);
+
+  final Color iconColor = mainColor;
 
   @override
   Widget build(BuildContext context) {
@@ -32,6 +32,7 @@ class MagpieDrawer extends StatelessWidget {
               ),
             ),
           ),
+          Padding(padding: EdgeInsets.only(bottom: SizeConfig.vert)),
           option(
             Icons.account_circle,
             "My account",
@@ -76,30 +77,27 @@ class MagpieDrawer extends StatelessWidget {
 
   Widget option(IconData icon, String title, VoidCallback onTap) {
     return Padding(
-      padding: EdgeInsets.only(bottom: SizeConfig.hori),
+      padding: EdgeInsets.only(bottom: SizeConfig.vert),
       child: Column(
         children: <Widget>[
           ListTile(
             leading: Icon(
               icon,
               color: iconColor,
-              size: SizeConfig.isTablet
-                  ? SizeConfig.vert * 4
-                  : SizeConfig.hori * 6,
+              size: SizeConfig.iconSize,
             ),
             title: Text(
               title,
               style: TextStyle(
-                fontSize: SizeConfig.isTablet
-                    ? SizeConfig.vert * 2.5
-                    : SizeConfig.hori * 4,
+                fontSize: SizeConfig.iconSize / 1.75,
               ),
             ),
             onTap: onTap,
           ),
+          Padding(padding: EdgeInsets.only(bottom: SizeConfig.vert)),
           Container(
             height: 1,
-            width: SizeConfig.hori * 100,
+            width: SizeConfig.screenWidth,
             color: Colors.grey[200],
           )
         ],

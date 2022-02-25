@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/model/nest.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/view/home.or.nest.items.screen.dart';
 import 'package:magpie_uni/view/nest.detail.screen.dart';
 import 'package:magpie_uni/view/nest.item.creation.dart';
@@ -42,7 +43,7 @@ class _NestItemsScreenState
   @override
   Widget editButton() {
     return IconButton(
-      icon: const Icon(Icons.edit),
+      icon: Icon(Icons.edit, size: SizeConfig.iconSize),
       tooltip: "Edit nest",
       onPressed: () async => await Navigator.push(
         context,

@@ -29,59 +29,60 @@ class _RegisterFormState extends State<RegisterForm> {
     return Padding(
       padding: const EdgeInsets.all(20.0),
       child: Form(
-          key: _formKey,
-          child: Column(
-            children: [
-              MagpieTextFormField.name(
-                  labelText: 'User name',
-                  validator: FirstNameValidator.validate,
-                  name: 'userName',
-                  onChanged: (userName) => _userName = userName!,
-                  hintText: 'Username'),
-              const SizedBox(height: 20.0),
-              MagpieTextFormField.email(
-                validator: EmailValidator.validate,
-                name: 'Email',
-                onChanged: (email) => _email = email!,
+        key: _formKey,
+        child: Column(
+          children: [
+            MagpieTextFormField.name(
+                labelText: 'Username',
+                validator: FirstNameValidator.validate,
+                name: 'userName',
+                onChanged: (userName) => _userName = userName!,
+                hintText: 'Username'),
+            const SizedBox(height: 20.0),
+            MagpieTextFormField.email(
+              validator: EmailValidator.validate,
+              name: 'Email',
+              onChanged: (email) => _email = email!,
+            ),
+            const SizedBox(height: 20.0),
+            MagpieTextFormField.password(
+              validator: PasswordValidator.validate,
+              name: 'Password',
+              labelText: 'Password',
+              onChanged: (password) => _password = password!,
+              hintText: 'Password',
+            ),
+            const SizedBox(height: 20.0),
+            MagpieTextFormField.password(
+              validator: (value) {
+                if (value!.isEmpty) {
+                  return 'Password cannot be empty';
+                } else if (value.length < 6) {
+                  return 'Your password must be at least 6 characters long';
+                } else if (value != _password) {
+                  return 'Your password doesn\'t match';
+                }
+                return null;
+              },
+              name: 'Re-enter password',
+              labelText: 'Confirm password',
+              onChanged: (confirmPassword) {},
+              hintText: 'Confirm password',
+            ),
+            const SizedBox(height: 20.0),
+            SizedBox(
+              width: double.infinity,
+              child: MagpieButton.primary(
+                loading: isLoading,
+                label: "Create",
+                color: formFieldColor,
+                textColor: textColor,
+                onPressed: () => _onCreatePressed(context),
               ),
-              const SizedBox(height: 20.0),
-              MagpieTextFormField.password(
-                validator: PasswordValidator.validate,
-                name: 'Password',
-                labelText: 'Password',
-                onChanged: (password) => _password = password!,
-                hintText: 'Password',
-              ),
-              const SizedBox(height: 20.0),
-              MagpieTextFormField.password(
-                validator: (value) {
-                  if (value!.isEmpty) {
-                    return 'Password cannot be empty';
-                  } else if (value.length < 6) {
-                    return 'Your password must be at least 6 characters long';
-                  } else if (value != _password) {
-                    return 'Your password doesn\'t match';
-                  }
-                  return null;
-                },
-                name: 'Re-enter password',
-                labelText: 'Confirm password',
-                onChanged: (confirmPassword) {},
-                hintText: 'Confirm password',
-              ),
-              const SizedBox(height: 20.0),
-              SizedBox(
-                width: double.infinity,
-                child: MagpieButton.primary(
-                  loading: isLoading,
-                  label: "Create",
-                  color: formFieldColor,
-                  textColor: textColor,
-                  onPressed: () => _onCreatePressed(context),
-                ),
-              ),
-            ],
-          )),
+            ),
+          ],
+        ),
+      ),
     );
   }
 
@@ -101,12 +102,10 @@ class _RegisterFormState extends State<RegisterForm> {
               builder: (BuildContext context) => const LoginScreen(),
             ),
             (route) => false);
-      }
-      else {
+      } else {
         setState(() => isLoading = false);
         Map<String, dynamic> jsonResponse = jsonDecode(response.body);
         String errMessage = jsonResponse["message"].toString();
-        //show alert message
         _showDialog(context, errMessage);
       }
     }
@@ -122,9 +121,7 @@ class _RegisterFormState extends State<RegisterForm> {
           actions: <Widget>[
             TextButton(
               child: const Text("OK"),
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
+              onPressed: () => Navigator.of(context).pop(),
             ),
           ],
         );

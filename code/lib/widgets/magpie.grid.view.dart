@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
+import 'package:magpie_uni/size.config.dart';
 
 // ignore: must_be_immutable
 class MagpieGridView extends StatelessWidget {
@@ -15,13 +16,15 @@ class MagpieGridView extends StatelessWidget {
     required this.searchText,
   }) : super(key: key);
 
+  final int crossAxisCount = SizeConfig.isTablet ? 4 : 2;
+
   @override
   Widget build(BuildContext context) {
     return GridView.count(
       padding: const EdgeInsets.all(8),
       mainAxisSpacing: 8,
       crossAxisSpacing: 8,
-      crossAxisCount: 2,
+      crossAxisCount: crossAxisCount,
       childAspectRatio: 1.05,
       children: _filterList(),
     );
