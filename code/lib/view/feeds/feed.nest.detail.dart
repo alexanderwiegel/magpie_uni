@@ -1,13 +1,16 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
+
+import 'package:magpie_uni/model/feed.user.nest.items.model.dart';
+import 'package:magpie_uni/model/feed.user.profile.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/view/chat/chat.detail.page.dart';
 import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 import 'package:magpie_uni/constants.dart';
-
-import '../../model/feed.user.nest.items.model.dart';
-import '../../model/feed.user.profile.model.dart';
-import '../../widgets/nest.grid.item.dart';
+import 'package:magpie_uni/widgets/nest.grid.item.dart';
 
 class FeedNestDetail extends StatefulWidget {
   final FeedNest nest;
@@ -29,7 +32,7 @@ class _FeedNestDetailState extends State<FeedNestDetail> {
 
   Future<void> fetchFeedUserNestItems() async {
     FeedUserNestItemsResponse result =
-    await ApiEndpoints.fetchFeedUserNestItems(widget.nest.id);
+        await ApiEndpoints.fetchFeedUserNestItems(widget.nest.id);
     setState(() {
       nestItems = result.nestItems!;
     });
@@ -39,118 +42,123 @@ class _FeedNestDetailState extends State<FeedNestDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text("Nest detail")),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 100),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  image: DecorationImage(
-                    fit: BoxFit.fitHeight,
-                    image: NetworkImage(widget.nest.getImage()),
+      appBar: AppBar(
+        title: Text(
+          "Nest detail",
+          style: TextStyle(fontSize: SizeConfig.iconSize / 1.75),
+        ),
+      ),
+      body: Center(
+        child: SizedBox(
+          width: min(SizeConfig.screenWidth, 600),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Image.network(
+                    widget.nest.getImage(),
+                    fit: BoxFit.cover,
+                    width: SizeConfig.screenWidth,
+                    height: min(SizeConfig.screenWidth, 600) / 1.6,
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(8, 10, 8, 2),
-              child: Text(
-                "Title:",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                  child: Text(
+                    "Title:",
+                    style: TextStyle(
+                      fontSize: SizeConfig.iconSize / 1.75,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
-              child: Text(
-                widget.nest.title,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
+                  child: Text(
+                    widget.nest.title,
+                    style: TextStyle(
+                      fontSize: SizeConfig.iconSize / 1.5,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(8, 5, 8, 2),
-              child: Text(
-                "Description:",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 5, 8, 2),
+                  child: Text(
+                    "Description:",
+                    style: TextStyle(
+                      fontSize: SizeConfig.iconSize / 1.75,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 2, 8, 15),
-              child: Text(
-                widget.nest.description,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-            ),
-            const SizedBox(height: 80),
-            Padding(
-              padding: const EdgeInsets.all(15.0),
-              child: Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  color: Colors.white,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 2, 8, 15),
+                  child: Text(
+                    widget.nest.description,
+                    style: TextStyle(
+                      fontSize: SizeConfig.iconSize / 1.5,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 15, vertical: 20),
-                  child: Column(
-                    children: [
-                      const Text(
-                        "Nest Items",
-                        style: TextStyle(
-                          color: mainColor,
-                          fontSize: 25,
-                        ),
+                Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 15),
+                  child: Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Colors.white,
+                    ),
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(
+                        horizontal: 15,
+                        vertical: 20,
                       ),
-                      const Divider(thickness: 1.5),
-                      Container(
-                        padding:
-                        const EdgeInsets.fromLTRB(0, 0, 0, 0),
-                        child: GridView.builder(
-                          physics:
-                          const NeverScrollableScrollPhysics(),
-                          shrinkWrap: true,
-                          gridDelegate:
-                          const SliverGridDelegateWithFixedCrossAxisCount(
-                            crossAxisCount: 2,
-                            childAspectRatio: 1.0,
-                            mainAxisSpacing: 5.0,
-                            crossAxisSpacing: 5.0,
+                      child: Column(
+                        children: [
+                          Text(
+                            "Nest items",
+                            style: TextStyle(
+                              color: mainColor,
+                              fontSize: SizeConfig.iconSize / 1.5,
+                            ),
                           ),
-                          itemCount: nestItems.length,
-                          itemBuilder: (context, index) {
-                            var nestItem = nestItems[index];
-                            return NestGridItem(
-                              nest: null,
-                              nestItem: nestItem,
-                            );
-                          },
-                        ),
+                          const Divider(thickness: 1.5),
+                          Container(
+                            padding: const EdgeInsets.fromLTRB(0, 0, 0, 0),
+                            child: GridView.builder(
+                              physics: const NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              gridDelegate:
+                                  const SliverGridDelegateWithFixedCrossAxisCount(
+                                crossAxisCount: 2,
+                                childAspectRatio: 1.0,
+                                mainAxisSpacing: 5.0,
+                                crossAxisSpacing: 5.0,
+                              ),
+                              itemCount: nestItems.length,
+                              itemBuilder: (context, index) {
+                                var nestItem = nestItems[index];
+                                return NestGridItem(
+                                  nest: null,
+                                  nestItem: nestItem,
+                                );
+                              },
+                            ),
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
                 ),
-              ),
+              ],
             ),
-          ],
+          ),
         ),
       ),
       floatingActionButton: FloatingActionButton(

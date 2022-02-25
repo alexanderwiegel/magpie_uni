@@ -2,9 +2,11 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/size.config.dart';
 
 //ignore: must_be_immutable
 abstract class NestOrNestItem extends StatefulWidget {
+  //#region fields and constructor
   late int? id;
   late int? userId;
   late String? photo;
@@ -27,6 +29,8 @@ abstract class NestOrNestItem extends StatefulWidget {
     this.createdAt,
     this.public,
   }) : super(key: key);
+
+  //#endregion
 
   NestOrNestItem.fromMap(dynamic obj, {Key? key}) : super(key: key) {
     id = obj["id"];
@@ -75,6 +79,7 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
     return GestureDetector(
       onTap: () => openNextScreen(context),
       child: GridTile(
+        child: image,
         footer: Material(
           color: Colors.transparent,
           shape: const RoundedRectangleBorder(
@@ -83,12 +88,26 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
           clipBehavior: Clip.antiAlias,
           child: GridTileBar(
             backgroundColor: Colors.black.withOpacity(0.65),
+            leading: IconButton(
+              iconSize: SizeConfig.iconSize,
+              tooltip:
+              widget.favored! ? "Remove as favorite" : "Mark as favorite",
+              alignment: AlignmentDirectional.centerStart,
+              icon: Icon(
+                widget.favored! ? Icons.favorite : Icons.favorite_border,
+                color: accentColor,
+              ),
+              onPressed: () => toggleFavored(context),
+            ),
             title: FittedBox(
               fit: BoxFit.scaleDown,
               alignment: AlignmentDirectional.centerStart,
               child: Text(
                 widget.name,
-                style: const TextStyle(color: accentColor),
+                style: TextStyle(
+                  color: accentColor,
+                  fontSize: SizeConfig.iconSize / 2.5,
+                ),
               ),
             ),
             subtitle: FittedBox(
@@ -101,30 +120,19 @@ class NestOrNestItemState<T extends NestOrNestItem> extends State<T> {
                             widget.description.length > 20
                         ? widget.createdAt.toString().substring(0, 10)
                         : widget.description,
+                style: TextStyle(fontSize: SizeConfig.iconSize / 2.5),
               ),
             ),
             trailing: FittedBox(
               alignment: AlignmentDirectional.centerStart,
               child: Text(
                 "${widget.worth}€",
-                style: const TextStyle(color: accentColor),
+                style: TextStyle(
+                  color: accentColor,
+                  fontSize: SizeConfig.iconSize / 2.5,
+                ),
               ),
             ),
-          ),
-        ),
-        child: image,
-        header: FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: AlignmentDirectional.topStart,
-          child: IconButton(
-            tooltip:
-                widget.favored! ? "Remove as favorite" : "Mark as favorite",
-            alignment: AlignmentDirectional.centerStart,
-            icon: Icon(
-              widget.favored! ? Icons.favorite : Icons.favorite_border,
-              color: accentColor,
-            ),
-            onPressed: () => toggleFavored(context),
           ),
         ),
       ),

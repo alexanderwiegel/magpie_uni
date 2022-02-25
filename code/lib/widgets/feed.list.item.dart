@@ -1,5 +1,8 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/view/feeds/feed.item.detail.page.dart';
 import 'package:magpie_uni/view/feeds/feed.user.profile.page.dart';
 import 'package:magpie_uni/model/feeds.model.dart';
@@ -16,16 +19,16 @@ class FeedListItem extends StatefulWidget {
 class _FeedListItemState extends State<FeedListItem> {
   @override
   Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.fromLTRB(0, 2.0, 0, 6.0),
-      child: Card(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0.0)),
-        elevation: 0.0,
+    return Card(
+      elevation: 5,
+      shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(0)),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 8),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
             Padding(
-              padding: const EdgeInsets.fromLTRB(8, 15, 8, 5),
+              padding: const EdgeInsets.only(top: 10),
               child: GestureDetector(
                 onTap: () => Navigator.push(
                   context,
@@ -39,10 +42,10 @@ class _FeedListItemState extends State<FeedListItem> {
                 ),
                 child: Row(
                   children: <Widget>[
-                    const CircleAvatar(
-                      backgroundImage: NetworkImage(
+                    CircleAvatar(
+                      backgroundImage: const NetworkImage(
                           "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJGNHFnbUHLoK_9zZ8nM1aI0HLu7P6eyu83eJAs_D9lv9qY_au3YFraMk01LgqOm6ju5I&usqp=CAU"),
-                      maxRadius: 20,
+                      maxRadius: SizeConfig.iconSize,
                     ),
                     const SizedBox(width: 10),
                     Expanded(
@@ -51,19 +54,16 @@ class _FeedListItemState extends State<FeedListItem> {
                         children: <Widget>[
                           Text(
                             widget.feed.username,
-                            style: const TextStyle(
-                              fontSize: 16,
+                            style: TextStyle(
+                              fontSize: SizeConfig.iconSize / 1.75,
                               fontWeight: FontWeight.w600,
                             ),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.all(1.0),
-                            child: Text(
-                              "@" + widget.feed.email.split("@").first,
-                              style: const TextStyle(
-                                fontSize: 13,
-                                color: Colors.black87,
-                              ),
+                          Text(
+                            "@" + widget.feed.email.split("@").first,
+                            style: TextStyle(
+                              fontSize: SizeConfig.iconSize / 2,
+                              color: Colors.black87,
                             ),
                           ),
                         ],
@@ -74,8 +74,8 @@ class _FeedListItemState extends State<FeedListItem> {
                       children: <Widget>[
                         Text(
                           widget.feed.createdAt,
-                          style: const TextStyle(
-                            fontSize: 12,
+                          style: TextStyle(
+                            fontSize: SizeConfig.iconSize / 2.25,
                             fontWeight: FontWeight.w300,
                           ),
                         ),
@@ -99,54 +99,49 @@ class _FeedListItemState extends State<FeedListItem> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: <Widget>[
                   Padding(
-                    padding: const EdgeInsets.fromLTRB(0, 15, 0, 5),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: MediaQuery.of(context).size.width,
-                      decoration: BoxDecoration(
-                        image: DecorationImage(
-                          fit: BoxFit.fitHeight,
-                          image: NetworkImage(widget.feed.getImage()),
-                        ),
+                    padding: const EdgeInsets.symmetric(vertical: 8),
+                    child: Material(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(4),
+                      ),
+                      child: Image.network(
+                        widget.feed.getImage(),
+                        fit: BoxFit.cover,
+                        width: SizeConfig.screenWidth,
+                        height: min(SizeConfig.screenWidth, 390) / 1.6,
                       ),
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 15, 8, 2),
-                    child: Text(
-                      widget.feed.title,
-                      style: const TextStyle(
-                        fontSize: 16,
-                        fontWeight: FontWeight.w600,
-                      ),
+                  Text(
+                    widget.feed.title,
+                    style: TextStyle(
+                      fontSize: SizeConfig.iconSize / 1.75,
+                      fontWeight: FontWeight.w600,
                     ),
                   ),
-                  Padding(
-                    padding: const EdgeInsets.fromLTRB(8, 2, 8, 15),
-                    child: RichText(
-                      text: TextSpan(
-                        style: const TextStyle(
-                          fontSize: 16.0,
-                          color: Colors.black,
-                        ),
-                        children: <TextSpan>[
-                          TextSpan(
-                            text: widget.feed.description.length > 200
-                                ? widget.feed.description.substring(0, 130) +
-                                    "... "
-                                : widget.feed.description,
-                          ),
-                          TextSpan(
-                            text: widget.feed.description.length > 200
-                                ? "See More"
-                                : "",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: Colors.grey[400],
-                            ),
-                          ),
-                        ],
+                  RichText(
+                    text: TextSpan(
+                      style: TextStyle(
+                        fontSize: SizeConfig.iconSize / 2,
+                        color: Colors.black,
                       ),
+                      children: <TextSpan>[
+                        TextSpan(
+                          text: widget.feed.description.length > 200
+                              ? widget.feed.description.substring(0, 130) +
+                                  "... "
+                              : widget.feed.description,
+                        ),
+                        TextSpan(
+                          text: widget.feed.description.length > 200
+                              ? "See more"
+                              : "",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            color: Colors.grey[400],
+                          ),
+                        ),
+                      ],
                     ),
                   ),
                 ],

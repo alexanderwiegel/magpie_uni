@@ -1,8 +1,11 @@
+import 'dart:math';
+
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/model/feeds.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/view/chat/chat.detail.page.dart';
 import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/model/feed.user.profile.model.dart';
@@ -24,76 +27,80 @@ class _FeedItemDetailState extends State<FeedItemDetail> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
-      appBar: AppBar(title: const Text("Item detail")),
-      body: SingleChildScrollView(
-        physics: const BouncingScrollPhysics(),
-        padding: const EdgeInsets.fromLTRB(0, 0, 0, 100),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Padding(
-              padding: const EdgeInsets.fromLTRB(0, 0, 0, 5),
-              child: Container(
-                width: MediaQuery.of(context).size.width,
-                height: MediaQuery.of(context).size.width,
-                decoration: BoxDecoration(
-                  color: Colors.grey.shade100,
-                  image: DecorationImage(
-                    fit: BoxFit.fitHeight,
-                    image: NetworkImage(
-                      widget.feed != null
-                          ? widget.feed!.getImage()
-                          : widget.nestItem!.getImage(),
+      appBar: AppBar(
+        title: Text(
+          "Item detail",
+          style: TextStyle(fontSize: SizeConfig.iconSize / 1.75),
+        ),
+      ),
+      body: Center(
+        child: SizedBox(
+          width: min(SizeConfig.screenWidth, 600),
+          child: SingleChildScrollView(
+            physics: const BouncingScrollPhysics(),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: <Widget>[
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 5),
+                  child: Image.network(
+                    widget.feed != null
+                        ? widget.feed!.getImage()
+                        : widget.nestItem!.getImage(),
+                    fit: BoxFit.cover,
+                    width: SizeConfig.screenWidth,
+                    height: min(SizeConfig.screenWidth, 600) / 1.6,
+                  ),
+                ),
+                const SizedBox(height: 5),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 10, 8, 2),
+                  child: Text(
+                    "Title:",
+                    style: TextStyle(
+                      fontSize: SizeConfig.iconSize / 1.75,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 5),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(8, 10, 8, 2),
-              child: Text(
-                "Title:",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
+                  child: Text(
+                    widget.feed != null
+                        ? widget.feed!.title
+                        : widget.nestItem!.title,
+                    style: TextStyle(
+                      fontSize: SizeConfig.iconSize / 1.5,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 2, 8, 2),
-              child: Text(
-                widget.feed != null
-                    ? widget.feed!.title
-                    : widget.nestItem!.title,
-                style: const TextStyle(
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
+                const SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 5, 8, 2),
+                  child: Text(
+                    "Description:",
+                    style: TextStyle(
+                      fontSize: SizeConfig.iconSize / 1.75,
+                      fontWeight: FontWeight.w400,
+                    ),
+                  ),
                 ),
-              ),
-            ),
-            const SizedBox(height: 10),
-            const Padding(
-              padding: EdgeInsets.fromLTRB(8, 5, 8, 2),
-              child: Text(
-                "Description:",
-                style: TextStyle(
-                  fontSize: 14,
-                  fontWeight: FontWeight.w400,
+                Padding(
+                  padding: const EdgeInsets.fromLTRB(8, 2, 8, 15),
+                  child: Text(
+                    widget.feed != null
+                        ? widget.feed!.description
+                        : widget.nestItem!.description,
+                    style: TextStyle(
+                      fontSize: SizeConfig.iconSize / 1.5,
+                      fontWeight: FontWeight.w600,
+                    ),
+                  ),
                 ),
-              ),
+              ],
             ),
-            Padding(
-              padding: const EdgeInsets.fromLTRB(8, 2, 8, 15),
-              child: Text(
-                widget.feed != null
-                    ? widget.feed!.description
-                    : widget.nestItem!.description,
-                style:
-                    const TextStyle(fontSize: 16, fontWeight: FontWeight.w600),
-              ),
-            ),
-          ],
+          ),
         ),
       ),
       floatingActionButton: Padding(
