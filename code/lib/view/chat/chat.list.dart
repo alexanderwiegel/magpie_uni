@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/widgets/chat.session.list.item.dart';
 import 'package:magpie_uni/model/chat.message.dart';
 import 'package:magpie_uni/widgets/magpie.drawer.dart';
@@ -67,7 +68,10 @@ class _ChatPageState extends State<ChatList> {
       backgroundColor: Colors.white,
       drawer: const MagpieDrawer(),
       appBar: AppBar(
-        title: const Text("Chats"),
+        title: Text(
+          "Chats",
+          style: TextStyle(fontSize: SizeConfig.iconSize / 1.75),
+        ),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -85,11 +89,14 @@ class _ChatPageState extends State<ChatList> {
                   },
                   decoration: InputDecoration(
                     hintText: "Search...",
-                    hintStyle: TextStyle(color: Colors.grey.shade600),
+                    hintStyle: TextStyle(
+                      color: Colors.grey.shade600,
+                      fontSize: SizeConfig.iconSize / 1.75,
+                    ),
                     prefixIcon: Icon(
                       Icons.search,
                       color: Colors.grey.shade600,
-                      size: 20,
+                      size: SizeConfig.iconSize,
                     ),
                     filled: true,
                     fillColor: Colors.grey.shade100,
@@ -119,13 +126,13 @@ class _ChatPageState extends State<ChatList> {
                         searchTxtField.text.trim().isNotEmpty) {
                       return Container(
                         padding: const EdgeInsets.only(top: 20),
-                        child: const Center(
+                        child: Center(
                           child: Text(
-                            "No search results founds.",
+                            "No search results found.",
                             textAlign: TextAlign.center,
                             style: TextStyle(
                               color: Colors.grey,
-                              fontSize: 15.0,
+                              fontSize: SizeConfig.iconSize / 1.75,
                             ),
                           ),
                         ),
@@ -156,13 +163,13 @@ class _ChatPageState extends State<ChatList> {
                   } else {
                     return Container(
                       padding: const EdgeInsets.only(top: 20),
-                      child: const Center(
+                      child: Center(
                         child: Text(
-                          "No Chats Available.",
+                          "No chats available.",
                           textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.grey,
-                            fontSize: 15.0,
+                            fontSize: SizeConfig.iconSize / 1.75,
                           ),
                         ),
                       ),
@@ -174,11 +181,8 @@ class _ChatPageState extends State<ChatList> {
                 // By default, show a loading spinner.
                 return Container(
                   padding: const EdgeInsets.only(top: 20),
-                  child: const Center(
-                    child: CircularProgressIndicator(),
-                  ),
+                  child: const Center(child: CircularProgressIndicator()),
                 );
-                // return const CircularProgressIndicator();
               },
             ),
           ],
@@ -193,7 +197,7 @@ class _ChatPageState extends State<ChatList> {
 
   void didEditSearchTextField(String text) {
     setState(() {
-      //Scrolldown the list to show the latest message
+      //Scroll down the list to show the latest message
       //print('Inside Function: $text');
       if (text.isNotEmpty) {
         //print('text not empty: $text');

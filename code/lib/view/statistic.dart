@@ -117,7 +117,10 @@ class Statistic extends StatelessWidget {
     return Scaffold(
       drawer: const MagpieDrawer(),
       appBar: AppBar(
-        title: const Text("Statistic"),
+        title: Text(
+          "Statistic",
+          style: TextStyle(fontSize: SizeConfig.iconSize / 1.75),
+        ),
       ),
       body: FutureBuilder(
         future: ApiEndpoints.getUserProfile(),
@@ -133,19 +136,17 @@ class Statistic extends StatelessWidget {
                     crossAxisCellCount: 8,
                     mainAxisExtent:
                         SizeConfig.vert * (SizeConfig.isTablet ? 50 : 40),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
+                    child: MagpieGridTile(
                       child: nestsOverTimeChart(
                           "since the beginning", "collected items"),
                     ),
                   ),
-                  if (user.profile.nestItemCount > 0)
+                  if (user.profile.nestItemCount > 0 || SizeConfig.isTablet)
                     StaggeredGridTile.extent(
                       crossAxisCellCount: SizeConfig.isTablet ? 5 : 8,
                       mainAxisExtent:
                           SizeConfig.vert * (SizeConfig.isTablet ? 40 : 30),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8),
+                      child: MagpieGridTile(
                         child: nestShares("Items", "per nest"),
                       ),
                     ),
@@ -153,19 +154,13 @@ class Statistic extends StatelessWidget {
                     crossAxisCellCount: SizeConfig.isTablet ? 3 : 4,
                     mainAxisExtent:
                         SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: total("Nests"),
-                    ),
+                    child: total("Nests"),
                   ),
                   StaggeredGridTile.extent(
                     crossAxisCellCount: SizeConfig.isTablet ? 3 : 4,
                     mainAxisExtent:
                         SizeConfig.vert * (SizeConfig.isTablet ? 20 : 15),
-                    child: Padding(
-                      padding: const EdgeInsets.all(8),
-                      child: total("Nest items"),
-                    ),
+                    child: total("Nest items"),
                   ),
                 ],
               ),
@@ -177,84 +172,35 @@ class Statistic extends StatelessWidget {
     );
   }
 
-  Material nestsOverTimeChart(String title, String subtitle) {
-    return Material(
-      color: textColor,
-      elevation: 14,
-      borderRadius: BorderRadius.circular(24),
-      shadowColor: mainColor,
-      child: Padding(
-        padding: const EdgeInsets.all(12),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            Text(
-              title,
-              style: TextStyle(fontSize: smallTitleSize, color: mainColor),
-            ),
-            Text(
-              subtitle,
-              style: TextStyle(fontSize: bigTitleSize),
-            ),
-            const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
-            Expanded(
-              child: Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8),
-                child: charts.TimeSeriesChart(
-                  [
-                    charts.Series<TimeSeriesData, DateTime>(
-                      id: "",
-                      data: timeSeries,
-                      domainFn: (TimeSeriesData tsd, _) => tsd.date!,
-                      measureFn: (TimeSeriesData tsd, _) => tsd.count,
-                    ),
-                  ],
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-    );
-  }
-
-  Material nestShares(String title, String subtitle) {
-    return Material(
-      color: textColor,
-      elevation: 14,
-      borderRadius: BorderRadius.circular(24),
-      shadowColor: mainColor,
-      child: Row(
+  Widget nestsOverTimeChart(String title, String subtitle) {
+    return Padding(
+      padding: const EdgeInsets.all(12),
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.center,
+        mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
-          Expanded(
-            child: Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: <Widget>[
-                Text(
-                  title,
-                  style: TextStyle(fontSize: smallTitleSize, color: mainColor),
-                ),
-                Text(
-                  subtitle,
-                  style: TextStyle(fontSize: bigTitleSize),
-                ),
-                AnimatedCircularChart(
-                  size: SizeConfig.isTablet
-                      ? Size(radius * 1.75, radius * 1.75)
-                      : Size(radius, radius),
-                  initialChartData: <CircularStackEntry>[
-                    CircularStackEntry(entries, rankKey: "Nest shares"),
-                  ],
-                  chartType: CircularChartType.Pie,
-                ),
-              ],
-            ),
+          Text(
+            title,
+            style: TextStyle(fontSize: smallTitleSize, color: mainColor),
           ),
+          Text(
+            subtitle,
+            style: TextStyle(fontSize: bigTitleSize),
+          ),
+          const Padding(padding: EdgeInsets.symmetric(vertical: 8)),
           Expanded(
-            child: Column(
-              children: descriptions,
-              mainAxisAlignment: MainAxisAlignment.center,
+            child: Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 8),
+              child: charts.TimeSeriesChart(
+                [
+                  charts.Series<TimeSeriesData, DateTime>(
+                    id: "",
+                    data: timeSeries,
+                    domainFn: (TimeSeriesData tsd, _) => tsd.date!,
+                    measureFn: (TimeSeriesData tsd, _) => tsd.count,
+                  ),
+                ],
+              ),
             ),
           ),
         ],
@@ -262,31 +208,73 @@ class Statistic extends StatelessWidget {
     );
   }
 
+  Widget nestShares(String title, String subtitle) {
+    return user.profile.nestItemCount > 0
+        ? Row(
+            children: <Widget>[
+              Expanded(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: <Widget>[
+                    Text(
+                      title,
+                      style:
+                          TextStyle(fontSize: smallTitleSize, color: mainColor),
+                    ),
+                    Text(
+                      subtitle,
+                      style: TextStyle(fontSize: bigTitleSize),
+                    ),
+                    AnimatedCircularChart(
+                      size: SizeConfig.isTablet
+                          ? Size(radius * 1.75, radius * 1.75)
+                          : Size(radius, radius),
+                      initialChartData: <CircularStackEntry>[
+                        CircularStackEntry(entries, rankKey: "Nest shares"),
+                      ],
+                      chartType: CircularChartType.Pie,
+                    ),
+                  ],
+                ),
+              ),
+              Expanded(
+                child: Column(
+                  children: descriptions,
+                  mainAxisAlignment: MainAxisAlignment.center,
+                ),
+              ),
+            ],
+          )
+        : Center(
+            child: Text(
+              "Nothing to see here.\nAdd some nest items and come back!",
+              style: TextStyle(fontSize: smallTitleSize),
+              textAlign: TextAlign.center,
+            ),
+          );
+  }
+
   Widget description(int index) {
     return Padding(
-      padding: const EdgeInsets.symmetric(vertical: 8),
+      padding: EdgeInsets.symmetric(vertical: smallTitleSize / 2),
       child: Row(
         children: <Widget>[
           CircleAvatar(
-            radius: 9,
+            radius: smallTitleSize / 2,
             backgroundColor: colors[index],
           ),
           const Padding(padding: EdgeInsets.symmetric(horizontal: 5)),
           Text(
             entries[index].rankKey,
-            style: const TextStyle(fontSize: 17),
+            style: TextStyle(fontSize: smallTitleSize),
           )
         ],
       ),
     );
   }
 
-  Material total(String title) {
-    return Material(
-      color: textColor,
-      elevation: 14,
-      borderRadius: BorderRadius.circular(24),
-      shadowColor: mainColor,
+  Widget total(String title) {
+    return MagpieGridTile(
       child: Center(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
@@ -304,6 +292,26 @@ class Statistic extends StatelessWidget {
             ),
           ],
         ),
+      ),
+    );
+  }
+}
+
+class MagpieGridTile extends StatelessWidget {
+  final Widget child;
+
+  const MagpieGridTile({Key? key, required this.child}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) {
+    return Padding(
+      padding: const EdgeInsets.all(8),
+      child: Material(
+        color: textColor,
+        elevation: 14,
+        borderRadius: BorderRadius.circular(24),
+        shadowColor: mainColor,
+        child: child,
       ),
     );
   }

@@ -46,7 +46,7 @@ class _LoginFormState extends State<LoginForm> {
             onChanged: (password) => _password = password!,
             hintText: 'Password',
           ),
-          const SizedBox(height: 10.0),
+          const SizedBox(height: 20.0),
           SizedBox(
             width: double.infinity,
             child: MagpieButton.primary(

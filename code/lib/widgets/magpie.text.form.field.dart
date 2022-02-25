@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/constants.dart';
+import 'package:magpie_uni/size.config.dart';
 
 // ignore: must_be_immutable
 class MagpieTextFormField extends StatefulWidget {
+  //#region fields and constructor
   final FocusNode? focusNode;
   bool obscure;
   final String name;
@@ -21,7 +23,7 @@ class MagpieTextFormField extends StatefulWidget {
     Key? key,
     this.enabled = true,
     this.leadingIcon = Icons.email,
-    this.labelText = 'E-Mail Address',
+    this.labelText = 'Email address',
     this.focusNode,
     required this.validator,
     required this.name,
@@ -32,6 +34,8 @@ class MagpieTextFormField extends StatefulWidget {
     this.obscure = false,
   })  : keyboardType = TextInputType.emailAddress,
         super(key: key);
+
+  //#endregion
 
   MagpieTextFormField.password({
     Key? key,
@@ -86,22 +90,27 @@ class _MagpieTextFormFieldState extends State<MagpieTextFormField> {
         contentPadding: const EdgeInsets.all(20),
         hintText: widget.hintText,
         prefixIcon: widget.leadingIcon != null
-            ? Icon(widget.leadingIcon, color: mainColor)
+            ? Icon(
+                widget.leadingIcon,
+                color: mainColor,
+                size: SizeConfig.iconSize * 0.75,
+              )
             : null,
         suffixIcon: widget.trailingIcon != null
             ? IconButton(
                 icon: Icon(
                   !widget.obscure ? Icons.visibility : Icons.visibility_off,
                   color: Theme.of(context).primaryColorDark,
+                  size: SizeConfig.iconSize * 0.75,
                 ),
-                onPressed: () => setState(
-                  () => widget.obscure = !widget.obscure,
-                ),
+                onPressed: () =>
+                    setState(() => widget.obscure = !widget.obscure),
               )
             : null,
         labelText: widget.labelText,
       ),
       textCapitalization: TextCapitalization.sentences,
+      style: TextStyle(fontSize: SizeConfig.iconSize / 1.75),
     );
   }
 }

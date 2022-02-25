@@ -4,9 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:magpie_uni/model/feeds.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/widgets/feed.list.item.dart';
-
-import '../../widgets/magpie.drawer.dart';
+import 'package:magpie_uni/widgets/magpie.drawer.dart';
 
 class FeedList extends StatefulWidget {
   const FeedList({Key? key}) : super(key: key);
@@ -30,7 +30,10 @@ class _FeedListState extends State<FeedList> {
       backgroundColor: Colors.grey.shade100,
       drawer: const MagpieDrawer(),
       appBar: AppBar(
-        title: const Text("Feeds"),
+        title: Text(
+          "Feeds",
+          style: TextStyle(fontSize: SizeConfig.iconSize / 1.75),
+        ),
       ),
       body: SingleChildScrollView(
         physics: const BouncingScrollPhysics(),
@@ -42,27 +45,28 @@ class _FeedListState extends State<FeedList> {
               builder: (context, snapshot) {
                 if (snapshot.hasData) {
                   if (snapshot.data!.feeds.isNotEmpty) {
-                    return ListView.builder(
-                      itemCount: snapshot.data!.feeds.length,
-                      shrinkWrap: true,
-                      padding: const EdgeInsets.only(top: 10),
+                    return GridView.builder(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: SizeConfig.isTablet ? 3 : 1,
+                        crossAxisSpacing: 8,
+                        mainAxisSpacing: 8,
+                        childAspectRatio: 1,
+                      ),
+                      itemBuilder: (context, index) =>
+                          FeedListItem(feed: snapshot.data!.feeds[index]),
                       physics: const NeverScrollableScrollPhysics(),
-                      itemBuilder: (context, index) {
-                        return FeedListItem(
-                          feed: snapshot.data!.feeds[index],
-                        );
-                      },
+                      shrinkWrap: true,
+                      itemCount: snapshot.data!.feeds.length,
                     );
                   } else {
                     return Container(
                       padding: const EdgeInsets.only(top: 20),
-                      child: const Center(
+                      child: Center(
                         child: Text(
                           "No feeds available.",
-                          textAlign: TextAlign.center,
                           style: TextStyle(
                             color: Colors.grey,
-                            fontSize: 15.0,
+                            fontSize: SizeConfig.iconSize / 1.75,
                           ),
                         ),
                       ),
@@ -71,7 +75,6 @@ class _FeedListState extends State<FeedList> {
                 } else if (snapshot.hasError) {
                   return Text('${snapshot.error}');
                 }
-
                 // By default, show a loading spinner.
                 return Container(
                   padding: const EdgeInsets.only(top: 20),

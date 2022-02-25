@@ -1,20 +1,23 @@
 import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/constants.dart';
+import 'package:magpie_uni/size.config.dart';
 
 class MagpieIconButton extends StatelessWidget {
   final IconData? icon;
   final String? tooltip;
   final VoidCallback? onPressed;
+  late final Color color;
 
-  const MagpieIconButton({
+  MagpieIconButton({
     Key? key,
     required this.icon,
     required this.tooltip,
     required this.onPressed,
+    this.color = textColor,
   }) : super(key: key);
 
-  final Color color = textColor;
+  final double iconSize = SizeConfig.vert * 5;
 
   @override
   Widget build(BuildContext context) {
@@ -23,7 +26,7 @@ class MagpieIconButton extends StatelessWidget {
       tooltip: tooltip,
       onPressed: onPressed,
       color: color,
-      iconSize: 30,
+      iconSize: iconSize,
     );
   }
 }

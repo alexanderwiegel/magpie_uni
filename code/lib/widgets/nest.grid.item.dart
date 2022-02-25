@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/model/feed.user.profile.model.dart';
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/view/feeds/feed.item.detail.page.dart';
 import 'package:magpie_uni/view/feeds/feed.nest.detail.dart';
 
@@ -41,7 +42,7 @@ class _NestGridItemState extends State<NestGridItem> {
     );
 
     return GestureDetector(
-      // #region onTap
+      //#region onTap
       onTap: () {
         if (widget.nest != null) {
           Navigator.push(
@@ -66,6 +67,7 @@ class _NestGridItemState extends State<NestGridItem> {
       },
       //#endregion
       child: GridTile(
+        child: image,
         footer: Material(
           color: Colors.transparent,
           shape: const RoundedRectangleBorder(
@@ -78,23 +80,15 @@ class _NestGridItemState extends State<NestGridItem> {
               fit: BoxFit.scaleDown,
               alignment: AlignmentDirectional.centerStart,
               child: Text(
-                widget.nest != null ? widget.nest!.title : widget.nestItem!.title,
-                style: const TextStyle(color: accentColor),
+                widget.nest != null
+                    ? widget.nest!.title
+                    : widget.nestItem!.title,
+                style: TextStyle(
+                  color: accentColor,
+                  fontSize: SizeConfig.iconSize / 2,
+                ),
               ),
             ),
-          ),
-        ),
-        child: image,
-        header: FittedBox(
-          fit: BoxFit.scaleDown,
-          alignment: AlignmentDirectional.topStart,
-          child: IconButton(
-            //   tooltip: widget.favored! ? "Remove as favorite" : "Mark as favorite",
-            //   alignment: AlignmentDirectional.centerStart,
-            icon: const Icon(Icons.favorite, color: Colors.transparent),
-            //   icon: Icon(widget.favored! ? Icons.favorite : Icons.favorite_border,
-            //       color: accentColor),
-            onPressed: () => {},
           ),
         ),
       ),

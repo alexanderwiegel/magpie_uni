@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart';
 import 'package:socket_io_client/socket_io_client.dart';
 
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/model/chat.message.dart';
 import 'package:magpie_uni/model/notification.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
@@ -95,26 +96,26 @@ class _HomePageState extends State<HomePage> {
         unselectedLabelStyle: const TextStyle(fontWeight: FontWeight.w400),
         type: BottomNavigationBarType.fixed,
         items: [
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(
-              Icons.person_pin,
-              size: 30.0,
+              Icons.account_circle,
+              size: SizeConfig.iconSize,
             ),
             label: "Profile",
           ),
-          const BottomNavigationBarItem(
+          BottomNavigationBarItem(
             icon: Icon(
               Icons.feed_outlined,
-              size: 30.0,
+              size: SizeConfig.iconSize,
             ),
             label: "Feeds",
           ),
           BottomNavigationBarItem(
             icon: Stack(
               children: <Widget>[
-                const Icon(
+                Icon(
                   Icons.chat,
-                  size: 30.0,
+                  size: SizeConfig.iconSize,
                 ),
                 Positioned(
                   right: 0,

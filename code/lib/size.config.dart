@@ -7,6 +7,7 @@ class SizeConfig {
   static late double hori;
   static late double vert;
   static late bool isTablet;
+  static late double iconSize;
 
   void init(BuildContext context) {
     _mediaQueryData = MediaQuery.of(context);
@@ -15,5 +16,6 @@ class SizeConfig {
     hori = screenWidth / 100;
     vert = screenHeight / 100;
     screenWidth > 600 ? isTablet = true : isTablet = false;
+    iconSize = vert * 5;
   }
 }

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:magpie_uni/model/user.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/sort.mode.dart';
 import 'package:magpie_uni/main.dart';
 import 'package:magpie_uni/model/nest.or.nest.item.dart';
@@ -20,6 +21,7 @@ abstract class HomeOrNestItemsScreen extends StatefulWidget {
 
 class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     extends State<T> with RouteAware {
+  //#region fields
   String title = "";
 
   SortMode sortMode = SortMode.sortById;
@@ -32,6 +34,8 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
   Icon _searchIcon = const Icon(Icons.search, color: Colors.white);
   Widget searchText = const Text("");
   String _searchText = "";
+
+  //#endregion
 
   HomeOrNestItemsScreenState() {
     _filter.addListener(() {
@@ -90,10 +94,9 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     return IconButton(
       color: textColor,
       tooltip: "Search",
-      padding: const EdgeInsets.only(left: 12.0),
       alignment: Alignment.centerLeft,
       icon: _searchIcon,
-      iconSize: 30.0,
+      iconSize: SizeConfig.iconSize,
       onPressed: _searchPressed,
     );
   }
@@ -105,14 +108,17 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
     return Scaffold(
       drawer: const MagpieDrawer(),
       appBar: AppBar(
-        title: Text(title),
+        title: Text(
+          title,
+          style: TextStyle(fontSize: SizeConfig.iconSize / 1.75),
+        ),
         actions: [
           if (_searchIcon.icon == Icons.search)
             PopupMenuButton<SortMode>(
-              icon: const Icon(
+              icon: Icon(
                 Icons.sort_by_alpha,
                 color: textColor,
-                // size: iconSize,
+                size: SizeConfig.iconSize,
               ),
               tooltip: "Select sort mode",
               onSelected: (SortMode result) => _switchSortOrder(result),
@@ -159,9 +165,13 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
               child: Column(
                 mainAxisSize: MainAxisSize.min,
                 children: <Widget>[
-                  Text("You don't have any " + thing + "s."),
-                  const Text("Click on the button"),
-                  const Text("to create your first nest."),
+                  Text(
+                    "You don't have any " +
+                        thing +
+                        "s.\nClick on the button\nto create your first nest.",
+                    style: TextStyle(fontSize: SizeConfig.iconSize / 1.75),
+                    textAlign: TextAlign.center,
+                  ),
                 ],
               ),
             );
@@ -171,6 +181,7 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Padding(
         padding: const EdgeInsets.only(bottom: 8.0),
+        // TODO: make this responsive
         child: FloatingActionButton(
           tooltip: "Create new $thing",
           backgroundColor: mainColor,
@@ -235,11 +246,11 @@ class HomeOrNestItemsScreenState<T extends HomeOrNestItemsScreen>
               ? Icon(
                   asc ? Icons.arrow_upward : Icons.arrow_downward,
                   color: Colors.teal,
-                  // size: iconSize,
+                  size: SizeConfig.iconSize,
                 )
-              : const Icon(null),
+              : SizedBox(width: SizeConfig.iconSize),
           const Padding(padding: EdgeInsets.only(left: 2.0)),
-          Text(txt)
+          Text(txt, style: TextStyle(fontSize: SizeConfig.iconSize / 1.75))
         ],
       ),
     );

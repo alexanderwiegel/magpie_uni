@@ -1,11 +1,14 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 
+import 'package:socket_io_client/socket_io_client.dart';
+import 'package:http/http.dart' as http;
+
+import 'package:magpie_uni/size.config.dart';
+import 'package:magpie_uni/widgets/magpie.icon.button.dart';
 import 'package:magpie_uni/model/chat.message.dart';
 import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/network/user_api_manager.dart';
-import 'package:socket_io_client/socket_io_client.dart';
-import 'package:http/http.dart' as http;
 import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/services/api.endpoints.dart';
 
@@ -46,6 +49,8 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
   ScrollController scrollController = ScrollController();
   dynamic socket;
   late Future<ChatMessageResponse> response;
+
+  List<ChatMessage> messages = [];
 
   @override
   void initState() {
@@ -100,21 +105,21 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
             padding: const EdgeInsets.only(right: 16),
             child: Row(
               children: <Widget>[
-                IconButton(
+                MagpieIconButton(
+                  icon: Icons.arrow_back,
+                  tooltip: "Go back",
                   onPressed: () {
                     widget.onBackPressed(true);
                     Navigator.pop(context);
                   },
-                  icon: const Icon(
-                    Icons.arrow_back,
-                    color: Colors.black,
-                  ),
+                  color: mainColor,
                 ),
                 const SizedBox(width: 2),
-                const CircleAvatar(
-                  backgroundImage: NetworkImage(
-                      "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJGNHFnbUHLoK_9zZ8nM1aI0HLu7P6eyu83eJAs_D9lv9qY_au3YFraMk01LgqOm6ju5I&usqp=CAU"),
-                  maxRadius: 20,
+                CircleAvatar(
+                  backgroundImage: const NetworkImage(
+                    "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJGNHFnbUHLoK_9zZ8nM1aI0HLu7P6eyu83eJAs_D9lv9qY_au3YFraMk01LgqOm6ju5I&usqp=CAU",
+                  ),
+                  maxRadius: SizeConfig.iconSize / 1.75,
                 ),
                 const SizedBox(width: 10),
                 Expanded(
@@ -124,8 +129,10 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     children: <Widget>[
                       Text(
                         widget.chatSession.opponentUserName,
-                        style: const TextStyle(
-                            fontSize: 16, fontWeight: FontWeight.w600),
+                        style: TextStyle(
+                          fontSize: SizeConfig.iconSize / 1.75,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                     ],
                   ),
@@ -155,15 +162,22 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                         padding:
                             messages[index].senderId != widget.currentUserId
                                 ? const EdgeInsets.only(
-                                    left: 14, right: 50, top: 5, bottom: 5)
+                                    left: 14,
+                                    right: 50,
+                                    top: 5,
+                                    bottom: 5,
+                                  )
                                 : const EdgeInsets.only(
-                                    left: 50, right: 14, top: 5, bottom: 5),
-                        // EdgeInsets.only(left: 14, right: 14, top: 5, bottom: 5),
+                                    left: 50,
+                                    right: 14,
+                                    top: 5,
+                                    bottom: 5,
+                                  ),
                         child: Align(
                           alignment:
-                              (messages[index].senderId != widget.currentUserId
+                              messages[index].senderId != widget.currentUserId
                                   ? Alignment.topLeft
-                                  : Alignment.topRight),
+                                  : Alignment.topRight,
                           child: Container(
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(20),
@@ -175,7 +189,9 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                             padding: const EdgeInsets.all(16),
                             child: Text(
                               messages[index].message,
-                              style: const TextStyle(fontSize: 15),
+                              style: TextStyle(
+                                fontSize: SizeConfig.iconSize / 1.75,
+                              ),
                             ),
                           ),
                         ),
@@ -183,19 +199,22 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                     },
                   );
                 } else {
-                  return const Center(
+                  return Center(
                     child: Text(
                       "No chat history available.",
                       textAlign: TextAlign.center,
                       style: TextStyle(
                         color: Colors.grey,
-                        fontSize: 15.0,
+                        fontSize: SizeConfig.iconSize / 1.75,
                       ),
                     ),
                   );
                 }
               } else if (snapshot.hasError) {
-                return const Text("Unable to load.");
+                return Text(
+                  "Unable to load.",
+                  style: TextStyle(fontSize: SizeConfig.iconSize / 1.75),
+                );
               }
 
               // By default, show a loading spinner.
@@ -218,15 +237,19 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
                 children: <Widget>[
                   Expanded(
                     child: TextField(
-                      decoration: const InputDecoration(
+                      decoration: InputDecoration(
                         hintText: "Write message...",
-                        hintStyle: TextStyle(color: Colors.black54),
+                        hintStyle: TextStyle(
+                          color: Colors.black54,
+                          fontSize: SizeConfig.iconSize / 1.75,
+                        ),
                         border: InputBorder.none,
                       ),
                       controller: messageTxtField,
                     ),
                   ),
                   const SizedBox(width: 15),
+                  // TODO: make this responsive
                   FloatingActionButton(
                     onPressed: () => sendMessage(),
                     child: const Icon(
@@ -245,8 +268,6 @@ class _ChatDetailPageState extends State<ChatDetailPage> {
       ),
     );
   }
-
-  List<ChatMessage> messages = [];
 
   void sendMessage() {
     if (messageTxtField.text.trim().isNotEmpty) {

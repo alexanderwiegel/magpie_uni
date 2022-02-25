@@ -2,8 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 
 import 'package:magpie_uni/constants.dart';
+import 'package:magpie_uni/size.config.dart';
 
 class MagpieFormField extends StatelessWidget {
+  //#region fields and constructor
   final bool enabled;
   final IconData? icon;
   final String? labelText;
@@ -28,6 +30,7 @@ class MagpieFormField extends StatelessWidget {
     this.keyboardType,
     this.validate,
   }) : super(key: key);
+  //#endregion
 
   @override
   Widget build(BuildContext context) {
@@ -38,7 +41,7 @@ class MagpieFormField extends StatelessWidget {
         decoration: InputDecoration(
           border: border,
           hintText: hintText,
-          icon: Icon(icon, color: mainColor),
+          icon: Icon(icon, color: mainColor, size: SizeConfig.iconSize),
           labelText: labelText,
         ),
         initialValue: initialValue,
@@ -47,6 +50,7 @@ class MagpieFormField extends StatelessWidget {
         maxLines: null,
         textCapitalization: TextCapitalization.sentences,
         validator: (value) => validate != null ? validate!(value) : null,
+        style: TextStyle(fontSize: SizeConfig.iconSize / 1.8),
       ),
     );
   }

@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 
 import 'package:flutter_image_compress/flutter_image_compress.dart';
@@ -9,12 +10,12 @@ import 'package:magpie_uni/constants.dart';
 import 'package:magpie_uni/size.config.dart';
 
 class MagpieImageSelector extends StatelessWidget {
-  //#region fields
+  //#region fields and constructor
   final dynamic photo;
   final Function changeImage;
   final BuildContext? context;
 
-  const MagpieImageSelector({
+  MagpieImageSelector({
     Key? key,
     required this.photo,
     required this.changeImage,
@@ -22,6 +23,8 @@ class MagpieImageSelector extends StatelessWidget {
   }) : super(key: key);
 
   final Color color = mainColor;
+  final double imageW = min(SizeConfig.screenWidth, 600);
+  final double imageH = min(SizeConfig.screenWidth, 600) / 1.6;
 
   //#endregion
 
@@ -40,20 +43,20 @@ class MagpieImageSelector extends StatelessWidget {
                   ? Image.network(
                       photo,
                       fit: BoxFit.cover,
-                      width: 400,
-                      height: 250,
+                      width: imageW,
+                      height: imageH,
                     )
                   : Image.file(
                       File(photo),
                       fit: BoxFit.cover,
-                      width: 400,
-                      height: 250,
+                      width: imageW,
+                      height: imageH,
                     )
               : Image.asset(
                   "pics/placeholder.jpg",
                   fit: BoxFit.cover,
-                  width: 400,
-                  height: 250,
+                  width: imageW,
+                  height: imageH,
                 ),
         ),
       ),

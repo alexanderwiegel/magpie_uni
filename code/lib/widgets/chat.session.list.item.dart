@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+
+import 'package:magpie_uni/size.config.dart';
 import 'package:magpie_uni/view/chat/chat.detail.page.dart';
 import 'package:magpie_uni/model/chat.session.model.dart';
 import 'package:magpie_uni/constants.dart';
@@ -43,10 +45,11 @@ class _ChatSessionListItemState extends State<ChatSessionListItem> {
                 Expanded(
                   child: Row(
                     children: <Widget>[
-                      const CircleAvatar(
-                        backgroundImage: NetworkImage(
-                            "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJGNHFnbUHLoK_9zZ8nM1aI0HLu7P6eyu83eJAs_D9lv9qY_au3YFraMk01LgqOm6ju5I&usqp=CAU"),
-                        maxRadius: 30,
+                      CircleAvatar(
+                        backgroundImage: const NetworkImage(
+                          "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTJGNHFnbUHLoK_9zZ8nM1aI0HLu7P6eyu83eJAs_D9lv9qY_au3YFraMk01LgqOm6ju5I&usqp=CAU",
+                        ),
+                        maxRadius: SizeConfig.iconSize,
                       ),
                       const SizedBox(width: 16),
                       Expanded(
@@ -58,7 +61,7 @@ class _ChatSessionListItemState extends State<ChatSessionListItem> {
                               Text(
                                 widget.chatSession.opponentUserName,
                                 style: TextStyle(
-                                  fontSize: 16,
+                                  fontSize: SizeConfig.iconSize / 1.75,
                                   fontWeight:
                                       widget.chatSession.unreadMessages != 0
                                           ? FontWeight.bold
@@ -69,7 +72,7 @@ class _ChatSessionListItemState extends State<ChatSessionListItem> {
                               Text(
                                 widget.chatSession.topMessage ?? "",
                                 style: TextStyle(
-                                  fontSize: 13,
+                                  fontSize: SizeConfig.iconSize / 2.25,
                                   color: Colors.grey.shade600,
                                   fontWeight:
                                       widget.chatSession.unreadMessages != 0
@@ -91,7 +94,7 @@ class _ChatSessionListItemState extends State<ChatSessionListItem> {
                       widget.chatSession.lastMessageTime ?? "",
                       style: TextStyle(
                         color: Colors.grey[600],
-                        fontSize: 12,
+                        fontSize: SizeConfig.iconSize / 2.25,
                         fontWeight: widget.chatSession.unreadMessages != 0
                             ? FontWeight.bold
                             : FontWeight.normal,
@@ -115,9 +118,9 @@ class _ChatSessionListItemState extends State<ChatSessionListItem> {
                           widget.chatSession.unreadMessages == 0
                               ? ""
                               : widget.chatSession.unreadMessages.toString(),
-                          style: const TextStyle(
+                          style: TextStyle(
                             color: Colors.white,
-                            fontSize: 14,
+                            fontSize: SizeConfig.iconSize / 1.75,
                             fontWeight: FontWeight.bold,
                           ),
                           textAlign: TextAlign.center,
