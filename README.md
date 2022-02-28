@@ -8,9 +8,9 @@
 
 3. Start the emulator and drop "app-release.apk" in it
 
-4. Download MySQL Workbench from https://dev.mysql.com/downloads/workbench/ 
+4. Download MySQL workbench from https://dev.mysql.com/downloads/workbench/ 
 
-5. Run the database script XXX
+5. In MySQL workbench, run the database script db_schema.sql
 
 6. Inside backend/sql.js in line 8 change the “password” and set it to your MySQL password which is the same as your workbench password (by default its “root”)
 
