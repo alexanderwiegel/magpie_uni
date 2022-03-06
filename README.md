@@ -27,4 +27,4 @@
    - replace line 122 with *.findAncestorStateOfType();*
    - replace line 221 with *widget.labelStyle ?? Theme.of(context).textTheme.bodyMedium;*
 
-12. Run the app by starting your emulator and clicking on the run button
+10. Run the app by starting your emulator and clicking on the run button
