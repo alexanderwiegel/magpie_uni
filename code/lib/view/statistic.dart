@@ -256,7 +256,6 @@ class Statistic extends StatelessWidget {
   }
 
   Widget description(int index) {
-    printInfo(smallTitleSize);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: smallTitleSize / 2),
       child: Row(
