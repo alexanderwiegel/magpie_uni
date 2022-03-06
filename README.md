@@ -16,12 +16,12 @@
 5. Download *MySQL workbench* from https://dev.mysql.com/downloads/workbench/ 
 
 6. In MySQL workbench:
-   - add a new connection using the default settings and the password "password",
+   - add a new connection using the default settings and the password "*password*",
    - open and run the database script *Magpie.sql*
 
-7. Go into the *backend* directory, execute "npm install" to install the backend packages, and start the backend by writing “*node server.js*”
+7. Go into the *backend* directory, execute "*npm install*" to install the backend packages, and start the backend by writing “*node server.js*”
 
-8. Go into the *code* directory and execute "flutter pub get" to install the frontend packages
+8. Go into the *code* directory and execute "*flutter pub get*" to install the frontend packages
 
 9. Search for the file *animated_circular_chart.dart* by pressing Crtl-Shift-F and: 
    - replace line 122 with *.findAncestorStateOfType();*
