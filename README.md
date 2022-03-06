@@ -19,6 +19,8 @@
    - add a new connection using the default settings and the password "password",
    - open and run the database script *Magpie.sql*
 
-7. Go into the backend directory, execute "npm install", and start the backend by writing “*node server.js*”
+7. Go into the *backend* directory, execute "npm install" to install the backend packages, and start the backend by writing “*node server.js*”
 
-8. Run the app by clicking on the run button
+8. Go into the *code* directory and execute "flutter pub get" to install the frontend packages
+
+9. Run the app by starting your emulator and clicking on the run button
