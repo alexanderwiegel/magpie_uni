@@ -8,7 +8,7 @@
 
 3. Download MySQL workbench from https://dev.mysql.com/downloads/workbench/ 
 
-4. In MySQL workbench, run the database script db_schema.sql
+4. In MySQL workbench, run the database script Magpie.sql
 
 5. Inside backend/sql.js in line 8 change the “password” and set it to your MySQL password which is the same as your workbench password (by default its “root”)
 
