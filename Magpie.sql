@@ -142,3 +142,6 @@ CREATE TABLE `user` (
 /*!40111 SET SQL_NOTES=@OLD_SQL_NOTES */;
 
 -- Dump completed on 2022-02-28 23:18:21
+
+ALTER USER 'root' IDENTIFIED WITH mysql_native_password BY 'password';
+flush privileges;
