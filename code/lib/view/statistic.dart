@@ -98,8 +98,9 @@ class Statistic extends StatelessWidget {
       descriptions.add(description(i));
     }
     //#endregion
+  }
 
-    //#region Size config
+  void initSizes() {
     if (SizeConfig.isTablet) {
       smallTitleSize = SizeConfig.hori * 2;
       bigTitleSize = SizeConfig.hori * 3;
@@ -109,11 +110,11 @@ class Statistic extends StatelessWidget {
       bigTitleSize = SizeConfig.hori * 5;
       radius = SizeConfig.hori * 30;
     }
-    //#endregion
   }
 
   @override
   Widget build(BuildContext context) {
+    initSizes();
     return Scaffold(
       drawer: const MagpieDrawer(),
       appBar: AppBar(
@@ -255,6 +256,7 @@ class Statistic extends StatelessWidget {
   }
 
   Widget description(int index) {
+    printInfo(smallTitleSize);
     return Padding(
       padding: EdgeInsets.symmetric(vertical: smallTitleSize / 2),
       child: Row(
