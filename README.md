@@ -24,7 +24,6 @@
 8. Go into the *code* directory and execute "flutter pub get" to install the frontend packages
 
 9. Search for the file *animated_circular_chart.dart* by pressing Crtl-Shift-F and: 
-   - open it
    - replace line 122 with *.findAncestorStateOfType();*
    - replace line 221 with *widget.labelStyle ?? Theme.of(context).textTheme.bodyMedium;*
 
