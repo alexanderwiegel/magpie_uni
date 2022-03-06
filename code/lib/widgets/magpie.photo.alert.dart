@@ -16,22 +16,25 @@ class MagpiePhotoAlert {
       List<String> actionNames,
       List<dynamic> actionFunctions,
       List<String>? similarPhotoPaths) {
-    List<Widget> similarPhotos = List.generate(
-      similarPhotoPaths!.length,
-      (index) => Material(
-        shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
-        clipBehavior: Clip.antiAlias,
-        child: Padding(
-          padding: const EdgeInsets.only(right: 8.0),
-          child: Image.network(
-            similarPhotoPaths[index],
-            fit: BoxFit.cover,
-            width: SizeConfig.screenWidth * 0.7,
-            height: SizeConfig.screenHeight * 0.3,
+    List<Widget> similarPhotos = [];
+    if (similarPhotoPaths != null) {
+      similarPhotos = List.generate(
+        similarPhotoPaths.length,
+        (index) => Material(
+          shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(4)),
+          clipBehavior: Clip.antiAlias,
+          child: Padding(
+            padding: const EdgeInsets.only(right: 8.0),
+            child: Image.network(
+              similarPhotoPaths[index],
+              fit: BoxFit.cover,
+              width: SizeConfig.screenWidth * 0.7,
+              height: SizeConfig.screenHeight * 0.3,
+            ),
           ),
         ),
-      ),
-    );
+      );
+    }
 
     return showDialog(
       context: context,
