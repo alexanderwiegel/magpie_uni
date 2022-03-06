@@ -2,22 +2,29 @@
 
 **Setup guide**
 
-1. Clone the Gitlab repository and switch to the development branch or download the source code directly from the development branch
+1. Clone the repository or download the source code
 
-2. Follow the instructions from https://docs.flutter.dev/get-started/install to install the latest stable version of Flutter, an IDE that is supported on your OS and an emulator, since the app only runs on emulators at the moment.
+2. Follow the instructions from https://docs.flutter.dev/get-started/install to install:
+   - the latest stable version of *Flutter*, 
+   - *Android Studio* (on Windows) or *XCode* (on MacOS), 
+   - and an emulator, since the app only runs on emulators at the moment.
 
-3. Start the emulator and drop "app-release.apk" in it
+3. Download *Docker* from https://www.docker.com/products/docker-desktop and install it, *including WSL2*
 
-4. Download MySQL workbench from https://dev.mysql.com/downloads/workbench/ 
+4. Open a terminal inside the root directory and write "*docker-compose up*" to start the Docker container
 
-5. In MySQL workbench, run the database script db_schema.sql
+5. Download *MySQL workbench* from https://dev.mysql.com/downloads/workbench/ 
 
-6. Inside backend/sql.js in line 8 change the “password” and set it to your MySQL password which is the same as your workbench password (by default its “root”)
+6. In MySQL workbench:
+   - add a new connection using the default settings and the password "password",
+   - open and run the database script *Magpie.sql*
 
-7. Download Docker from https://www.docker.com/products/docker-desktop and install it, including WSL2
+7. Go into the *backend* directory, execute "npm install" to install the backend packages, and start the backend by writing “*node server.js*”
 
-8. Open a terminal inside the root directory and write "docker-compose up" to start the Docker container
+8. Go into the *code* directory and execute "flutter pub get" to install the frontend packages
 
-9. Go into the backend directory and start the backend by writing “node server.js”
+9. Search for the file *animated_circular_chart.dart* by pressing Crtl-Shift-F and: 
+   - replace line 122 with *.findAncestorStateOfType();*
+   - replace line 221 with *widget.labelStyle ?? Theme.of(context).textTheme.bodyMedium;*
 
-10. Run the app by clicking on the run button
+12. Run the app by starting your emulator and clicking on the run button
